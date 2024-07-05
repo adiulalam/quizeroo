@@ -29,6 +29,7 @@
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
     "superjson": "^2.2.1",
+    "ws": "^8.18.0",
     "zod": "^3.23.3"
   },
   "devDependencies": {
@@ -36,6 +37,7 @@
     "@types/node": "^20.11.20",
     "@types/react": "^18.2.57",
     "@types/react-dom": "^18.2.19",
+    "@types/ws": "^8.5.10",
     "@typescript-eslint/eslint-plugin": "^7.1.1",
     "@typescript-eslint/parser": "^7.1.1",
     "eslint": "^8.57.0",

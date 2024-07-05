@@ -47,6 +47,7 @@ if [ "$DB_PASSWORD" = "password" ]; then
 fi
 
 docker run -d \
+  --restart unless-stopped \
   --name $DB_CONTAINER_NAME \
   -e POSTGRES_USER="postgres" \
   -e POSTGRES_PASSWORD="$DB_PASSWORD" \
