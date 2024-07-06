@@ -10,13 +10,105 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
+model Answer {
+    id        String   @id @default(uuid())
+    name      String
+    isCorrect Boolean
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    questionId String
+    question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+    UserAnswer UserAnswer[]
+
+    @@index([questionId])
+}
+
+model Question {
+    id        String   @id @default(uuid())
     name      String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    createdBy   User   @relation(fields: [createdById], references: [id])
+    quizId String
+    quiz   Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+    answers Answer[] // A question can have multiple answers
+
+    @@index([quizId])
+}
+
+model Quiz {
+    id          String   @id @default(uuid())
+    status      Status   @default(DRAFT)
+    isFavourite Boolean  @default(false)
+    title       String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    userId String
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    questions   Question[]
+    QuizSession QuizSession[]
+
+    @@index([userId, title])
+}
+
+model QuizSession {
+    id        String   @id @default(uuid())
+    roomName  String   @unique
+    isActive  Boolean  @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    quizId String
+    quiz   Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+    userId String
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    userAnswers UserAnswer[]
+
+    @@index([roomName, quizId, userId])
+}
+
+model UserAnswer {
+    id        String   @id @default(uuid())
+    score     Int      @default(0)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    tempUserId String
+    tempUser   TempUser @relation(fields: [tempUserId], references: [id], onDelete: Cascade)
+
+    sessionId String
+    session   QuizSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+    answerId String
+    answer   Answer @relation(fields: [answerId], references: [id], onDelete: Cascade)
+
+    @@index([tempUserId, sessionId, answerId])
+}
+
+model TempUser {
+    id        String   @id @default(uuid())
+    name      String
+    isActive  Boolean  @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    userAnswers UserAnswer[]
+}
+
+model Post {
+    id        String   @id @default(uuid())
+    name      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    createdBy   User   @relation(fields: [createdById], references: [id], onDelete: Cascade)
     createdById String
 
     @@index([name])
@@ -24,7 +116,7 @@ model Post {
 
 // Necessary for Next auth
 model Account {
-    id                       String  @id @default(cuid())
+    id                       String  @id @default(uuid())
     userId                   String
     type                     String
     provider                 String
@@ -43,7 +135,7 @@ model Account {
 }
 
 model Session {
-    id           String   @id @default(cuid())
+    id           String   @id @default(uuid())
     sessionToken String   @unique
     userId       String
     expires      DateTime
@@ -51,14 +143,16 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String        @id @default(uuid())
     name          String?
-    email         String?   @unique
+    email         String?       @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
     posts         Post[]
+    quizSessions  QuizSession[]
+    Quiz          Quiz[]
 }
 
 model VerificationToken {
@@ -67,4 +161,9 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+enum Status {
+    DRAFT
+    COMPLETED
 }
