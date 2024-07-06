@@ -9,6 +9,7 @@ import { type Adapter } from "next-auth/adapters";
 import Auth0Provider from "next-auth/providers/auth0";
 import { env } from "@/env";
 import { db } from "@/server/db";
+import type { AppProviders } from "next-auth/providers/index";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -36,6 +37,24 @@ declare module "next-auth" {
  *
  * @see https://next-auth.js.org/configuration/options
  */
+
+const providers: AppProviders = [];
+
+if (process.env.WSS !== "true") {
+  providers.push(
+    Auth0Provider({
+      clientId: env.AUTH0_CLIENT_ID,
+      clientSecret: env.AUTH0_CLIENT_SECRET,
+      issuer: env.AUTH0_ISSUER,
+      authorization: {
+        params: {
+          prompt: "login",
+        },
+      },
+    }),
+  );
+}
+
 export const authOptions: NextAuthOptions = {
   callbacks: {
     session: ({ session, user }) => ({
@@ -47,18 +66,7 @@ export const authOptions: NextAuthOptions = {
     }),
   },
   adapter: PrismaAdapter(db) as Adapter,
-  providers: [
-    Auth0Provider({
-      clientId: env.AUTH0_CLIENT_ID,
-      clientSecret: env.AUTH0_CLIENT_SECRET,
-      issuer: env.AUTH0_ISSUER,
-      authorization: {
-        params: {
-          prompt: "login",
-        },
-      },
-    }),
-  ],
+  providers: [],
 };
 
 /**

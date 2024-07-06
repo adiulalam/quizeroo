@@ -3,6 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 
 import { api } from "@/utils/api";
+import { useState } from "react";
 
 export default function Home() {
   const hello = api.post.hello.useQuery({ text: "from tRPC" });
@@ -56,12 +57,21 @@ export default function Home() {
 }
 
 function AuthShowcase() {
-  const { data: sessionData } = useSession();
+  const { data: sessionData, status } = useSession();
 
   const { data: secretMessage } = api.post.getSecretMessage.useQuery(
     undefined, // no input
     { enabled: sessionData?.user !== undefined },
   );
+
+  const [num, setNumber] = useState<number>();
+  api.randomNumber.useSubscription(undefined, {
+    onData: (n) => setNumber(n),
+  });
+
+  if (status === "loading") {
+    return null;
+  }
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">
@@ -75,6 +85,7 @@ function AuthShowcase() {
       >
         {sessionData ? "Sign out" : "Sign in"}
       </button>
+      <p>Random number from session {num}</p>
     </div>
   );
 }

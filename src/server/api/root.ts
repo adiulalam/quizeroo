@@ -1,5 +1,11 @@
 import { postRouter } from "@/server/api/routers/post";
-import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
+import {
+  createCallerFactory,
+  createTRPCRouter,
+  publicProcedure,
+} from "@/server/api/trpc";
+import { observable } from "@trpc/server/observable";
+import { clearInterval } from "timers";
 
 /**
  * This is the primary router for your server.
@@ -8,6 +14,16 @@ import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
   post: postRouter,
+  randomNumber: publicProcedure.subscription(() => {
+    return observable<number>((emit) => {
+      const int = setInterval(() => {
+        emit.next(Math.random());
+      }, 500);
+      return () => {
+        clearInterval(int);
+      };
+    });
+  }),
 });
 
 // export type definition of API
