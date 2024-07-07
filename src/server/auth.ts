@@ -7,8 +7,10 @@ import {
 } from "next-auth";
 import { type Adapter } from "next-auth/adapters";
 import Auth0Provider from "next-auth/providers/auth0";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { env } from "@/env";
 import { db } from "@/server/db";
+import { z } from "zod";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -59,6 +61,37 @@ export const authOptions: NextAuthOptions = {
               params: {
                 prompt: "login",
               },
+            },
+          }),
+          CredentialsProvider({
+            name: "Credentials",
+            credentials: {
+              quizSessionId: {
+                label: "Quiz Session Id",
+                type: "text",
+              },
+              username: { label: "Username", type: "text" },
+            },
+            async authorize(credentials) {
+              const creds = await z
+                .object({
+                  username: z.string().min(1),
+                  quizSessionId: z.string().uuid(),
+                })
+                .parseAsync(credentials);
+
+              const user = await db.tempUser.findFirst({
+                where: {
+                  name: creds.username,
+                  quizSessionId: creds.quizSessionId,
+                },
+              });
+
+              if (user) {
+                return { ...user, isTempUser: true };
+              } else {
+                return null;
+              }
             },
           }),
         ]
