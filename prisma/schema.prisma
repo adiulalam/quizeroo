@@ -20,7 +20,7 @@ model Answer {
     questionId String
     question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
 
-    UserAnswer UserAnswer[]
+    userAnswers UserAnswer[]
 
     @@index([questionId])
 }
@@ -50,8 +50,8 @@ model Quiz {
     userId String
     user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    questions   Question[]
-    QuizSession QuizSession[]
+    questions    Question[]
+    quizSessions QuizSession[]
 
     @@index([userId, title])
 }
@@ -80,8 +80,8 @@ model UserAnswer {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    tempUserId String
-    tempUser   TempUser @relation(fields: [tempUserId], references: [id], onDelete: Cascade)
+    userId String
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     sessionId String
     session   QuizSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
@@ -89,17 +89,7 @@ model UserAnswer {
     answerId String
     answer   Answer @relation(fields: [answerId], references: [id], onDelete: Cascade)
 
-    @@index([tempUserId, sessionId, answerId])
-}
-
-model TempUser {
-    id        String   @id @default(uuid())
-    name      String
-    isActive  Boolean  @default(false)
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    userAnswers UserAnswer[]
+    @@index([userId, sessionId, answerId])
 }
 
 model Post {
@@ -152,7 +142,8 @@ model User {
     sessions      Session[]
     posts         Post[]
     quizSessions  QuizSession[]
-    Quiz          Quiz[]
+    quizs         Quiz[]
+    userAnswers   UserAnswer[]
 }
 
 model VerificationToken {
