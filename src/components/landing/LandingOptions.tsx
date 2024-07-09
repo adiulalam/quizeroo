@@ -5,13 +5,16 @@ import { LandingDialog } from ".";
 export const LandingOptions = () => {
   return (
     <div className="mx-auto flex w-full flex-col justify-center gap-6 sm:w-[350px]">
-      <Button onClick={() => void signIn("auth0", { callbackUrl: "/quiz" })}>
-        Join a Server
-      </Button>
-
       <LandingDialog>
-        <Button variant="outline">Create a Server</Button>
+        <Button>Join a Server</Button>
       </LandingDialog>
+
+      <Button
+        variant="outline"
+        onClick={() => void signIn("auth0", { callbackUrl: "/quiz" })}
+      >
+        Create a Server
+      </Button>
     </div>
   );
 };

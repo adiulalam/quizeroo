@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/Button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -10,42 +10,47 @@ import {
 } from "@/components/ui/Dialog";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
+import { DoorOpen, Loader2, PanelLeftClose } from "lucide-react";
+import { useState } from "react";
 
 export const LandingDialog = ({ children }: { children: React.ReactNode }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent
+        className="sm:max-w-[425px]"
+        isCloseDisabled={isLoading}
+        onInteractOutside={(e) => isLoading && e.preventDefault()}
+      >
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
-          </DialogDescription>
+          <DialogTitle>Join a Server</DialogTitle>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <Input
-              id="name"
-              defaultValue="Pedro Duarte"
-              className="col-span-3"
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Username
-            </Label>
-            <Input
-              id="username"
-              defaultValue="@peduarte"
-              className="col-span-3"
-            />
-          </div>
+        <div className="flex items-center gap-2">
+          <Label htmlFor="name" className="text-right">
+            Name
+          </Label>
+          <Input id="name" className="col-span-3" disabled={isLoading} />
         </div>
-        <DialogFooter>
-          <Button type="submit">Save changes</Button>
+        <DialogFooter className="flex w-full gap-2 sm:justify-between">
+          <DialogClose asChild disabled={isLoading}>
+            <Button type="button" variant="destructive">
+              <PanelLeftClose className="mr-2 h-4 w-4" /> Cancel
+            </Button>
+          </DialogClose>
+          <Button
+            type="submit"
+            disabled={isLoading}
+            onClick={() => setIsLoading(true)}
+          >
+            Join
+            {isLoading ? (
+              <Loader2 className="ml-2 h-4 w-4 animate-spin" />
+            ) : (
+              <DoorOpen className="ml-2 h-4 w-4" />
+            )}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

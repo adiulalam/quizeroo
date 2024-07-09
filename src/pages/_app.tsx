@@ -14,9 +14,12 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <ThemeProvider attribute="class" defaultTheme="dark">
-        <div className={GeistSans.className}>
-          <Component {...pageProps} />
-        </div>
+        <style jsx global>{`
+          html {
+            font-family: ${GeistSans.style.fontFamily};
+          }
+        `}</style>
+        <Component {...pageProps} />
       </ThemeProvider>
     </SessionProvider>
   );
