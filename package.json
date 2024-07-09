@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.6.0",
+    "@hookform/resolvers": "^3.9.0",
     "@prisma/client": "^5.14.0",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-label": "^2.1.0",
@@ -38,12 +39,13 @@
     "next-themes": "^0.3.0",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
+    "react-hook-form": "^7.52.1",
     "superjson": "^2.2.1",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
     "tsx": "^4.16.2",
     "ws": "^8.18.0",
-    "zod": "^3.23.3"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/eslint": "^8.56.2",
