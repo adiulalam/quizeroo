@@ -2,7 +2,7 @@ import { GeistSans } from "geist/font/sans";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
-
+import { ThemeProvider } from "next-themes";
 import { api } from "@/utils/api";
 
 import "@/styles/globals.css";
@@ -13,9 +13,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <div className={GeistSans.className}>
-        <Component {...pageProps} />
-      </div>
+      <ThemeProvider attribute="class" defaultTheme="dark">
+        <div className={GeistSans.className}>
+          <Component {...pageProps} />
+        </div>
+      </ThemeProvider>
     </SessionProvider>
   );
 };
