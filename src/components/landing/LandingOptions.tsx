@@ -11,7 +11,7 @@ export const LandingOptions = () => {
 
       <Button
         variant="outline"
-        onClick={() => void signIn("auth0", { callbackUrl: "/quiz" })}
+        onClick={() => void signIn("auth0", { callbackUrl: "/create" })}
       >
         Create a Room
       </Button>
