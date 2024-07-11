@@ -1,5 +1,5 @@
 import { useTheme } from "next-themes";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { Button } from "../ui/Button";
 import { cn } from "@/utils/theme";
 import {
