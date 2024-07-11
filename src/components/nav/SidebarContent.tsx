@@ -26,7 +26,9 @@ export const SidebarContent = ({
   const path = usePathname();
   const { isMinimized } = useSidebar();
 
-  console.log("isActive", isMobileNav, isMinimized);
+  console.log("isActive", { isMobileNav, isMinimized });
+
+  const isExpanded = isMobileNav || (!isMinimized && !isMobileNav);
 
   return (
     <nav className="grid items-start gap-2">
@@ -36,22 +38,12 @@ export const SidebarContent = ({
             <TooltipTrigger asChild>
               {item.onClick ? (
                 <Button
-                  size={
-                    isMobileNav || (!isMinimized && !isMobileNav)
-                      ? "default"
-                      : "icon"
-                  }
+                  size={isExpanded ? "default" : "icon"}
                   onClick={item.onClick}
                 >
-                  {isMobileNav || (!isMinimized && !isMobileNav)
-                    ? item.title
-                    : ""}
+                  {isExpanded ? item.title : ""}
                   <item.Icon
-                    className={cn(
-                      isMobileNav || (!isMinimized && !isMobileNav)
-                        ? "ml-3 size-5"
-                        : "h-4 w-4",
-                    )}
+                    className={cn(isExpanded ? "ml-3 size-5" : "h-4 w-4")}
                   />
                 </Button>
               ) : (
@@ -68,7 +60,7 @@ export const SidebarContent = ({
                 >
                   <item.Icon className="ml-3 size-5" />
 
-                  {isMobileNav || (!isMinimized && !isMobileNav) ? (
+                  {isExpanded ? (
                     <span className="mr-2 truncate">{item.title}</span>
                   ) : (
                     ""
