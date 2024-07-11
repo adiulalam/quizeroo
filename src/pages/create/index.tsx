@@ -1,8 +1,8 @@
 import { NavbarContainer } from "@/components/nav";
+import { Sortable } from "@/components/quizView";
 import { authOptions } from "@/server/auth";
 import type { GetServerSidePropsContext } from "next";
 import { getServerSession, type Session } from "next-auth";
-import { signOut } from "next-auth/react";
 import Head from "next/head";
 
 const Create = ({ userSession }: { userSession: Session }) => {
@@ -16,7 +16,7 @@ const Create = ({ userSession }: { userSession: Session }) => {
       </Head>
 
       <NavbarContainer>
-        <button onClick={() => signOut()}>Log out</button>
+        <Sortable />
       </NavbarContainer>
     </>
   );

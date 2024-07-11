@@ -8,18 +8,16 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/Tooltip";
-import type { NavItem } from "@/types/Navbar.types";
 import { useSidebar } from "@/hooks";
 import { Button } from "../ui/Button";
+import { navItems } from "@/utils/constants";
 
-interface DashboardNavProps {
-  items: NavItem[];
+type DashboardNavProps = {
   setOpen?: Dispatch<SetStateAction<boolean>>;
   isMobileNav?: boolean;
-}
+};
 
 export const SidebarContent = ({
-  items,
   setOpen,
   isMobileNav = false,
 }: DashboardNavProps) => {
@@ -31,13 +29,14 @@ export const SidebarContent = ({
   const isExpanded = isMobileNav || (!isMinimized && !isMobileNav);
 
   return (
-    <nav className="grid items-start gap-2">
+    <nav className="flex h-full flex-col gap-2">
       <TooltipProvider>
-        {items.map((item, index) => (
+        {navItems.map((item, index) => (
           <Tooltip key={index}>
             <TooltipTrigger asChild>
               {item.onClick ? (
                 <Button
+                  className="mt-auto"
                   size={isExpanded ? "default" : "icon"}
                   onClick={item.onClick}
                 >
@@ -52,7 +51,6 @@ export const SidebarContent = ({
                   className={cn(
                     "flex items-center gap-2 overflow-hidden rounded-md py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
                     path === item.href ? "bg-accent" : "transparent",
-                    item.disabled && "cursor-not-allowed opacity-80",
                   )}
                   onClick={() => {
                     if (setOpen) setOpen(false);

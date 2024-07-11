@@ -2,7 +2,6 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/Sheet";
 import { MenuIcon } from "lucide-react";
 import { useState } from "react";
 import { SidebarContent } from ".";
-import { navItems } from "@/utils/constants";
 
 export const MobileSidebar = () => {
   const [open, setOpen] = useState(false);
@@ -15,11 +14,7 @@ export const MobileSidebar = () => {
         </SheetTrigger>
         <SheetContent side="left" className="!px-0">
           <div className="p-4">
-            <SidebarContent
-              items={navItems}
-              isMobileNav={true}
-              setOpen={setOpen}
-            />
+            <SidebarContent isMobileNav={true} setOpen={setOpen} />
           </div>
         </SheetContent>
       </Sheet>

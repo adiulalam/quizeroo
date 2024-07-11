@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { SidebarContent } from ".";
-import { navItems } from "@/utils/constants";
 import { cn } from "@/utils/theme";
 import { ChevronLeft } from "lucide-react";
 import { useSidebar } from "@/hooks";
@@ -35,12 +34,8 @@ export const Sidebar = ({ className }: SidebarProps) => {
         )}
         onClick={handleToggle}
       />
-      <div className="space-y-4 py-4">
-        <div className="px-3 py-2">
-          <div className="mt-3 space-y-1">
-            <SidebarContent items={navItems} />
-          </div>
-        </div>
+      <div className="h-full p-3">
+        <SidebarContent />
       </div>
     </nav>
   );

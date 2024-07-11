@@ -7,28 +7,24 @@ export const navItems: NavItem[] = [
     title: "Dashboard",
     href: "/dashboard",
     Icon: LayoutDashboardIcon,
-    label: "Dashboard",
     onClick: undefined,
   },
   {
     title: "Quizzes",
     href: "/create",
     Icon: Layers3,
-    label: "quiz",
     onClick: undefined,
   },
   {
     title: "Profile",
     href: "/profile",
     Icon: User2Icon,
-    label: "profile",
     onClick: undefined,
   },
   {
     title: "Logout",
     href: undefined,
     Icon: LogOut,
-    label: "logout",
     onClick: () => void signOut({ callbackUrl: "/" }),
   },
 ];
