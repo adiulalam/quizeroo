@@ -70,7 +70,7 @@ export const SidebarContent = ({
               align="center"
               side="right"
               sideOffset={8}
-              className={!isMinimized ? "hidden" : "inline-block"}
+              className={isExpanded ? "hidden" : "inline-block"}
             >
               {item.title}
             </TooltipContent>

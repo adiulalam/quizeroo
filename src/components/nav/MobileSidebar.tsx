@@ -7,17 +7,15 @@ export const MobileSidebar = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <>
-      <Sheet open={open} onOpenChange={setOpen}>
-        <SheetTrigger asChild>
-          <MenuIcon />
-        </SheetTrigger>
-        <SheetContent side="left" className="!px-0">
-          <div className="p-4">
-            <SidebarContent isMobileNav={true} setOpen={setOpen} />
-          </div>
-        </SheetContent>
-      </Sheet>
-    </>
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger asChild>
+        <MenuIcon />
+      </SheetTrigger>
+      <SheetContent side="left" className="!px-0">
+        <div className="h-full p-4">
+          <SidebarContent isMobileNav={true} setOpen={setOpen} />
+        </div>
+      </SheetContent>
+    </Sheet>
   );
 };

@@ -21,7 +21,7 @@ export const Sidebar = ({ className }: SidebarProps) => {
   return (
     <nav
       className={cn(
-        `relative z-10 hidden h-screen flex-none border-r pt-20 md:block`,
+        "relative z-10 hidden h-screen flex-none border-r pt-14 md:block",
         status && "duration-500",
         !isMinimized ? "w-48" : "w-[72px]",
         className,
@@ -34,7 +34,7 @@ export const Sidebar = ({ className }: SidebarProps) => {
         )}
         onClick={handleToggle}
       />
-      <div className="h-full p-3">
+      <div className="h-full px-3 pb-4 pt-12">
         <SidebarContent />
       </div>
     </nav>
