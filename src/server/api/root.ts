@@ -1,4 +1,4 @@
-import { postRouter } from "@/server/api/routers/post";
+import { postRouter } from "@/server/api/routers/post.routes";
 import {
   createCallerFactory,
   createTRPCRouter,
@@ -6,6 +6,7 @@ import {
 } from "@/server/api/trpc";
 import { observable } from "@trpc/server/observable";
 import { clearInterval } from "timers";
+import { quizRouter } from "./routers/quiz.routes";
 
 /**
  * This is the primary router for your server.
@@ -14,6 +15,7 @@ import { clearInterval } from "timers";
  */
 export const appRouter = createTRPCRouter({
   post: postRouter,
+  quiz: quizRouter,
   randomNumber: publicProcedure.subscription(() => {
     return observable<number>((emit) => {
       const int = setInterval(() => {

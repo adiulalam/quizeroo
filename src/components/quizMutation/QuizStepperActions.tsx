@@ -1,7 +1,12 @@
 import { useStepper } from "@/components/ui/Stepper";
 import { Button } from "@/components/ui/Button";
+import { ArrowBigLeft, ArrowBigRight, CheckCheck, Loader2 } from "lucide-react";
 
-export const QuizStepperActions = () => {
+export const QuizStepperActions = ({
+  isLoading = false,
+}: {
+  isLoading?: boolean;
+}) => {
   const {
     prevStep,
     resetSteps,
@@ -25,10 +30,18 @@ export const QuizStepperActions = () => {
             variant="secondary"
             type="button"
           >
+            <ArrowBigLeft className="mr-2 size-4" />
             Prev
           </Button>
-          <Button size="sm" type="submit">
+          <Button size="sm" type="submit" disabled={isLoading}>
             {isLastStep ? "Finish" : "Next"}
+            {isLoading ? (
+              <Loader2 className="ml-2 size-4 animate-spin" />
+            ) : isLastStep ? (
+              <CheckCheck className="ml-2 size-4" />
+            ) : (
+              <ArrowBigRight className="ml-2 size-4" />
+            )}
           </Button>
         </>
       )}

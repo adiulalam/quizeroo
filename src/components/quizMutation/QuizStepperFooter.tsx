@@ -1,6 +1,7 @@
 import { useStepper } from "@/components/ui/Stepper";
 import { Button } from "@/components/ui/Button";
 import { type CreateQuizSchemaType } from "@/server/schema/quiz.schema";
+import { RotateCcw } from "lucide-react";
 
 export const QuizStepperFooter = ({
   setQuizData,
@@ -28,6 +29,7 @@ export const QuizStepperFooter = ({
       <div className="flex w-full justify-end gap-2">
         <Button onClick={onClickHandler} size="sm">
           Create Another Quiz
+          <RotateCcw className="ml-2 size-4" />
         </Button>
       </div>
     </>

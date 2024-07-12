@@ -18,6 +18,7 @@ import {
   type CreateQuizSchemaType,
 } from "@/server/schema/quiz.schema";
 import { QuizStepperActions } from ".";
+import { api } from "@/utils/api";
 
 export type StepQuizType = {
   quizData: CreateQuizSchemaType;
@@ -33,21 +34,31 @@ export const StepQuiz = ({ quizData, setQuizData }: StepQuizType) => {
     values: quizData,
   });
 
-  function onSubmit(_data: CreateQuizSchemaType) {
-    console.log("🚀 ~ onSubmit ~ _data:", _data);
+  const { mutate, isPending } = api.quiz.createQuiz.useMutation({
+    onSuccess: (data) => {
+      setQuizData({
+        id: data.id,
+        title: data.title,
+        isFavourite: data.isFavourite,
+      });
 
-    setQuizData({
-      id: _data.id,
-      title: _data.title,
-      isFavourite: _data.isFavourite,
-    });
+      toast({
+        title: "Quiz Saved!",
+      });
 
-    nextStep();
+      nextStep();
+    },
+    onError: () => {
+      toast({
+        title: "Action Failed!",
+        variant: "destructive",
+      });
+    },
+  });
 
-    toast({
-      title: "Quiz Created!",
-    });
-  }
+  const onSubmit = (data: CreateQuizSchemaType) => {
+    mutate(data);
+  };
 
   return (
     <Form {...form}>
@@ -88,7 +99,7 @@ export const StepQuiz = ({ quizData, setQuizData }: StepQuizType) => {
             </FormItem>
           )}
         />
-        <QuizStepperActions />
+        <QuizStepperActions isLoading={isPending} />
       </form>
     </Form>
   );

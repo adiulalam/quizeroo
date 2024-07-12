@@ -3,6 +3,7 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -55,6 +56,7 @@ export const LandingDialog = ({ children }: { children: React.ReactNode }) => {
         <DialogHeader>
           <DialogTitle>Join a Room</DialogTitle>
         </DialogHeader>
+        <DialogDescription>Enter the room name to join</DialogDescription>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
