@@ -32,7 +32,7 @@ export const Sortable = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button>
+        <Button className="w-fit">
           <ArrowUpDown className="h-4 w-4" />
           <span className="ml-2 hidden md:block ">Sort By</span>
         </Button>

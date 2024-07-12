@@ -1,4 +1,5 @@
 import { NavbarContainer } from "@/components/nav";
+import { QuizCreate } from "@/components/quizMutation";
 import { Sortable } from "@/components/quizView";
 import { authOptions } from "@/server/auth";
 import type { GetServerSidePropsContext } from "next";
@@ -16,7 +17,10 @@ const Create = ({ userSession }: { userSession: Session }) => {
       </Head>
 
       <NavbarContainer>
-        <Sortable />
+        <div className="flex flex-col gap-2">
+          <Sortable />
+          <QuizCreate />
+        </div>
       </NavbarContainer>
     </>
   );
