@@ -1,6 +1,6 @@
 import { NavbarContainer } from "@/components/nav";
 import { QuizCreate } from "@/components/quizMutation";
-import { Sortable } from "@/components/quizView";
+import { Filterable, Sortable } from "@/components/quizView";
 import { authOptions } from "@/server/auth";
 import type { GetServerSidePropsContext } from "next";
 import { getServerSession, type Session } from "next-auth";
@@ -18,8 +18,13 @@ const Create = ({ userSession }: { userSession: Session }) => {
 
       <NavbarContainer>
         <div className="flex flex-col gap-2">
-          <Sortable />
-          <QuizCreate />
+          <div className="flex flex-col justify-between gap-2 sm:flex-row-reverse">
+            <Filterable />
+            <div className="flex justify-between gap-2 sm:justify-normal">
+              <QuizCreate />
+              <Sortable />
+            </div>
+          </div>
         </div>
       </NavbarContainer>
     </>

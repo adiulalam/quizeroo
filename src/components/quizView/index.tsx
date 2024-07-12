@@ -1,3 +1,4 @@
+import { Filterable } from "./Filterable";
 import { Sortable } from "./Sortable";
 
-export { Sortable };
+export { Sortable, Filterable };

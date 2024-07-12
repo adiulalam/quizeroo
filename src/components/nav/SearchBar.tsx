@@ -12,6 +12,7 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "../ui/Command";
+import { ScrollArea } from "@/components/ui/ScrollArea";
 import {
   FileIcon,
   Layers3,
@@ -72,48 +73,51 @@ export const SearchBar = () => {
       <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput placeholder="Type a command or search..." />
         <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
+          <ScrollArea
+            className={"[&>[data-radix-scroll-area-viewport]]:max-h-[300px]"}
+          >
+            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandGroup heading="Links">
+              <CommandItem
+                value={"Quiz 1"}
+                onSelect={() => {
+                  runCommand(() => router.push("quizUuid" as string));
+                }}
+              >
+                <FileIcon className="mr-2 h-4 w-4" />
+                Quiz 1
+              </CommandItem>
+            </CommandGroup>
 
-          <CommandGroup heading="Links">
-            <CommandItem
-              value={"Quiz 1"}
-              onSelect={() => {
-                runCommand(() => router.push("quizUuid" as string));
-              }}
-            >
-              <FileIcon className="mr-2 h-4 w-4" />
-              Quiz 1
-            </CommandItem>
-          </CommandGroup>
-
-          <CommandGroup heading="Settings">
-            <CommandItem>
-              <LayoutDashboardIcon className="mr-2 h-4 w-4" />
-              <span>Dashboard</span>
-              <CommandShortcut>⌘D</CommandShortcut>
-            </CommandItem>
-            <CommandItem>
-              <Layers3 className="mr-2 h-4 w-4" />
-              <span>Quizzes</span>
-              <CommandShortcut>⌘Q</CommandShortcut>
-            </CommandItem>
-            <CommandItem>
-              <User2Icon className="mr-2 h-4 w-4" />
-              <span>Profile</span>
-              <CommandShortcut>⌘P</CommandShortcut>
-            </CommandItem>
-          </CommandGroup>
-          <CommandSeparator />
-          <CommandGroup heading="Theme">
-            <CommandItem onSelect={() => runCommand(() => setTheme("light"))}>
-              <SunIcon className="mr-2 h-4 w-4" />
-              Light
-            </CommandItem>
-            <CommandItem onSelect={() => runCommand(() => setTheme("dark"))}>
-              <MoonIcon className="mr-2 h-4 w-4" />
-              Dark
-            </CommandItem>
-          </CommandGroup>
+            <CommandGroup heading="Settings">
+              <CommandItem>
+                <LayoutDashboardIcon className="mr-2 h-4 w-4" />
+                <span>Dashboard</span>
+                <CommandShortcut>⌘D</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <Layers3 className="mr-2 h-4 w-4" />
+                <span>Quizzes</span>
+                <CommandShortcut>⌘Q</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <User2Icon className="mr-2 h-4 w-4" />
+                <span>Profile</span>
+                <CommandShortcut>⌘P</CommandShortcut>
+              </CommandItem>
+            </CommandGroup>
+            <CommandSeparator />
+            <CommandGroup heading="Theme">
+              <CommandItem onSelect={() => runCommand(() => setTheme("light"))}>
+                <SunIcon className="mr-2 h-4 w-4" />
+                Light
+              </CommandItem>
+              <CommandItem onSelect={() => runCommand(() => setTheme("dark"))}>
+                <MoonIcon className="mr-2 h-4 w-4" />
+                Dark
+              </CommandItem>
+            </CommandGroup>
+          </ScrollArea>
         </CommandList>
       </CommandDialog>
     </>

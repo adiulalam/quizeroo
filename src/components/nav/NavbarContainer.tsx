@@ -12,7 +12,7 @@ export const NavbarContainer = ({
       <Navbar />
       <div className="flex h-screen overflow-hidden">
         <Sidebar />
-        <main className="flex-1 overflow-hidden pt-16">
+        <main className="flex-1 overflow-hidden bg-muted/40 pt-16">
           <ScrollArea className="h-full">
             <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">{children}</div>
           </ScrollArea>

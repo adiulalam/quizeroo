@@ -5,6 +5,7 @@ import { Search } from "lucide-react";
 
 import { cn } from "@/utils/theme";
 import { Dialog, DialogContent } from "@/components/ui/Dialog";
+import { ScrollArea, ScrollBar } from "@/components/ui/ScrollArea";
 
 const Command = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,
