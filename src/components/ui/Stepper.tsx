@@ -1,4 +1,3 @@
-/* eslint-disable react/display-name */
 import * as React from "react";
 import { cva } from "class-variance-authority";
 import { CheckIcon, Loader2, type LucideIcon, X } from "lucide-react";
@@ -101,6 +100,7 @@ function useStepper() {
     throw new Error("useStepper must be used within a StepperProvider");
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { children, className, ...rest } = context;
 
   const isLastStep = context.activeStep === context.steps.length - 1;
@@ -325,7 +325,7 @@ const VerticalContent = ({ children }: { children: React.ReactNode }) => {
       {React.Children.map(children, (child, i) => {
         const isCompletedStep =
           (React.isValidElement(child) &&
-            (child.props as any).isCompletedStep) ??
+            (child.props as { isCompletedStep: boolean }).isCompletedStep) ??
           i < activeStep;
         const isLastStep = i === stepCount - 1;
         const isCurrentStep = i === activeStep;
@@ -360,8 +360,11 @@ const HorizontalContent = ({ children }: { children: React.ReactNode }) => {
         if (!React.isValidElement(node)) {
           return null;
         }
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return React.Children.map(
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           node.props.children,
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
           (childNode) => childNode,
         );
       })}
@@ -403,6 +406,7 @@ interface StepInternalConfig {
 interface FullStepProps extends StepProps, StepInternalConfig {}
 
 const Step = React.forwardRef<HTMLLIElement, StepProps>(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (props, ref: React.Ref<any>) => {
     const {
       children,
@@ -460,6 +464,7 @@ const Step = React.forwardRef<HTMLLIElement, StepProps>(
   },
 );
 
+Step.displayName = "Step";
 // <---------- VERTICAL STEP ---------->
 
 type VerticalStepProps = StepSharedProps & {
@@ -559,7 +564,7 @@ const VerticalStep = React.forwardRef<HTMLDivElement, VerticalStepProps>(
                   });
                 }
               }}
-              className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden"
+              className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden px-1"
             >
               {children}
             </CollapsibleContent>
@@ -638,6 +643,8 @@ const VerticalStep = React.forwardRef<HTMLDivElement, VerticalStepProps>(
     );
   },
 );
+
+VerticalStep.displayName = "VerticalStep";
 
 // <---------- HORIZONTAL STEP ---------->
 
@@ -745,6 +752,8 @@ const HorizontalStep = React.forwardRef<HTMLDivElement, StepSharedProps>(
   },
 );
 
+HorizontalStep.displayName = "HorizontalStep";
+
 // <---------- STEP BUTTON CONTAINER ---------->
 
 type StepButtonContainerProps = StepSharedProps & {
@@ -803,7 +812,7 @@ const StepButtonContainer = ({
 
 // <---------- STEP ICON ---------->
 
-type IconType = LucideIcon | React.ComponentType<any> | undefined;
+type IconType = LucideIcon | React.ComponentType | undefined;
 
 const iconVariants = cva("", {
   variants: {
@@ -928,6 +937,8 @@ const StepIcon = React.forwardRef<HTMLDivElement, StepIconProps>(
     ]);
   },
 );
+
+StepIcon.displayName = "StepIcon";
 
 // <---------- STEP LABEL ---------->
 
