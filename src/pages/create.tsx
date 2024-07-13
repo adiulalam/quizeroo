@@ -2,12 +2,47 @@ import { NavbarContainer } from "@/components/nav";
 import { QuizCreate } from "@/components/quizMutation";
 import { Filterable, Sortable } from "@/components/quizView";
 import { authOptions } from "@/server/auth";
+import { Filter, Sort } from "@/types/Quiz.types";
+import { api } from "@/utils/api";
+import { getFilterBy, getSortBy } from "@/utils/functions";
 import type { GetServerSidePropsContext } from "next";
-import { getServerSession, type Session } from "next-auth";
+import { getServerSession } from "next-auth";
 import Head from "next/head";
+import { useSearchParams } from "next/navigation";
+import InfiniteScroll from "react-infinite-scroll-component";
 
-const Create = ({ userSession }: { userSession: Session }) => {
-  console.log("🚀 ~ Create ~ userSession:", userSession);
+const Create = () => {
+  const searchParams = useSearchParams();
+
+  const filter_by = searchParams.get("filter_by") ?? Filter.all;
+  const filter = getFilterBy(filter_by);
+
+  const sort_by = searchParams.get("sort_by") ?? Sort.updatedAt;
+  const sort = getSortBy(sort_by);
+
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+    error,
+  } = api.quiz.getQuizzes.useInfiniteQuery(
+    {
+      filter,
+      sort,
+    },
+    {
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
+    },
+  );
+  console.log("🚀 ~ Create ~ data:", data);
+
+  if (isLoading) {
+    <p>loading...</p>;
+  }
+
   return (
     <>
       <Head>
@@ -25,6 +60,23 @@ const Create = ({ userSession }: { userSession: Session }) => {
               <Sortable />
             </div>
           </div>
+          <InfiniteScroll
+            next={fetchNextPage}
+            hasMore={hasNextPage ?? false}
+            loader={isFetchingNextPage && <p>loading..</p>}
+            dataLength={
+              data?.pages.reduce(
+                (total, page) => total + page.data.quizzes.length,
+                0,
+              ) ?? 0
+            }
+          >
+            {data?.pages.map((quizzesData) =>
+              quizzesData.data.quizzes.map((quizData) => (
+                <p key={quizData.id}>{quizData.title}</p>
+              )),
+            )}
+          </InfiniteScroll>
         </div>
       </NavbarContainer>
     </>

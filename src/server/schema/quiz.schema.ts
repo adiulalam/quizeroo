@@ -1,4 +1,5 @@
-import z from "zod";
+import { z, type TypeOf } from "zod";
+import { Filter, Sort } from "@/types/Quiz.types";
 
 export const createQuizSchema = z.object({
   id: z.string().uuid().nullable(),
@@ -8,4 +9,11 @@ export const createQuizSchema = z.object({
   isFavourite: z.boolean().default(false),
 });
 
-export type CreateQuizSchemaType = z.infer<typeof createQuizSchema>;
+export const allQuizSchema = z.object({
+  sort: z.nativeEnum(Sort),
+  filter: z.nativeEnum(Filter),
+  cursor: z.string().nullish(),
+});
+
+export type CreateQuizSchemaType = TypeOf<typeof createQuizSchema>;
+export type AllQuizSchemaType = TypeOf<typeof allQuizSchema>;

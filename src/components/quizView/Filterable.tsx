@@ -1,13 +1,7 @@
+import { filterLists } from "@/utils/constants";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
-
-const filterLists = [
-  { name: "All", value: "all" },
-  { name: "Draft", value: "draft" },
-  { name: "Completed", value: "completed" },
-  { name: "Favourite", value: "favourite" },
-];
 
 export const Filterable = () => {
   const router = useRouter();

@@ -1,8 +1,12 @@
 import { type Session } from "next-auth";
-import { type CreateQuizSchemaType } from "../schema/quiz.schema";
+import type {
+  AllQuizSchemaType,
+  CreateQuizSchemaType,
+} from "../schema/quiz.schema";
 import { TRPCError } from "@trpc/server";
 import { Prisma } from "@prisma/client";
 import { db } from "../db";
+import { Filter } from "@/types/Quiz.types";
 
 export const creatQuizHandler = async ({
   input,
@@ -53,6 +57,61 @@ export const creatQuizHandler = async ({
         });
       }
 
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: err.message,
+      });
+    }
+    throw err;
+  }
+};
+
+export const getQuizzesHandler = async ({
+  input,
+  session,
+}: {
+  input: AllQuizSchemaType;
+  session: Session;
+}) => {
+  try {
+    const limit = 20;
+
+    const userId = session.user.id;
+    const { cursor, sort, filter } = input;
+
+    const quizzes = await db.quiz.findMany({
+      take: limit + 1,
+      orderBy: { [sort]: "asc" },
+      where: {
+        userId,
+        ...(filter === Filter.draft ? { status: "DRAFT" } : {}),
+        ...(filter === Filter.completed ? { status: "COMPLETED" } : {}),
+        ...(filter === Filter.favourite ? { isFavourite: true } : {}),
+      },
+      cursor: cursor ? { id: cursor } : undefined,
+    });
+
+    let nextCursor: typeof cursor | undefined = undefined;
+    if (quizzes.length > limit) {
+      const nextItem = quizzes.pop();
+      nextCursor = nextItem?.id;
+    }
+
+    if (!quizzes) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Quiz with that ID not found",
+      });
+    }
+
+    return {
+      nextCursor,
+      data: {
+        quizzes,
+      },
+    };
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: err.message,

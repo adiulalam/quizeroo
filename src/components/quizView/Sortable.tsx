@@ -6,14 +6,10 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
+import { sortLists } from "@/utils/constants";
 import { ArrowUpDown } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
-
-const sortLists = [
-  { name: "Status", value: "status" },
-  { name: "Updated At", value: "updated_at" },
-];
 
 export const Sortable = () => {
   const router = useRouter();
