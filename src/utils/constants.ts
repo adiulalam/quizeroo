@@ -31,8 +31,9 @@ export const navItems: NavItem[] = [
 ];
 
 export const sortLists = [
-  { name: "Status", value: Sort.status },
   { name: "Updated At", value: Sort.updatedAt },
+  { name: "Status", value: Sort.status },
+  { name: "Favourite", value: Sort.isFavourite },
 ] as const;
 
 export const filterLists = [

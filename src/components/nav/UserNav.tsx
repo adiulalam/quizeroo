@@ -12,11 +12,18 @@ import {
 } from "@/components/ui/DropdownMenu";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { Skeleton } from "../ui/Skeleton";
 
 export const UserNav = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
-  if (!session) return null;
+  if (status === "loading" || !session) {
+    return (
+      <div>
+        <Skeleton className="size-8 rounded-full" />
+      </div>
+    );
+  }
 
   return (
     <DropdownMenu>

@@ -1,6 +1,7 @@
 export enum Sort {
   "status" = "status",
   "updatedAt" = "updatedAt",
+  "isFavourite" = "isFavourite",
 }
 
 export enum Filter {

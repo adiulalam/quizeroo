@@ -12,8 +12,8 @@ const MyApp: AppType<{ session: Session | null }> = ({
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <SessionProvider session={session}>
-      <ThemeProvider attribute="class" defaultTheme="dark">
+    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+      <SessionProvider session={session}>
         <style jsx global>{`
           html {
             font-family: ${GeistSans.style.fontFamily};
@@ -21,8 +21,8 @@ const MyApp: AppType<{ session: Session | null }> = ({
         `}</style>
         <Toaster />
         <Component {...pageProps} />
-      </ThemeProvider>
-    </SessionProvider>
+      </SessionProvider>
+    </ThemeProvider>
   );
 };
 

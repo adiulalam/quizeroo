@@ -1,5 +1,5 @@
 import { filterLists } from "@/utils/constants";
-import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/Tabs";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
 

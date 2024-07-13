@@ -1,7 +1,7 @@
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
 import { Order } from "@/types/Quiz.types";
-import { Toggle } from "../ui/toggle";
+import { Toggle } from "../ui/Toggle";
 import { ArrowDownZA, ArrowUpAZ } from "lucide-react";
 
 export const Orderable = () => {
