@@ -1,6 +1,11 @@
 import { NavbarContainer } from "@/components/nav";
 import { QuizCreate } from "@/components/quizMutation";
-import { Filterable, Orderable, Sortable } from "@/components/quizView";
+import {
+  Filterable,
+  Orderable,
+  QuizCard,
+  Sortable,
+} from "@/components/quizView";
 import { authOptions } from "@/server/auth";
 import { Filter, Order, Sort } from "@/types/Quiz.types";
 import { api } from "@/utils/api";
@@ -82,11 +87,13 @@ const Create = () => {
               ) ?? 0
             }
           >
-            {data?.pages.map((quizzesData) =>
-              quizzesData.data.quizzes.map((quizData) => (
-                <p key={quizData.id}>{quizData.title}</p>
-              )),
-            )}
+            <div className="flex h-full w-full flex-row flex-wrap items-center justify-evenly gap-4">
+              {data?.pages.map((quizzesData) =>
+                quizzesData.data.quizzes.map((quizData) => (
+                  <QuizCard key={quizData.id} />
+                )),
+              )}
+            </div>
           </InfiniteScroll>
         </div>
       </NavbarContainer>

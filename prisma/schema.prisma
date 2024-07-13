@@ -14,6 +14,7 @@ model Answer {
     id        String   @id @default(uuid())
     name      String
     isCorrect Boolean
+    order     Int      @default(autoincrement())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
@@ -28,6 +29,7 @@ model Answer {
 model Question {
     id        String   @id @default(uuid())
     name      String
+    order     Int      @default(autoincrement())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 

@@ -43,7 +43,7 @@ export const StepQuiz = ({ quizData, setQuizData }: StepQuizType) => {
       });
 
       toast({
-        title: "Quiz Saved!",
+        title: `Quiz ${quizData.id ? 'updated': 'created'}!`,
       });
 
       nextStep();

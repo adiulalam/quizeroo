@@ -89,6 +89,18 @@ export const getQuizzesHandler = async ({
         ...(filter === Filter.favourite ? { isFavourite: true } : {}),
       },
       cursor: cursor ? { id: cursor } : undefined,
+      include: {
+        questions: {
+          take: 1,
+          orderBy: { order: "desc" },
+          include: {
+            answers: true,
+          },
+        },
+        quizSessions: {
+          where: { isActive: true },
+        },
+      },
     });
 
     let nextCursor: typeof cursor | undefined = undefined;
