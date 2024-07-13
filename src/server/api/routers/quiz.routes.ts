@@ -2,7 +2,7 @@ import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import {
   creatQuizHandler,
   getQuizzesHandler,
-} from "@/server/controller/form.controller";
+} from "@/server/controller/quiz.controller";
 import { allQuizSchema, createQuizSchema } from "@/server/schema/quiz.schema";
 
 export const quizRouter = createTRPCRouter({

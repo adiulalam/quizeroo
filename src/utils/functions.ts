@@ -1,4 +1,4 @@
-import { Filter, Sort } from "@/types/Quiz.types";
+import { Filter, Order, Sort } from "@/types/Quiz.types";
 import { filterLists, sortLists } from "@/utils/constants";
 
 export const getSortBy = (sort_by: string): Sort => {
@@ -17,4 +17,10 @@ export const getFilterBy = (filter_by: string): Filter => {
 
   if (filterList) return filterList.value;
   return Filter.all;
+};
+
+export const getOrderBy = (filter_by: string): Order => {
+  if ((filter_by as keyof typeof Order) === Order.asc) return Order.asc;
+
+  return Order.desc;
 };

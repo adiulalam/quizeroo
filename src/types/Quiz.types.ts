@@ -9,3 +9,8 @@ export enum Filter {
   "completed" = "completed",
   "favourite" = "favourite",
 }
+
+export enum Order {
+  "asc" = "asc",
+  "desc" = "desc",
+}

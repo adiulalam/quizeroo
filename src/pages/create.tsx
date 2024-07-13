@@ -1,10 +1,10 @@
 import { NavbarContainer } from "@/components/nav";
 import { QuizCreate } from "@/components/quizMutation";
-import { Filterable, Sortable } from "@/components/quizView";
+import { Filterable, Orderable, Sortable } from "@/components/quizView";
 import { authOptions } from "@/server/auth";
-import { Filter, Sort } from "@/types/Quiz.types";
+import { Filter, Order, Sort } from "@/types/Quiz.types";
 import { api } from "@/utils/api";
-import { getFilterBy, getSortBy } from "@/utils/functions";
+import { getFilterBy, getOrderBy, getSortBy } from "@/utils/functions";
 import type { GetServerSidePropsContext } from "next";
 import { getServerSession } from "next-auth";
 import Head from "next/head";
@@ -20,6 +20,9 @@ const Create = () => {
   const sort_by = searchParams.get("sort_by") ?? Sort.updatedAt;
   const sort = getSortBy(sort_by);
 
+  const order_by = searchParams.get("order_by") ?? Order.desc;
+  const order = getOrderBy(order_by);
+
   const {
     data,
     fetchNextPage,
@@ -32,6 +35,7 @@ const Create = () => {
     {
       filter,
       sort,
+      order,
     },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
@@ -60,7 +64,10 @@ const Create = () => {
           <div className="flex w-full flex-col-reverse flex-wrap justify-between gap-2 sm:flex-row">
             <div className="flex justify-between gap-2 sm:justify-normal">
               <QuizCreate />
-              <Sortable />
+              <div className="flex gap-2">
+                <Sortable />
+                <Orderable />
+              </div>
             </div>
             <Filterable />
           </div>

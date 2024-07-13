@@ -77,11 +77,11 @@ export const getQuizzesHandler = async ({
     const limit = 20;
 
     const userId = session.user.id;
-    const { cursor, sort, filter } = input;
+    const { cursor, sort, filter, order } = input;
 
     const quizzes = await db.quiz.findMany({
       take: limit + 1,
-      orderBy: { [sort]: "asc" },
+      orderBy: { [sort]: order },
       where: {
         userId,
         ...(filter === Filter.draft ? { status: "DRAFT" } : {}),

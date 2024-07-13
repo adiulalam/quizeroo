@@ -1,5 +1,5 @@
 import { z, type TypeOf } from "zod";
-import { Filter, Sort } from "@/types/Quiz.types";
+import { Filter, Order, Sort } from "@/types/Quiz.types";
 
 export const createQuizSchema = z.object({
   id: z.string().uuid().nullable(),
@@ -12,6 +12,7 @@ export const createQuizSchema = z.object({
 export const allQuizSchema = z.object({
   sort: z.nativeEnum(Sort),
   filter: z.nativeEnum(Filter),
+  order: z.nativeEnum(Order),
   cursor: z.string().nullish(),
 });
 

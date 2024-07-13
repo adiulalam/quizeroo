@@ -7,7 +7,7 @@ export const QuizCreate = () => {
     <QuizDialog>
       <Button className="w-fit">
         <CirclePlus className="size-5" strokeWidth={3} />
-        <span className="ml-2 hidden md:block ">Create New Quiz</span>
+        <span className="ml-2 hidden md:block">Create New Quiz</span>
       </Button>
     </QuizDialog>
   );
