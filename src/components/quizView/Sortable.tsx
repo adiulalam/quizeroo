@@ -6,6 +6,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
+import { Sort } from "@/types/Quiz.types";
 import { sortLists } from "@/utils/constants";
 import { ArrowUpDown } from "lucide-react";
 import { useSearchParams } from "next/navigation";
@@ -34,7 +35,10 @@ export const Sortable = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="start">
-        <DropdownMenuRadioGroup value={value} onValueChange={onChangeHandler}>
+        <DropdownMenuRadioGroup
+          value={value ?? Sort.updatedAt}
+          onValueChange={onChangeHandler}
+        >
           {sortLists.map((list, index) => (
             <DropdownMenuRadioItem key={index} value={list.value}>
               {list.name}

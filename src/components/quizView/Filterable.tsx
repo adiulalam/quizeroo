@@ -18,7 +18,12 @@ export const Filterable = () => {
   };
 
   return (
-    <Tabs defaultValue="all" value={value} onValueChange={onChangeHandler}>
+    <Tabs
+      defaultValue="all"
+      value={value}
+      onValueChange={onChangeHandler}
+      className="max-w-full flex-1 lg:max-w-96"
+    >
       <div className="flex items-center">
         <TabsList className="w-full">
           {filterLists.map((list) => (

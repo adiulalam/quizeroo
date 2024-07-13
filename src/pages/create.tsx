@@ -43,6 +43,10 @@ const Create = () => {
     <p>loading...</p>;
   }
 
+  if (isError) {
+    throw error;
+  }
+
   return (
     <>
       <Head>
@@ -53,12 +57,12 @@ const Create = () => {
 
       <NavbarContainer>
         <div className="flex flex-col gap-2">
-          <div className="flex flex-col justify-between gap-2 sm:flex-row-reverse">
-            <Filterable />
+          <div className="flex w-full flex-col-reverse flex-wrap justify-between gap-2 sm:flex-row">
             <div className="flex justify-between gap-2 sm:justify-normal">
               <QuizCreate />
               <Sortable />
             </div>
+            <Filterable />
           </div>
           <InfiniteScroll
             next={fetchNextPage}
