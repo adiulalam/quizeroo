@@ -98,6 +98,7 @@ export const getQuizzesHandler = async ({
           },
         },
         quizSessions: {
+          take: 1,
           where: { isActive: true },
         },
       },

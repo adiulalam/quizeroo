@@ -6,6 +6,7 @@ import {
   QuizCard,
   Sortable,
 } from "@/components/quizView";
+import { ViewQuizProvider } from "@/provider";
 import { authOptions } from "@/server/auth";
 import { Filter, Order, Sort } from "@/types/Quiz.types";
 import { api } from "@/utils/api";
@@ -90,7 +91,9 @@ const Create = () => {
             <div className="flex h-full w-full flex-row flex-wrap items-center justify-evenly gap-4">
               {data?.pages.map((quizzesData) =>
                 quizzesData.data.quizzes.map((quizData) => (
-                  <QuizCard key={quizData.id} />
+                  <ViewQuizProvider key={quizData.id} value={quizData}>
+                    <QuizCard />
+                  </ViewQuizProvider>
                 )),
               )}
             </div>
