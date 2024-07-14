@@ -1,5 +1,6 @@
-import { CardFooter } from "./CardFooter";
+import { CardSessionButton } from "./CardSessionButton";
 import { CardMenu } from "./CardMenu";
+import { CardQuestion } from "./CardQuestion";
 import { CardText } from "./CardText";
 import { Filterable } from "./Filterable";
 import { Orderable } from "./Orderable";
@@ -13,5 +14,6 @@ export {
   QuizCard,
   CardText,
   CardMenu,
-  CardFooter,
+  CardSessionButton,
+  CardQuestion,
 };

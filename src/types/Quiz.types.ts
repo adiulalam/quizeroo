@@ -20,3 +20,12 @@ export enum Order {
 
 export type ViewQuizType =
   RouterOutputs["quiz"]["getQuizzes"]["data"]["quizzes"][number];
+
+export type ViewQuestionsType =
+  RouterOutputs["quiz"]["getQuizzes"]["data"]["quizzes"][number]["questions"];
+
+export type ViewAnswersType =
+  RouterOutputs["quiz"]["getQuizzes"]["data"]["quizzes"][number]["questions"][number]["answers"];
+
+export type ViewQuizSessionsType =
+  RouterOutputs["quiz"]["getQuizzes"]["data"]["quizzes"][number]["quizSessions"];

@@ -9,7 +9,7 @@ import {
 } from "../ui/Tooltip";
 import clsx from "clsx";
 
-export const CardFooter = () => {
+export const CardSessionButton = () => {
   const { quizSessions, status } = useViewQuiz();
 
   const isSession = Array.isArray(quizSessions) && quizSessions.length > 0;
