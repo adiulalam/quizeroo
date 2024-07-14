@@ -6,9 +6,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/DropdownMenu";
-import { MoreVertical } from "lucide-react";
+import {
+  CircleAlert,
+  CircleCheck,
+  MoreVertical,
+  Pencil,
+  Trash2,
+} from "lucide-react";
+import { useViewQuiz } from "@/hooks/useViewQuiz";
+import { CardMenuFavourite } from ".";
 
 export const CardMenu = () => {
+  const { status, questions } = useViewQuiz();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -20,11 +30,27 @@ export const CardMenu = () => {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem>Edit</DropdownMenuItem>
-        <DropdownMenuItem>Mark as Draft</DropdownMenuItem>
-        <DropdownMenuItem>Mark as Favourite</DropdownMenuItem>
+        <DropdownMenuItem>
+          <Pencil className="mr-2 size-4" />
+          Edit
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          disabled={Array.isArray(questions) && questions.length <= 0}
+        >
+          {status === "DRAFT" ? (
+            <CircleCheck className="mr-2 size-4" />
+          ) : (
+            <CircleAlert className="mr-2 size-4" />
+          )}
+          Mark as {status === "DRAFT" ? "Completed" : "Draft"}
+        </DropdownMenuItem>
+
+        <CardMenuFavourite />
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Delete</DropdownMenuItem>
+        <DropdownMenuItem>
+          <Trash2 className="mr-2 size-4" />
+          Delete
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -2,8 +2,13 @@ import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import {
   creatQuizHandler,
   getQuizzesHandler,
+  updateQuizFavouriteHandler,
 } from "@/server/controller/quiz.controller";
-import { allQuizSchema, createQuizSchema } from "@/server/schema/quiz.schema";
+import {
+  allQuizSchema,
+  createQuizSchema,
+  updateQuizFavouriteSchema,
+} from "@/server/schema/quiz.schema";
 
 export const quizRouter = createTRPCRouter({
   createQuiz: protectedProcedure
@@ -15,5 +20,14 @@ export const quizRouter = createTRPCRouter({
     .input(allQuizSchema)
     .query(({ input, ctx: { session } }) =>
       getQuizzesHandler({ session, input }),
+    ),
+  updateFormFavourite: protectedProcedure
+    .input(updateQuizFavouriteSchema)
+    .mutation(({ input, ctx: { session } }) =>
+      updateQuizFavouriteHandler({
+        session,
+        params: input.params,
+        input: input.body,
+      }),
     ),
 });

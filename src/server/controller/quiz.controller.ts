@@ -2,6 +2,8 @@ import { type Session } from "next-auth";
 import type {
   AllQuizSchemaType,
   CreateQuizSchemaType,
+  ParamsType,
+  UpdateQuizFavouriteType,
 } from "../schema/quiz.schema";
 import { TRPCError } from "@trpc/server";
 import { Prisma } from "@prisma/client";
@@ -123,6 +125,47 @@ export const getQuizzesHandler = async ({
         quizzes,
       },
     };
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: err.message,
+      });
+    }
+    throw err;
+  }
+};
+
+export const updateQuizFavouriteHandler = async ({
+  input,
+  session,
+  params,
+}: {
+  input: UpdateQuizFavouriteType;
+  session: Session;
+  params: ParamsType;
+}) => {
+  try {
+    const userId = session.user.id;
+
+    const quiz = await db.quiz.update({
+      where: {
+        id: params.id,
+        userId,
+      },
+      data: {
+        isFavourite: input.isFavourite,
+      },
+    });
+
+    if (!quiz) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Quiz with that ID not found",
+      });
+    }
+
+    return quiz;
   } catch (err) {
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
       throw new TRPCError({
