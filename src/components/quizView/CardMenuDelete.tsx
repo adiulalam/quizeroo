@@ -9,7 +9,7 @@ import {
   AlertDialogTrigger,
 } from "../ui/AlertDialog";
 import { DropdownMenuItem } from "../ui/DropdownMenu";
-import { Trash2 } from "lucide-react";
+import { MoveRight, PanelLeftClose, Trash2 } from "lucide-react";
 import { useViewQuiz } from "@/hooks/useViewQuiz";
 import { api } from "@/utils/api";
 import { toast } from "../ui/useToast";
@@ -48,12 +48,16 @@ export const CardMenuDeleteAlert = () => {
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
-        <AlertDialogCancel>Cancel</AlertDialogCancel>
+        <AlertDialogCancel>
+          <PanelLeftClose className="mr-2 size-4" />
+          Cancel
+        </AlertDialogCancel>
         <AlertDialogAction
           onClick={onClickHandler}
           className="hover:bg-destructive"
         >
           Continue
+          <MoveRight className="ml-2 size-4" />
         </AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
