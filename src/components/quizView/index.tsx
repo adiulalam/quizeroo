@@ -7,6 +7,8 @@ import { Orderable } from "./Orderable";
 import { QuizCard } from "./QuizCard";
 import { Sortable } from "./Sortable";
 import { CardMenuFavourite } from "./CardMenuFavourite";
+import { CardMenuStatus } from "./CardMenuStatus";
+import { CardMenuDelete, CardMenuDeleteAlert } from "./CardMenuDelete";
 
 export {
   Sortable,
@@ -18,4 +20,7 @@ export {
   CardSessionButton,
   CardQuestion,
   CardMenuFavourite,
+  CardMenuStatus,
+  CardMenuDelete,
+  CardMenuDeleteAlert,
 };

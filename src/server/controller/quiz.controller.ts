@@ -4,6 +4,7 @@ import type {
   CreateQuizSchemaType,
   ParamsType,
   UpdateQuizFavouriteType,
+  UpdateQuizStatusType,
 } from "../schema/quiz.schema";
 import { TRPCError } from "@trpc/server";
 import { Prisma } from "@prisma/client";
@@ -155,6 +156,97 @@ export const updateQuizFavouriteHandler = async ({
       },
       data: {
         isFavourite: input.isFavourite,
+      },
+    });
+
+    if (!quiz) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Quiz with that ID not found",
+      });
+    }
+
+    return quiz;
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: err.message,
+      });
+    }
+    throw err;
+  }
+};
+
+export const updateQuizStatusHandler = async ({
+  input,
+  session,
+  params,
+}: {
+  input: UpdateQuizStatusType;
+  session: Session;
+  params: ParamsType;
+}) => {
+  try {
+    const userId = session.user.id;
+
+    const questionCount = await db.question.count({
+      where: {
+        quizId: params.id,
+        quiz: { userId },
+      },
+    });
+
+    if (questionCount <= 0) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "No questions found for quiz",
+      });
+    }
+
+    const quiz = await db.quiz.update({
+      where: {
+        id: params.id,
+        userId,
+      },
+      data: {
+        status: input.status,
+      },
+    });
+
+    if (!quiz) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Quiz with that ID not found",
+      });
+    }
+
+    return quiz;
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: err.message,
+      });
+    }
+    throw err;
+  }
+};
+
+export const deleteQuizHandler = async ({
+  session,
+  input,
+}: {
+  session: Session;
+  input: ParamsType;
+}) => {
+  try {
+    const userId = session.user.id;
+
+    const quiz = await db.quiz.delete({
+      where: {
+        id: input.id,
+        userId,
       },
     });
 

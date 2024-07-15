@@ -1,5 +1,6 @@
 import { z, type TypeOf } from "zod";
 import { Filter, Order, Sort } from "@/types/Quiz.types";
+import { Status } from "@prisma/client";
 
 export const params = z.object({
   id: z.string().uuid(),
@@ -27,9 +28,19 @@ export const updateQuizFavouriteSchema = z.object({
   }),
 });
 
+export const updateQuizStatusSchema = z.object({
+  params,
+  body: z.object({
+    status: z.nativeEnum(Status),
+  }),
+});
+
 export type ParamsType = TypeOf<typeof params>;
 export type CreateQuizSchemaType = TypeOf<typeof createQuizSchema>;
 export type AllQuizSchemaType = TypeOf<typeof allQuizSchema>;
 export type UpdateQuizFavouriteType = TypeOf<
   typeof updateQuizFavouriteSchema
+>["body"];
+export type UpdateQuizStatusType = TypeOf<
+  typeof updateQuizStatusSchema
 >["body"];
