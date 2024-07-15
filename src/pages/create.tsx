@@ -6,16 +6,17 @@ import {
   QuizCard,
   Sortable,
 } from "@/components/quizView";
+import InfiniteScroll from "@/components/ui/InfiniteScroll";
 import { ViewQuizProvider } from "@/provider";
 import { authOptions } from "@/server/auth";
 import { Filter, Order, Sort } from "@/types/Quiz.types";
 import { api } from "@/utils/api";
 import { getFilterBy, getOrderBy, getSortBy } from "@/utils/functions";
+import { Loader2 } from "lucide-react";
 import type { GetServerSidePropsContext } from "next";
 import { getServerSession } from "next-auth";
 import Head from "next/head";
 import { useSearchParams } from "next/navigation";
-import InfiniteScroll from "react-infinite-scroll-component";
 
 const Create = () => {
   const searchParams = useSearchParams();
@@ -76,26 +77,24 @@ const Create = () => {
             </div>
             <Filterable />
           </div>
+          <div className="flex h-full w-full flex-row flex-wrap items-center justify-evenly gap-4">
+            {data?.pages.map((quizzesData) =>
+              quizzesData.data.quizzes.map((quizData) => (
+                <ViewQuizProvider key={quizData.id} value={quizData}>
+                  <QuizCard />
+                </ViewQuizProvider>
+              )),
+            )}
+          </div>
           <InfiniteScroll
-            next={fetchNextPage}
             hasMore={hasNextPage ?? false}
-            loader={isFetchingNextPage && <p>loading..</p>}
-            dataLength={
-              data?.pages.reduce(
-                (total, page) => total + page.data.quizzes.length,
-                0,
-              ) ?? 0
-            }
+            isLoading={isFetchingNextPage}
+            next={fetchNextPage}
+            threshold={0}
           >
-            <div className="flex h-full w-full flex-row flex-wrap items-center justify-evenly gap-4">
-              {data?.pages.map((quizzesData) =>
-                quizzesData.data.quizzes.map((quizData) => (
-                  <ViewQuizProvider key={quizData.id} value={quizData}>
-                    <QuizCard />
-                  </ViewQuizProvider>
-                )),
-              )}
-            </div>
+            {(hasNextPage ?? false) && (
+              <Loader2 className="my-4 h-8 w-8 animate-spin" />
+            )}
           </InfiniteScroll>
         </div>
       </NavbarContainer>
