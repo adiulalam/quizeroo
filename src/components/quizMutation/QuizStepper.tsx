@@ -3,7 +3,17 @@ import { useState } from "react";
 import { type CreateQuizSchemaType } from "@/server/schema/quiz.schema";
 import { StepQuiz, StepQuestions, QuizStepperFooter } from ".";
 
-export const QuizStepper = () => {
+export type QuizStepperType = {
+  id?: null | string;
+  title?: string;
+  isFavourite?: boolean;
+};
+
+export const QuizStepper = ({
+  id = null,
+  title = "",
+  isFavourite = false,
+}: QuizStepperType) => {
   const steps = [
     {
       label: "Step 1",
@@ -14,9 +24,9 @@ export const QuizStepper = () => {
   ];
 
   const [quizData, setQuizData] = useState<CreateQuizSchemaType>({
-    id: null,
-    title: "",
-    isFavourite: false,
+    id,
+    title,
+    isFavourite,
   });
 
   return (

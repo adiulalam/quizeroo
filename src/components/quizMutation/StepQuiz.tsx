@@ -35,6 +35,8 @@ export const StepQuiz = ({ quizData, setQuizData }: StepQuizType) => {
     values: quizData,
   });
 
+  const { isDirty } = form.formState;
+
   const { mutate, isPending } = api.quiz.createQuiz.useMutation({
     onSuccess: (data) => {
       setQuizData({
@@ -48,8 +50,6 @@ export const StepQuiz = ({ quizData, setQuizData }: StepQuizType) => {
       });
 
       void quiz.getQuizzes.invalidate();
-
-      nextStep();
     },
     onError: () => {
       toast({
@@ -60,7 +60,11 @@ export const StepQuiz = ({ quizData, setQuizData }: StepQuizType) => {
   });
 
   const onSubmit = (data: CreateQuizSchemaType) => {
-    mutate(data);
+    if (isDirty) {
+      mutate(data);
+    }
+
+    nextStep();
   };
 
   return (

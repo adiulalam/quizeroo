@@ -1,26 +1,26 @@
 import {
-  Dialog,
   DialogContent,
-  DialogTrigger,
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/Dialog";
 import { QuizStepper } from ".";
+import type { QuizStepperType } from "./QuizStepper";
 
-export const QuizDialog = ({ children }: { children: React.ReactNode }) => {
+type QuizDialogType = QuizStepperType;
+
+export const QuizDialog = (props: QuizDialogType) => {
+  const { id } = props;
+
   return (
-    <Dialog onOpenChange={(open) => console.log(open)}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-xl">
-        <DialogTitle className="hidden" aria-hidden="true">
-          Create a quiz
-        </DialogTitle>
-        <DialogDescription className="hidden" aria-hidden="true">
-          Multi step form to create quiz
-        </DialogDescription>
+    <DialogContent className="sm:max-w-xl">
+      <DialogTitle className="hidden" aria-hidden="true">
+        {id ? "Update" : "Create"} quiz
+      </DialogTitle>
+      <DialogDescription className="hidden" aria-hidden="true">
+        Multi step form to {id ? "update" : "create"} quiz
+      </DialogDescription>
 
-        <QuizStepper />
-      </DialogContent>
-    </Dialog>
+      <QuizStepper {...props} />
+    </DialogContent>
   );
 };
