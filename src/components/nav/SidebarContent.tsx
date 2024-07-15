@@ -24,8 +24,6 @@ export const SidebarContent = ({
   const path = usePathname();
   const { isMinimized } = useSidebar();
 
-  console.log("isActive", { isMobileNav, isMinimized });
-
   const isExpanded = isMobileNav || (!isMinimized && !isMobileNav);
 
   return (

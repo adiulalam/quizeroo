@@ -47,7 +47,6 @@ const Create = () => {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
     },
   );
-  console.log("🚀 ~ Create ~ data:", data);
 
   if (isLoading) {
     <p>loading...</p>;

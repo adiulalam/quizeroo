@@ -26,6 +26,7 @@ export type StepQuizType = {
 };
 
 export const StepQuiz = ({ quizData, setQuizData }: StepQuizType) => {
+  const { quiz } = api.useUtils();
   const { nextStep } = useStepper();
 
   const form = useForm<CreateQuizSchemaType>({
@@ -43,8 +44,10 @@ export const StepQuiz = ({ quizData, setQuizData }: StepQuizType) => {
       });
 
       toast({
-        title: `Quiz ${quizData.id ? 'updated': 'created'}!`,
+        title: `Quiz ${quizData.id ? "updated" : "created"}!`,
       });
+
+      void quiz.getQuizzes.invalidate();
 
       nextStep();
     },
