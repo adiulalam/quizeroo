@@ -7,13 +7,16 @@ export type QuizStepperType = {
   id?: null | string;
   title?: string;
   isFavourite?: boolean;
+  isUpdate?: boolean;
 };
 
 export const QuizStepper = ({
   id = null,
   title = "",
   isFavourite = false,
+  isUpdate = false,
 }: QuizStepperType) => {
+  console.log("🚀 ~ isUpdate:", isUpdate);
   const steps = [
     {
       label: "Step 1",
@@ -37,10 +40,11 @@ export const QuizStepper = ({
             <stepProps.StepBlock
               quizData={quizData}
               setQuizData={setQuizData}
+              isUpdate={isUpdate}
             />
           </Step>
         ))}
-        <QuizStepperFooter setQuizData={setQuizData} />
+        {!isUpdate && <QuizStepperFooter setQuizData={setQuizData} />}
       </Stepper>
     </div>
   );

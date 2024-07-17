@@ -23,9 +23,10 @@ import { api } from "@/utils/api";
 export type StepQuizType = {
   quizData: CreateQuizSchemaType;
   setQuizData: React.Dispatch<React.SetStateAction<CreateQuizSchemaType>>;
+  isUpdate: boolean;
 };
 
-export const StepQuiz = ({ quizData, setQuizData }: StepQuizType) => {
+export const StepQuiz = ({ quizData, setQuizData, isUpdate }: StepQuizType) => {
   const { quiz } = api.useUtils();
   const { nextStep } = useStepper();
 
@@ -50,6 +51,8 @@ export const StepQuiz = ({ quizData, setQuizData }: StepQuizType) => {
       });
 
       void quiz.getQuizzes.invalidate();
+
+      nextStep();
     },
     onError: () => {
       toast({
@@ -62,9 +65,9 @@ export const StepQuiz = ({ quizData, setQuizData }: StepQuizType) => {
   const onSubmit = (data: CreateQuizSchemaType) => {
     if (isDirty) {
       mutate(data);
+    } else {
+      nextStep();
     }
-
-    nextStep();
   };
 
   return (
@@ -106,7 +109,7 @@ export const StepQuiz = ({ quizData, setQuizData }: StepQuizType) => {
             </FormItem>
           )}
         />
-        <QuizStepperActions isLoading={isPending} />
+        <QuizStepperActions isLoading={isPending} isUpdate={isUpdate} />
       </form>
     </Form>
   );

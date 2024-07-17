@@ -39,8 +39,10 @@ const validateQuizData = (inputs: unknown) => {
 
 export const StepQuestions = ({
   quizData,
+  isUpdate,
 }: {
   quizData: CreateQuizSchemaType;
+  isUpdate: boolean;
 }) => {
   const quiz = validateQuizData(quizData);
 
@@ -104,7 +106,7 @@ export const StepQuestions = ({
               )}
             />
           ))}
-          <QuizStepperActions />
+          <QuizStepperActions isUpdate={isUpdate} />
         </form>
       </Form>
     </MutateQuizProvider>

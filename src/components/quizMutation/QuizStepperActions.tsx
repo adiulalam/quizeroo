@@ -1,11 +1,15 @@
 import { useStepper } from "@/components/ui/Stepper";
 import { Button } from "@/components/ui/Button";
 import { ArrowBigLeft, ArrowBigRight, CheckCheck, Loader2 } from "lucide-react";
+import { DialogClose } from "../ui/Dialog";
+import { Fragment } from "react";
 
 export const QuizStepperActions = ({
   isLoading = false,
+  isUpdate,
 }: {
   isLoading?: boolean;
+  isUpdate: boolean;
 }) => {
   const {
     prevStep,
@@ -14,6 +18,9 @@ export const QuizStepperActions = ({
     hasCompletedAllSteps,
     isLastStep,
   } = useStepper();
+
+  const Close = isUpdate && isLastStep ? DialogClose : Fragment;
+  const props = isUpdate && isLastStep ? { asChild: true } : {};
 
   return (
     <div className="flex w-full justify-end gap-2">
@@ -33,16 +40,18 @@ export const QuizStepperActions = ({
             <ArrowBigLeft className="mr-2 size-4" />
             Prev
           </Button>
-          <Button size="sm" type="submit" disabled={isLoading}>
-            {isLastStep ? "Finish" : "Next"}
-            {isLoading ? (
-              <Loader2 className="ml-2 size-4 animate-spin" />
-            ) : isLastStep ? (
-              <CheckCheck className="ml-2 size-4" />
-            ) : (
-              <ArrowBigRight className="ml-2 size-4" />
-            )}
-          </Button>
+          <Close {...props}>
+            <Button size="sm" type="submit" disabled={isLoading}>
+              {isLastStep ? "Finish" : "Next"}
+              {isLoading ? (
+                <Loader2 className="ml-2 size-4 animate-spin" />
+              ) : isLastStep ? (
+                <CheckCheck className="ml-2 size-4" />
+              ) : (
+                <ArrowBigRight className="ml-2 size-4" />
+              )}
+            </Button>
+          </Close>
         </>
       )}
     </div>

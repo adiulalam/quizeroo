@@ -20,7 +20,7 @@ export const QuizDialog = (props: QuizDialogType) => {
         Multi step form to {id ? "update" : "create"} quiz
       </DialogDescription>
 
-      <QuizStepper {...props} />
+      <QuizStepper {...props} isUpdate={!!id} />
     </DialogContent>
   );
 };
