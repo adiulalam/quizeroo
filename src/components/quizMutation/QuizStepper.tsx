@@ -33,7 +33,7 @@ export const QuizStepper = ({
   });
 
   return (
-    <div className="flex w-full flex-col gap-4">
+    <div className="flex w-full flex-col gap-4 p-1">
       <Stepper variant="circle-alt" initialStep={0} steps={steps}>
         {steps.map((stepProps) => (
           <Step key={stepProps.label} {...stepProps}>
