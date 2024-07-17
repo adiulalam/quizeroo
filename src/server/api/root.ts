@@ -7,6 +7,7 @@ import {
 import { observable } from "@trpc/server/observable";
 import { clearInterval } from "timers";
 import { quizRouter } from "./routers/quiz.routes";
+import { questionRouter } from "./routers/question.routes";
 
 /**
  * This is the primary router for your server.
@@ -16,6 +17,7 @@ import { quizRouter } from "./routers/quiz.routes";
 export const appRouter = createTRPCRouter({
   post: postRouter,
   quiz: quizRouter,
+  question: questionRouter,
   randomNumber: publicProcedure.subscription(() => {
     return observable<number>((emit) => {
       const int = setInterval(() => {

@@ -1,6 +1,6 @@
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import {
-  creatQuizHandler,
+  createQuizHandler,
   deleteQuizHandler,
   getQuizzesHandler,
   updateQuizFavouriteHandler,
@@ -18,7 +18,7 @@ export const quizRouter = createTRPCRouter({
   createQuiz: protectedProcedure
     .input(createQuizSchema)
     .mutation(({ input, ctx: { session } }) =>
-      creatQuizHandler({ session, input }),
+      createQuizHandler({ session, input }),
     ),
   getQuizzes: protectedProcedure
     .input(allQuizSchema)

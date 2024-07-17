@@ -11,7 +11,7 @@ import { Prisma } from "@prisma/client";
 import { db } from "../db";
 import { Filter } from "@/types/Quiz.types";
 
-export const creatQuizHandler = async ({
+export const createQuizHandler = async ({
   input,
   session,
 }: {
