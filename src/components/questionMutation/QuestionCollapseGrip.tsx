@@ -1,20 +1,26 @@
 import { Button } from "../ui/Button";
 import { GripVertical } from "lucide-react";
-import type { DraggableAttributes } from "@dnd-kit/core";
-import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
+import { useSortable } from "@dnd-kit/sortable";
+import { useQuestion } from "@/hooks/useQuestion";
 
-type QuestionCollapseGripType = {
-  attributes: DraggableAttributes;
-  listeners: SyntheticListenerMap | undefined;
-};
-export const QuestionCollapseGrip = (props: QuestionCollapseGripType) => {
+export const QuestionCollapseGrip = () => {
+  const question = useQuestion();
+
+  const { attributes, listeners } = useSortable({
+    id: question.id,
+    data: {
+      question,
+    },
+  });
+
   return (
     <Button
       variant="ghost"
       type="button"
       size="sm"
       className="relative cursor-grab p-0 text-primary/50 sm:p-2"
-      {...props}
+      {...attributes}
+      {...listeners}
     >
       <GripVertical className="size-4" />
     </Button>

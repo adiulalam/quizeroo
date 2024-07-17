@@ -29,14 +29,7 @@ export const QuestionCollapse = ({
   const { control } = useQuestionForm();
   const question = useQuestion();
 
-  const {
-    setNodeRef,
-    attributes,
-    listeners,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({
+  const { setNodeRef, transform, transition, isDragging } = useSortable({
     id: question.id,
     data: {
       question,
@@ -73,7 +66,7 @@ export const QuestionCollapse = ({
     >
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-1 sm:gap-2">
-          <QuestionCollapseGrip attributes={attributes} listeners={listeners} />
+          <QuestionCollapseGrip />
 
           <QuestionCollapseTrigger isOpen={isOpen} />
 
