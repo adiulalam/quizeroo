@@ -1,30 +1,24 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import z from "zod";
 import { useStepper } from "@/components/ui/Stepper";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/Form";
-import { Input } from "@/components/ui/Input";
+import { Form } from "@/components/ui/Form";
 import { toast } from "@/components/ui/useToast";
 import { QuizStepperActions } from ".";
-import { QuestionCreate } from "../questionMutation";
+import { QuestionCreate, QuestionsDragable } from "../questionMutation";
 import { api } from "@/utils/api";
 import { createQuestionSchema } from "@/server/schema/question.schema";
 import type { CreateQuizSchemaType } from "@/server/schema/quiz.schema";
-import { MutateQuizProvider } from "@/provider";
+import { MutateQuizProvider, QuestionFormProvider } from "@/provider";
 
-const createQuestionsSchema = z.object({
+// todo: fix this mess here
+const mutationQuestionsSchema = z.object({
   questions: createQuestionSchema.array(),
 });
 
-type CreateQuestionsSchemaType = z.infer<typeof createQuestionsSchema>;
+export type mutationQuestionsSchemaType = z.infer<
+  typeof mutationQuestionsSchema
+>;
 
 const validateQuizData = (inputs: unknown) => {
   const quizData = z.object({
@@ -52,8 +46,8 @@ export const StepQuestions = ({
 
   const { nextStep } = useStepper();
 
-  const form = useForm<CreateQuestionsSchemaType>({
-    resolver: zodResolver(createQuestionsSchema),
+  const form = useForm<mutationQuestionsSchemaType>({
+    resolver: zodResolver(mutationQuestionsSchema),
     defaultValues: {
       questions: data ?? [],
     },
@@ -62,12 +56,7 @@ export const StepQuestions = ({
     },
   });
 
-  const { fields } = useFieldArray({
-    control: form.control,
-    name: "questions",
-  });
-
-  function onSubmit(_data: CreateQuestionsSchemaType) {
+  function onSubmit(_data: mutationQuestionsSchemaType) {
     console.log("🚀 ~ onSubmit ~ _data:", _data);
     nextStep();
     toast({
@@ -80,35 +69,19 @@ export const StepQuestions = ({
   }
 
   return (
-    <MutateQuizProvider value={quiz}>
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-6"
-        >
-          <QuestionCreate />
-          {fields.map((field, index) => (
-            <FormField
-              key={field.id}
-              control={form.control}
-              name={`questions.${index}.name`}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Question Title</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    This is your question title.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          ))}
-          <QuizStepperActions isUpdate={isUpdate} />
-        </form>
-      </Form>
+    <MutateQuizProvider value={{ ...quiz, questions: data ?? [] }}>
+      <QuestionFormProvider value={form}>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex flex-col gap-6"
+          >
+            <QuestionCreate />
+            <QuestionsDragable />
+            <QuizStepperActions isUpdate={isUpdate} />
+          </form>
+        </Form>
+      </QuestionFormProvider>
     </MutateQuizProvider>
   );
 };
