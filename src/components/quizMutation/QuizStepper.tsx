@@ -16,7 +16,6 @@ export const QuizStepper = ({
   isFavourite = false,
   isUpdate = false,
 }: QuizStepperType) => {
-  console.log("🚀 ~ isUpdate:", isUpdate);
   const steps = [
     {
       label: "Step 1",
