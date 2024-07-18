@@ -11,5 +11,18 @@ export const createQuestionSchema = z.object({
   }),
 });
 
+export const updateQuestionOrderSchema = z.object({
+  params,
+  body: z
+    .object({
+      id: z.string().uuid(),
+      order: z.number(),
+    })
+    .array(),
+});
+
 export type ParamsType = TypeOf<typeof params>;
 export type CreateQuestionSchemaType = TypeOf<typeof createQuestionSchema>;
+export type UpdateQuestionOrderSchemaType = TypeOf<
+  typeof updateQuestionOrderSchema
+>["body"];

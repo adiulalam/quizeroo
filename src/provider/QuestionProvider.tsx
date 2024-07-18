@@ -4,8 +4,11 @@ import type { ReactNode } from "react";
 import type { FieldArrayWithId } from "react-hook-form";
 
 type QuestionType = RouterOutputs["question"]["getQuestions"][number];
+type QuestionTypeOmit = Omit<QuestionType, "answers">;
 
-type QuestionContextType = FieldArrayWithId<QuestionType> & { index: number };
+type QuestionContextType = FieldArrayWithId<QuestionTypeOmit> & {
+  index: number;
+};
 
 export const QuestionContext = createContext<QuestionContextType | undefined>(
   undefined,

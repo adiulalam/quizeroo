@@ -12,7 +12,12 @@ export const QuestionCollapseDelete = () => {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="destructive" size="sm" className="p-1 sm:p-2">
+          <Button
+            variant="destructive"
+            type="button"
+            size="sm"
+            className="p-1 sm:p-2"
+          >
             <Trash2 />
           </Button>
         </TooltipTrigger>

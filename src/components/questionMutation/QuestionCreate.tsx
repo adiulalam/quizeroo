@@ -2,10 +2,12 @@ import { Plus } from "lucide-react";
 import { Button } from "../ui/Button";
 import { api } from "@/utils/api";
 import { useMutateQuiz } from "@/hooks/useMutateQuiz";
+import { useQuestionForm } from "@/hooks/useQuestionForm";
 
 export const QuestionCreate = () => {
   const { id } = useMutateQuiz();
   const { question } = api.useUtils();
+  const { getValues } = useQuestionForm();
 
   const { mutate } = api.question.createQuestion.useMutation({
     onSuccess: () => {
@@ -14,7 +16,14 @@ export const QuestionCreate = () => {
   });
 
   const onClickHandler = () => {
-    mutate({ id });
+    const data = getValues();
+    console.log("🚀 ~ onClickHandler ~ data:", data);
+    const questions = data.questions.map(({ id }, index) => ({
+      id,
+      order: index,
+    }));
+
+    mutate({ params: { id }, body: questions });
   };
 
   return (
