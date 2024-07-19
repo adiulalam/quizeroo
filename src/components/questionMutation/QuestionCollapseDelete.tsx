@@ -7,13 +7,11 @@ import {
   TooltipTrigger,
 } from "../ui/Tooltip";
 import { api } from "@/utils/api";
-import { useQuestionForm } from "@/hooks/useQuestionForm";
 import { useQuestion } from "@/hooks/useQuestion";
 
 export const QuestionCollapseDelete = () => {
   const { id } = useQuestion();
   const { question } = api.useUtils();
-  const { getValues } = useQuestionForm();
 
   const { mutate } = api.question.deleteQuestion.useMutation({
     onSuccess: () => {
@@ -22,13 +20,7 @@ export const QuestionCollapseDelete = () => {
   });
 
   const onClickHandler = () => {
-    const data = getValues();
-    const questions = data.questions.map(({ id }, index) => ({
-      id,
-      order: index,
-    }));
-
-    mutate({ params: { id }, body: questions });
+    mutate({ id });
   };
 
   return (

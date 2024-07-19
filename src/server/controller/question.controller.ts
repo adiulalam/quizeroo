@@ -55,11 +55,9 @@ export const getQuestionsHandler = async ({
 };
 
 export const createQuestionHandler = async ({
-  input,
   params,
   session,
 }: {
-  input: UpdateQuestionOrderSchemaType;
   params: ParamsType;
   session: Session;
 }) => {
@@ -78,12 +76,6 @@ export const createQuestionHandler = async ({
       },
     });
 
-    const transaction = input.map(({ order, id }) =>
-      db.question.update({ data: { order }, where: { id } }),
-    );
-
-    await db.$transaction(transaction);
-
     const question = await db.question.create({
       data: {
         name: `New Question ${quiz._count.questions + 1}`,
@@ -101,13 +93,6 @@ export const createQuestionHandler = async ({
     return question;
   } catch (err) {
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
-      if (err.code === "P2002") {
-        throw new TRPCError({
-          code: "CONFLICT",
-          message: "Question with that id already exists",
-        });
-      }
-
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: err.message,
@@ -118,22 +103,14 @@ export const createQuestionHandler = async ({
 };
 
 export const deleteQuestionHandler = async ({
-  input,
   params,
   session,
 }: {
-  input: UpdateQuestionOrderSchemaType;
   params: ParamsType;
   session: Session;
 }) => {
   try {
     const userId = session.user.id;
-
-    const transaction = input.map(({ order, id }) =>
-      db.question.update({ data: { order }, where: { id } }),
-    );
-
-    await db.$transaction(transaction);
 
     const question = await db.question.delete({
       where: {
@@ -154,13 +131,41 @@ export const deleteQuestionHandler = async ({
     return question;
   } catch (err) {
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
-      if (err.code === "P2002") {
-        throw new TRPCError({
-          code: "CONFLICT",
-          message: "Question with that id already exists",
-        });
-      }
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: err.message,
+      });
+    }
+    throw err;
+  }
+};
 
+export const updateQuestionOrderHandler = async ({
+  input,
+  session,
+}: {
+  input: UpdateQuestionOrderSchemaType;
+  session: Session;
+}) => {
+  try {
+    const userId = session.user.id;
+
+    const transaction = input.map(({ order, id }) =>
+      db.question.update({ data: { order }, where: { id, quiz: { userId } } }),
+    );
+
+    const questions = await db.$transaction(transaction);
+
+    if (!questions) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Could not update order",
+      });
+    }
+
+    return questions;
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: err.message,
