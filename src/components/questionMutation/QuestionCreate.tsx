@@ -17,7 +17,6 @@ export const QuestionCreate = () => {
 
   const onClickHandler = () => {
     const data = getValues();
-    console.log("🚀 ~ onClickHandler ~ data:", data);
     const questions = data.questions.map(({ id }, index) => ({
       id,
       order: index,

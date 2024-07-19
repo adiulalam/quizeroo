@@ -95,7 +95,7 @@ export const getQuizzesHandler = async ({
       include: {
         questions: {
           take: 1,
-          orderBy: { order: "desc" },
+          orderBy: { order: "asc" },
           include: {
             answers: true,
           },

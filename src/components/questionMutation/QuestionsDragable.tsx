@@ -11,6 +11,7 @@ export const QuestionsDragable = () => {
   const { fields, move } = useFieldArray({
     control,
     name: "questions",
+    keyName: "fieldId",
   });
 
   return (
