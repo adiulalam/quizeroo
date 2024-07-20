@@ -1,5 +1,13 @@
 import { useFieldArray } from "react-hook-form";
-import { DndContext, type DragEndEvent } from "@dnd-kit/core";
+import {
+  DndContext,
+  KeyboardSensor,
+  MouseSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
 import { SortableContext } from "@dnd-kit/sortable";
 import { useQuestionForm } from "@/hooks/useQuestionForm";
 import { QuestionProvider } from "@/provider";
@@ -16,6 +24,12 @@ export const QuestionsDragable = () => {
     name: "questions",
     keyName: "fieldId",
   });
+
+  const mouseSensor = useSensor(MouseSensor);
+  const touchSensor = useSensor(TouchSensor);
+  const keyboardSensor = useSensor(KeyboardSensor);
+
+  const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
 
   const { mutate } = api.question.updateQuestionOrder.useMutation({
     onSuccess: () => {
@@ -43,7 +57,7 @@ export const QuestionsDragable = () => {
   };
 
   return (
-    <DndContext onDragEnd={onDragHandler}>
+    <DndContext onDragEnd={onDragHandler} sensors={sensors}>
       <SortableContext items={fields}>
         {fields.map((field, index) => (
           <QuestionProvider key={field.id} value={{ ...field, index }}>
