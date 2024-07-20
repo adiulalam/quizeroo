@@ -1,12 +1,10 @@
 import type { RouterOutputs } from "@/utils/api";
 import { createContext } from "react";
 import type { ReactNode } from "react";
-import type { FieldArrayWithId } from "react-hook-form";
 
 type QuestionType = RouterOutputs["question"]["getQuestions"][number];
-type QuestionTypeOmit = Omit<QuestionType, "answers">;
 
-type QuestionContextType = FieldArrayWithId<QuestionTypeOmit> & {
+type QuestionContextType = QuestionType & {
   index: number;
 };
 

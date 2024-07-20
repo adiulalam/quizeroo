@@ -1,3 +1,4 @@
+import { AnswerProvider, AnswerContext } from "./AnswerProvider";
 import { MutateQuizContext, MutateQuizProvider } from "./MutateQuizProvider";
 import { NavbarContext, NavbarProvider } from "./NavbarProvider";
 import {
@@ -21,4 +22,6 @@ export {
   QuestionProvider,
   QuizDialogContext,
   QuizDialogProvider,
+  AnswerContext,
+  AnswerProvider,
 };

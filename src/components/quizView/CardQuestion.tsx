@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/Card";
-import { useViewQuiz } from "@/hooks/useViewQuiz";
+import { useViewQuiz } from "@/hooks";
 import { useMemo } from "react";
 import {
   AnswerButton,

@@ -1,6 +1,6 @@
 import { DropdownMenuItem } from "../ui/DropdownMenu";
 import { Heart, HeartCrack } from "lucide-react";
-import { useViewQuiz } from "@/hooks/useViewQuiz";
+import { useViewQuiz } from "@/hooks";
 import { api } from "@/utils/api";
 
 export const CardMenuFavourite = () => {

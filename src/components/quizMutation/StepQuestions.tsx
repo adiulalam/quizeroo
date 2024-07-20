@@ -6,7 +6,7 @@ import { Form } from "@/components/ui/Form";
 import { toast } from "@/components/ui/useToast";
 import { QuizStepperActions } from ".";
 import { QuestionCreate, QuestionsDragable } from "../questionMutation";
-import { api } from "@/utils/api";
+import { api, type RouterOutputs } from "@/utils/api";
 import { createQuestionSchema } from "@/server/schema/question.schema";
 import type { CreateQuizSchemaType } from "@/server/schema/quiz.schema";
 import { MutateQuizProvider, QuestionFormProvider } from "@/provider";
@@ -17,9 +17,9 @@ const mutationQuestionsSchema = z.object({
   questions: createQuestionSchema.array(),
 });
 
-export type mutationQuestionsSchemaType = z.infer<
-  typeof mutationQuestionsSchema
->;
+export type mutationQuestionsSchemaType = {
+  questions: RouterOutputs["question"]["getQuestions"];
+};
 
 export const StepQuestions = ({
   quizData,

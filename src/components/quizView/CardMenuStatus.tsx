@@ -1,6 +1,6 @@
 import { DropdownMenuItem } from "../ui/DropdownMenu";
 import { CircleAlert, CircleCheck } from "lucide-react";
-import { useViewQuiz } from "@/hooks/useViewQuiz";
+import { useViewQuiz } from "@/hooks";
 import {
   Tooltip,
   TooltipContent,

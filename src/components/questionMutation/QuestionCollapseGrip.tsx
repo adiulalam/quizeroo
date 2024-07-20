@@ -1,7 +1,7 @@
 import { Button } from "../ui/Button";
 import { GripVertical } from "lucide-react";
 import { useSortable } from "@dnd-kit/sortable";
-import { useQuestion } from "@/hooks/useQuestion";
+import { useQuestion } from "@/hooks";
 
 export const QuestionCollapseGrip = () => {
   const question = useQuestion();

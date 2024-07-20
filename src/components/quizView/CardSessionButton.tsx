@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/Button";
-import { useViewQuiz } from "@/hooks/useViewQuiz";
+import { useViewQuiz } from "@/hooks";
 import { Dot } from "lucide-react";
 import {
   Tooltip,

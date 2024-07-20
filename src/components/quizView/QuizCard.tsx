@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/Card";
 import { CardText, CardMenu, CardSessionButton, CardQuestion } from ".";
 import { Badge } from "../ui/Badge";
-import { useViewQuiz } from "@/hooks/useViewQuiz";
+import { useViewQuiz } from "@/hooks";
 import { Heart } from "lucide-react";
 
 export const QuizCard = () => {

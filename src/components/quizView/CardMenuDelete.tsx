@@ -10,7 +10,7 @@ import {
 } from "../ui/AlertDialog";
 import { DropdownMenuItem } from "../ui/DropdownMenu";
 import { MoveRight, PanelLeftClose, Trash2 } from "lucide-react";
-import { useViewQuiz } from "@/hooks/useViewQuiz";
+import { useViewQuiz } from "@/hooks";
 import { api } from "@/utils/api";
 import { toast } from "../ui/useToast";
 

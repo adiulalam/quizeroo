@@ -9,7 +9,7 @@ import {
   type DragEndEvent,
 } from "@dnd-kit/core";
 import { SortableContext } from "@dnd-kit/sortable";
-import { useQuestionForm } from "@/hooks/useQuestionForm";
+import { useQuestionForm } from "@/hooks";
 import { QuestionProvider } from "@/provider";
 import { QuestionCollapse } from ".";
 import { api } from "@/utils/api";

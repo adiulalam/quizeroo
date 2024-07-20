@@ -1,7 +1,7 @@
 import { Plus } from "lucide-react";
 import { Button } from "../ui/Button";
 import { api } from "@/utils/api";
-import { useMutateQuiz } from "@/hooks/useMutateQuiz";
+import { useMutateQuiz } from "@/hooks";
 
 export const QuestionCreate = () => {
   const { id } = useMutateQuiz();

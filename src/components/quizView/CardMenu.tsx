@@ -16,7 +16,7 @@ import {
 import { AlertDialog } from "../ui/AlertDialog";
 import { Dialog } from "../ui/Dialog";
 import { QuizDialog } from "../quizMutation";
-import { useViewQuiz } from "@/hooks/useViewQuiz";
+import { useViewQuiz } from "@/hooks";
 import { useState } from "react";
 import { QuizDialogProvider } from "@/provider";
 

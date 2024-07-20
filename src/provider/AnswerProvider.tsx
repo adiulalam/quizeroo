@@ -1,30 +1,26 @@
 import type { RouterOutputs } from "@/utils/api";
 import { createContext } from "react";
 import type { ReactNode } from "react";
-import type { FieldArrayWithId } from "react-hook-form";
 
-//todo: comeback to this
-type QuestionType = RouterOutputs["question"]["getQuestions"][number];
-type QuestionTypeOmit = Omit<QuestionType, "answers">;
+type AnswerType =
+  RouterOutputs["question"]["getQuestions"][number]["answers"][number];
 
-type QuestionContextType = FieldArrayWithId<QuestionTypeOmit> & {
+type AnswerContextType = AnswerType & {
   index: number;
 };
 
-export const QuestionContext = createContext<QuestionContextType | undefined>(
+export const AnswerContext = createContext<AnswerContextType | undefined>(
   undefined,
 );
 
-export const QuestionProvider = ({
+export const AnswerProvider = ({
   children,
   value,
 }: {
   children: ReactNode;
-  value: QuestionContextType;
+  value: AnswerContextType;
 }) => {
   return (
-    <QuestionContext.Provider value={value}>
-      {children}
-    </QuestionContext.Provider>
+    <AnswerContext.Provider value={value}>{children}</AnswerContext.Provider>
   );
 };

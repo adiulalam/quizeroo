@@ -8,8 +8,7 @@ import {
 } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
 import { useSortable } from "@dnd-kit/sortable";
-import { useQuestionForm } from "@/hooks/useQuestionForm";
-import { useQuestion } from "@/hooks/useQuestion";
+import { useQuestionForm, useQuestion } from "@/hooks";
 import { useState } from "react";
 import { Collapsible, CollapsibleContent } from "../ui/Collapsible";
 import { CSS } from "@dnd-kit/utilities";

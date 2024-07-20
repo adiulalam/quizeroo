@@ -7,7 +7,7 @@ import {
   TooltipTrigger,
 } from "../ui/Tooltip";
 import { api } from "@/utils/api";
-import { useQuestion } from "@/hooks/useQuestion";
+import { useQuestion } from "@/hooks";
 
 export const QuestionCollapseDelete = () => {
   const { id } = useQuestion();
