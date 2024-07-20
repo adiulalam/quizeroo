@@ -13,25 +13,12 @@ import { useQuestion } from "@/hooks/useQuestion";
 import { useState } from "react";
 import { Collapsible, CollapsibleContent } from "../ui/Collapsible";
 import { CSS } from "@dnd-kit/utilities";
-import { cva } from "class-variance-authority";
 import {
   QuestionCollapseDelete,
   QuestionCollapseGrip,
   QuestionCollapseTrigger,
 } from ".";
-
-const questionCollapsibleVariants = cva(
-  "flex flex-col gap-4 rounded bg-muted/10 border border-muted p-2 snap-center",
-  {
-    variants: {
-      dragging: {
-        default: "border-2 border-transparent",
-        over: "ring-2 opacity-30",
-        overlay: "ring-2 ring-primary",
-      },
-    },
-  },
-);
+import { draggingVariants } from "@/utils/functions";
 
 export const QuestionCollapse = ({
   isOverlay = false,
@@ -60,7 +47,7 @@ export const QuestionCollapse = ({
       onOpenChange={setIsOpen}
       ref={setNodeRef}
       style={style}
-      className={questionCollapsibleVariants({
+      className={draggingVariants({
         dragging: isOverlay ? "overlay" : isDragging ? "over" : undefined,
       })}
     >

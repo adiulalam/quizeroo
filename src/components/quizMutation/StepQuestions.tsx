@@ -21,29 +21,20 @@ export type mutationQuestionsSchemaType = z.infer<
   typeof mutationQuestionsSchema
 >;
 
-const validateQuizData = (inputs: unknown) => {
-  const quizData = z.object({
-    id: z.string().uuid(),
-    title: z.string(),
-    isFavourite: z.boolean(),
-  });
-
-  const isValidData = quizData.parse(inputs);
-  return isValidData;
-};
-
 export const StepQuestions = ({
   quizData,
 }: {
   quizData: CreateQuizSchemaType;
 }) => {
-  const quiz = validateQuizData(quizData);
+  const { id, title, isFavourite } = quizData;
+  if (!id) throw new Error("id not found on StepQuestions");
+
   const { isUpdate, setIsDialogOpen } = useQuizDialog();
 
   const { nextStep } = useStepper();
 
   const { data, isLoading } = api.question.getQuestions.useQuery({
-    id: quiz.id,
+    id,
   });
 
   const {
@@ -75,11 +66,11 @@ export const StepQuestions = ({
 
   const { isDirty } = form.formState;
 
-  function onSubmit(_data: mutationQuestionsSchemaType) {
-    console.log("🚀 ~ onSubmit ~ _data:", _data);
+  function onSubmit(data: mutationQuestionsSchemaType) {
+    console.log("🚀 ~ onSubmit ~ _data:", data);
 
     if (isDirty) {
-      mutate(_data.questions);
+      mutate(data.questions);
     } else {
       isUpdate ? setIsDialogOpen(false) : nextStep();
     }
@@ -90,7 +81,9 @@ export const StepQuestions = ({
   }
 
   return (
-    <MutateQuizProvider value={{ ...quiz, questions: data ?? [] }}>
+    <MutateQuizProvider
+      value={{ id, title, isFavourite, questions: data ?? [] }}
+    >
       <QuestionFormProvider value={form}>
         <Form {...form}>
           <form

@@ -13,7 +13,7 @@ datasource db {
 model Answer {
     id        String   @id @default(uuid())
     name      String
-    isCorrect Boolean
+    isCorrect Boolean  @default(false)
     order     Int      @default(autoincrement())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

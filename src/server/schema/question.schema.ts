@@ -9,6 +9,17 @@ export const createQuestionSchema = z.object({
   name: z.string().min(8, {
     message: "Question title must be at least 8 characters.",
   }),
+  answers: z
+    .object({
+      id: z.string().uuid(),
+      name: z.string().min(8, {
+        message: "Question title must be at least 8 characters.",
+      }),
+      isCorrect: z.boolean({
+        message: "Correct value must be true or false.",
+      }),
+    })
+    .array(),
 });
 
 export const updateQuestionOrderSchema = z

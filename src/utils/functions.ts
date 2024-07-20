@@ -1,5 +1,6 @@
 import { Filter, Order, Sort } from "@/types/Quiz.types";
 import { filterLists, sortLists } from "@/utils/constants";
+import { cva } from "class-variance-authority";
 
 export const getSortBy = (sort_by: string): Sort => {
   const sortList = sortLists.find(
@@ -24,3 +25,16 @@ export const getOrderBy = (filter_by: string): Order => {
 
   return Order.desc;
 };
+
+export const draggingVariants = cva(
+  "flex flex-col gap-4 rounded bg-muted/10 border border-muted p-2 snap-center",
+  {
+    variants: {
+      dragging: {
+        default: "border-2 border-transparent",
+        over: "ring-2 opacity-30",
+        overlay: "ring-2 ring-primary",
+      },
+    },
+  },
+);
