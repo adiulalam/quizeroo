@@ -17,12 +17,15 @@ import { AlertDialog } from "../ui/AlertDialog";
 import { Dialog } from "../ui/Dialog";
 import { QuizDialog } from "../quizMutation";
 import { useViewQuiz } from "@/hooks/useViewQuiz";
+import { useState } from "react";
+import { QuizDialogProvider } from "@/provider";
 
 export const CardMenu = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { id, title, isFavourite } = useViewQuiz();
 
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <AlertDialog>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -49,7 +52,19 @@ export const CardMenu = () => {
         </DropdownMenu>
 
         <CardMenuDeleteAlert />
-        <QuizDialog id={id} title={title} isFavourite={isFavourite} />
+
+        <QuizDialogProvider
+          value={{
+            id,
+            title,
+            isFavourite,
+            isUpdate: true,
+            isDialogOpen,
+            setIsDialogOpen,
+          }}
+        >
+          <QuizDialog />
+        </QuizDialogProvider>
       </AlertDialog>
     </Dialog>
   );

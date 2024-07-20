@@ -20,6 +20,19 @@ import {
   QuestionCollapseTrigger,
 } from ".";
 
+const questionCollapsibleVariants = cva(
+  "flex flex-col gap-4 rounded bg-muted/10 border border-muted p-2 snap-center",
+  {
+    variants: {
+      dragging: {
+        default: "border-2 border-transparent",
+        over: "ring-2 opacity-30",
+        overlay: "ring-2 ring-primary",
+      },
+    },
+  },
+);
+
 export const QuestionCollapse = ({
   isOverlay = false,
 }: {
@@ -41,26 +54,13 @@ export const QuestionCollapse = ({
     transform: CSS.Translate.toString(transform),
   };
 
-  const variants = cva(
-    "flex flex-col gap-4 rounded bg-muted/10 border border-muted p-2 snap-center",
-    {
-      variants: {
-        dragging: {
-          default: "border-2 border-transparent",
-          over: "ring-2 opacity-30",
-          overlay: "ring-2 ring-primary",
-        },
-      },
-    },
-  );
-
   return (
     <Collapsible
       open={isOpen}
       onOpenChange={setIsOpen}
       ref={setNodeRef}
       style={style}
-      className={variants({
+      className={questionCollapsibleVariants({
         dragging: isOverlay ? "overlay" : isDragging ? "over" : undefined,
       })}
     >

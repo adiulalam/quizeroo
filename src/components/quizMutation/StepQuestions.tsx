@@ -10,6 +10,7 @@ import { api } from "@/utils/api";
 import { createQuestionSchema } from "@/server/schema/question.schema";
 import type { CreateQuizSchemaType } from "@/server/schema/quiz.schema";
 import { MutateQuizProvider, QuestionFormProvider } from "@/provider";
+import { useQuizDialog } from "@/hooks";
 
 // todo: fix this mess here
 const mutationQuestionsSchema = z.object({
@@ -33,18 +34,34 @@ const validateQuizData = (inputs: unknown) => {
 
 export const StepQuestions = ({
   quizData,
-  isUpdate,
 }: {
   quizData: CreateQuizSchemaType;
-  isUpdate: boolean;
 }) => {
   const quiz = validateQuizData(quizData);
+  const { isUpdate, setIsDialogOpen } = useQuizDialog();
+
+  const { nextStep } = useStepper();
 
   const { data, isLoading } = api.question.getQuestions.useQuery({
     id: quiz.id,
   });
 
-  const { nextStep } = useStepper();
+  const {
+    quiz: { getQuizzes },
+  } = api.useUtils();
+
+  const { mutate } = api.question.updateQuestions.useMutation({
+    onSuccess: () => {
+      void getQuizzes.invalidate();
+
+      nextStep();
+      toast({
+        title: `Questions ${isUpdate ? "updated" : "created"}!`,
+      });
+
+      isUpdate && setIsDialogOpen(false);
+    },
+  });
 
   const form = useForm<mutationQuestionsSchemaType>({
     resolver: zodResolver(mutationQuestionsSchema),
@@ -56,12 +73,16 @@ export const StepQuestions = ({
     },
   });
 
+  const { isDirty } = form.formState;
+
   function onSubmit(_data: mutationQuestionsSchemaType) {
     console.log("🚀 ~ onSubmit ~ _data:", _data);
-    nextStep();
-    toast({
-      title: "Questions submitted!",
-    });
+
+    if (isDirty) {
+      mutate(_data.questions);
+    } else {
+      isUpdate ? setIsDialogOpen(false) : nextStep();
+    }
   }
 
   if (isLoading) {
@@ -78,7 +99,7 @@ export const StepQuestions = ({
           >
             <QuestionCreate />
             <QuestionsDragable />
-            <QuizStepperActions isUpdate={isUpdate} />
+            <QuizStepperActions />
           </form>
         </Form>
       </QuestionFormProvider>

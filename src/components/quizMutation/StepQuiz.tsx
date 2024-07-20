@@ -23,10 +23,9 @@ import { api } from "@/utils/api";
 export type StepQuizType = {
   quizData: CreateQuizSchemaType;
   setQuizData: React.Dispatch<React.SetStateAction<CreateQuizSchemaType>>;
-  isUpdate: boolean;
 };
 
-export const StepQuiz = ({ quizData, setQuizData, isUpdate }: StepQuizType) => {
+export const StepQuiz = ({ quizData, setQuizData }: StepQuizType) => {
   const { quiz } = api.useUtils();
   const { nextStep } = useStepper();
 
@@ -109,7 +108,7 @@ export const StepQuiz = ({ quizData, setQuizData, isUpdate }: StepQuizType) => {
             </FormItem>
           )}
         />
-        <QuizStepperActions isLoading={isPending} isUpdate={isUpdate} />
+        <QuizStepperActions isLoading={isPending} />
       </form>
     </Form>
   );

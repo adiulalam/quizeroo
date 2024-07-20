@@ -5,6 +5,7 @@ import { db } from "../db";
 import type {
   ParamsType,
   UpdateQuestionOrderSchemaType,
+  UpdateQuestionsSchemaType,
 } from "../schema/question.schema";
 
 export const getQuestionsHandler = async ({
@@ -160,6 +161,44 @@ export const updateQuestionOrderHandler = async ({
       throw new TRPCError({
         code: "NOT_FOUND",
         message: "Could not update order",
+      });
+    }
+
+    return questions;
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: err.message,
+      });
+    }
+    throw err;
+  }
+};
+
+export const updateQuestionsHandler = async ({
+  input,
+  session,
+}: {
+  input: UpdateQuestionsSchemaType;
+  session: Session;
+}) => {
+  try {
+    const userId = session.user.id;
+
+    const transaction = input.map((question) =>
+      db.question.update({
+        data: { name: question.name },
+        where: { id: question.id, quiz: { userId } },
+      }),
+    );
+
+    const questions = await db.$transaction(transaction);
+
+    if (!questions) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Could not update questions",
       });
     }
 

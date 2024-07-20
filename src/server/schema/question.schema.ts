@@ -18,8 +18,16 @@ export const updateQuestionOrderSchema = z
   })
   .array();
 
+export const updateQuestionsSchema = z
+  .object({
+    id: z.string().uuid(),
+    name: z.string().min(8),
+  })
+  .array();
+
 export type ParamsType = TypeOf<typeof params>;
 export type CreateQuestionSchemaType = TypeOf<typeof createQuestionSchema>;
+export type UpdateQuestionsSchemaType = TypeOf<typeof updateQuestionsSchema>;
 export type UpdateQuestionOrderSchemaType = TypeOf<
   typeof updateQuestionOrderSchema
 >;

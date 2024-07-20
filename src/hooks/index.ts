@@ -1,3 +1,4 @@
+import { useQuizDialog } from "./useQuizDialog";
 import { useSidebar } from "./useSidebar";
 
-export { useSidebar };
+export { useSidebar, useQuizDialog };

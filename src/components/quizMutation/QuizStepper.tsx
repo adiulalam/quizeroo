@@ -2,20 +2,11 @@ import { Step, Stepper } from "@/components/ui/Stepper";
 import { useState } from "react";
 import { type CreateQuizSchemaType } from "@/server/schema/quiz.schema";
 import { StepQuiz, StepQuestions, QuizStepperFooter } from ".";
+import { useQuizDialog } from "@/hooks";
 
-export type QuizStepperType = {
-  id?: null | string;
-  title?: string;
-  isFavourite?: boolean;
-  isUpdate?: boolean;
-};
+export const QuizStepper = () => {
+  const { id, title, isFavourite, isUpdate } = useQuizDialog();
 
-export const QuizStepper = ({
-  id = null,
-  title = "",
-  isFavourite = false,
-  isUpdate = false,
-}: QuizStepperType) => {
   const steps = [
     {
       label: "Step 1",
@@ -39,7 +30,6 @@ export const QuizStepper = ({
             <stepProps.StepBlock
               quizData={quizData}
               setQuizData={setQuizData}
-              isUpdate={isUpdate}
             />
           </Step>
         ))}
