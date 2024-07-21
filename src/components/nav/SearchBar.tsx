@@ -94,7 +94,7 @@ export const SearchBar = () => {
         />
         <CommandList>
           <ScrollArea
-            className={"[&>[data-radix-scroll-area-viewport]]:max-h-[300px]"}
+            className={"[&>[data-radix-scroll-area-viewport]]:max-h-[40rem]"}
           >
             <CommandEmpty>No results found.</CommandEmpty>
 

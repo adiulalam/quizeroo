@@ -12,9 +12,13 @@ export const Filterable = () => {
   const value = filterLists.find(({ value }) => value === search)?.value;
 
   const onChangeHandler = (selectedValue: string) => {
-    void router.replace({
-      query: { ...router.query, filter_by: selectedValue },
-    });
+    void router.replace(
+      {
+        query: { ...router.query, filter_by: selectedValue },
+      },
+      undefined,
+      { shallow: true },
+    );
   };
 
   return (
