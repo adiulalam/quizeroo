@@ -29,6 +29,13 @@ export const createAnswerHandler = async ({
       },
     });
 
+    if (question._count.answers >= 4) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Maximium 4 answers",
+      });
+    }
+
     const answer = await db.answer.create({
       data: {
         name: `New Answer ${question._count.answers + 1}`,

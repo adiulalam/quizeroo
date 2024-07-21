@@ -2,6 +2,7 @@ import { Plus } from "lucide-react";
 import { Button } from "../ui/Button";
 import { api } from "@/utils/api";
 import { useQuestion } from "@/hooks";
+import { toast } from "../ui/useToast";
 
 export const AnswerCreate = () => {
   const { id } = useQuestion();
@@ -10,6 +11,14 @@ export const AnswerCreate = () => {
   const { mutate } = api.answer.createAnswer.useMutation({
     onSuccess: () => {
       void question.getQuestions.invalidate();
+    },
+    onError: (e) => {
+      const message = e.message;
+
+      toast({
+        title: `Action Failed! ${message}`,
+        variant: "destructive",
+      });
     },
   });
 

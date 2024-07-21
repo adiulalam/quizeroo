@@ -19,7 +19,8 @@ export const createQuestionSchema = z.object({
         message: "Correct value must be true or false.",
       }),
     })
-    .array(),
+    .array()
+    .max(4, { message: "Maximium of 4 answers" }),
 });
 
 export const updateQuestionOrderSchema = z

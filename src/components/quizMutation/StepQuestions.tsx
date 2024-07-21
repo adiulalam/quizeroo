@@ -43,8 +43,6 @@ export const StepQuestions = ({
 
   const { mutate } = api.question.updateQuestions.useMutation({
     onSuccess: () => {
-      void getQuizzes.invalidate();
-
       nextStep();
       toast({
         title: `Questions ${isUpdate ? "updated" : "created"}!`,
@@ -74,6 +72,8 @@ export const StepQuestions = ({
     } else {
       isUpdate ? setIsDialogOpen(false) : nextStep();
     }
+
+    void getQuizzes.invalidate();
   }
 
   if (isLoading) {
