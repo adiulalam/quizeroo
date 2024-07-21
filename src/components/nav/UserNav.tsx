@@ -13,8 +13,17 @@ import {
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { Skeleton } from "../ui/Skeleton";
+import { usePathname } from "next/navigation";
+import { cn } from "@/utils/theme";
+
+const dropdownLinks = [
+  { href: "/dashboard", name: "Dashboard", shortcut: "⌘D" },
+  { href: "/create", name: "Quizzes", shortcut: "⌘Q" },
+  { href: "/profile", name: "Profile", shortcut: "⇧⌘P" },
+];
 
 export const UserNav = () => {
+  const path = usePathname();
   const { data: session, status } = useSession();
 
   if (status === "loading" || !session) {
@@ -51,24 +60,18 @@ export const UserNav = () => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <Link href="/dashboard">
-            <DropdownMenuItem>
-              Dashboard
-              <DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
-            </DropdownMenuItem>
-          </Link>
-          <Link href="/create">
-            <DropdownMenuItem>
-              Quizzes
-              <DropdownMenuShortcut>⌘Q</DropdownMenuShortcut>
-            </DropdownMenuItem>
-          </Link>
-          <Link href="/profile">
-            <DropdownMenuItem>
-              Profile
-              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-            </DropdownMenuItem>
-          </Link>
+          {dropdownLinks.map((link) => (
+            <Link key={link.href} href={link.href}>
+              <DropdownMenuItem
+                className={cn(
+                  path === link.href ? "bg-accent/60" : "transparent",
+                )}
+              >
+                {link.name}
+                <DropdownMenuShortcut>{link.shortcut}</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </Link>
+          ))}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>

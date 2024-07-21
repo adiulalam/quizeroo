@@ -48,13 +48,18 @@ export const SidebarContent = ({
                   href={item.href ?? "/"}
                   className={cn(
                     "flex items-center gap-2 overflow-hidden rounded-md py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
-                    path === item.href ? "bg-accent" : "transparent",
+                    path === item.href ? "bg-accent " : "transparent",
                   )}
                   onClick={() => {
                     if (setOpen) setOpen(false);
                   }}
                 >
-                  <item.Icon className="ml-3 size-5" />
+                  <item.Icon
+                    className={cn(
+                      "ml-3 size-5",
+                      path === item.href && "fill-primary",
+                    )}
+                  />
 
                   {isExpanded ? (
                     <span className="mr-2 truncate">{item.title}</span>
