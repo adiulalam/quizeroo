@@ -62,13 +62,13 @@ export const CardQuestion = () => {
                   variant={answerMap[String(index)]}
                 />
               </TooltipTrigger>
-              <TooltipContent>
-                {typeof answer !== "number" && (
+              {typeof answer !== "number" && (
+                <TooltipContent>
                   <p>
                     {answer.name} {answer.isCorrect ? "(correct answer)" : ""}
                   </p>
-                )}
-              </TooltipContent>
+                </TooltipContent>
+              )}
             </Tooltip>
           </TooltipProvider>
         ))}
