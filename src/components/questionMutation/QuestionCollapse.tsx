@@ -1,29 +1,18 @@
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/Form";
-import { Input } from "@/components/ui/Input";
+import { FormField } from "@/components/ui/Form";
 import { useSortable } from "@dnd-kit/sortable";
 import { useQuestionForm, useQuestion } from "@/hooks";
 import { useState } from "react";
-import { Collapsible, CollapsibleContent } from "../ui/Collapsible";
+import { Collapsible } from "../ui/Collapsible";
 import { CSS } from "@dnd-kit/utilities";
 import {
+  QuestionCollapseContent,
   QuestionCollapseDelete,
   QuestionCollapseGrip,
   QuestionCollapseTrigger,
 } from ".";
 import { draggingVariants } from "@/utils/functions";
 
-export const QuestionCollapse = ({
-  isOverlay = false,
-}: {
-  isOverlay?: boolean;
-}) => {
+export const QuestionCollapse = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { control } = useQuestionForm();
   const question = useQuestion();
@@ -47,7 +36,7 @@ export const QuestionCollapse = ({
       ref={setNodeRef}
       style={style}
       className={draggingVariants({
-        dragging: isOverlay ? "overlay" : isDragging ? "over" : undefined,
+        dragging: isDragging ? "over" : undefined,
       })}
     >
       <div className="flex items-center justify-between gap-2">
@@ -67,22 +56,7 @@ export const QuestionCollapse = ({
 
         <QuestionCollapseDelete />
       </div>
-      <CollapsibleContent>
-        <FormField
-          control={control}
-          name={`questions.${question.index}.name`}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Question Title</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormDescription>This is your question title.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </CollapsibleContent>
+      <QuestionCollapseContent />
     </Collapsible>
   );
 };

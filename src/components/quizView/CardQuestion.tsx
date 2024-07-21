@@ -12,6 +12,12 @@ import {
   type answerButtonVariants,
 } from "@/components/ui/AnswerButton";
 import type { VariantProps } from "class-variance-authority";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/Tooltip";
 
 const answerMap = {
   "0": "triangle",
@@ -30,10 +36,15 @@ export const CardQuestion = () => {
 
     return null;
   }, [questions]);
+  console.log("🚀 ~ question ~ question:", question);
 
   const questionsLength = Array.isArray(questions) && (questions.length || 1);
 
   const questionTitle = question ? question.name : "No questions been found.";
+
+  const answers = question?.answers.length
+    ? question.answers.slice(0, 4)
+    : [...Array(4).keys()];
 
   return (
     <Card className="h-full overflow-hidden rounded-b-none">
@@ -42,12 +53,24 @@ export const CardQuestion = () => {
         <CardTitle>{questionTitle}</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-wrap justify-evenly gap-2">
-        {[...Array(4).keys()].map((i) => (
-          <AnswerButton
-            key={i}
-            iconSize="medium"
-            variant={answerMap[String(i)]}
-          />
+        {answers.map((answer, index) => (
+          <TooltipProvider key={index}>
+            <Tooltip>
+              <TooltipTrigger>
+                <AnswerButton
+                  iconSize="medium"
+                  variant={answerMap[String(index)]}
+                />
+              </TooltipTrigger>
+              <TooltipContent>
+                {typeof answer !== "number" && (
+                  <p>
+                    {answer.name} {answer.isCorrect ? "(correct answer)" : ""}
+                  </p>
+                )}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         ))}
       </CardContent>
     </Card>

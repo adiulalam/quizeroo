@@ -186,14 +186,29 @@ export const updateQuestionsHandler = async ({
   try {
     const userId = session.user.id;
 
-    const transaction = input.map((question) =>
+    const questionTransaction = input.map((question) =>
       db.question.update({
         data: { name: question.name },
         where: { id: question.id, quiz: { userId } },
       }),
     );
 
-    const questions = await db.$transaction(transaction);
+    const answerTransaction = input.flatMap(({ id: questionId, answers }) =>
+      answers.map((answer) =>
+        db.answer.update({
+          data: { name: answer.name, isCorrect: answer.isCorrect },
+          where: {
+            id: answer.id,
+            question: { id: questionId, quiz: { userId } },
+          },
+        }),
+      ),
+    );
+
+    const questions = await db.$transaction([
+      ...questionTransaction,
+      ...answerTransaction,
+    ]);
 
     if (!questions) {
       throw new TRPCError({

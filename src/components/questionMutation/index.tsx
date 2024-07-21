@@ -1,4 +1,5 @@
 import { QuestionCollapse } from "./QuestionCollapse";
+import { QuestionCollapseContent } from "./QuestionCollapseContent";
 import { QuestionCollapseDelete } from "./QuestionCollapseDelete";
 import { QuestionCollapseGrip } from "./QuestionCollapseGrip";
 import { QuestionCollapseTrigger } from "./QuestionCollapseTrigger";
@@ -12,4 +13,5 @@ export {
   QuestionCollapseTrigger,
   QuestionCollapseGrip,
   QuestionCollapseDelete,
+  QuestionCollapseContent,
 };

@@ -19,17 +19,15 @@ export const Orderable = () => {
     });
   };
 
+  const Icon = isAsc ? ArrowUpAZ : ArrowDownZA;
+
   return (
     <Toggle
       variant="outline"
       aria-label="Toggle order"
       onPressedChange={onChangeHandler}
     >
-      {isAsc ? (
-        <ArrowUpAZ className="size-4" />
-      ) : (
-        <ArrowDownZA className="size-4" />
-      )}
+      <Icon className="size-4" />
     </Toggle>
   );
 };
