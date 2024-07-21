@@ -47,20 +47,13 @@ export const createQuizHandler = async ({
     if (!quiz) {
       throw new TRPCError({
         code: "NOT_FOUND",
-        message: "Quiz with that ID not found",
+        message: "Quiz not found",
       });
     }
 
     return quiz;
   } catch (err) {
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
-      if (err.code === "P2002") {
-        throw new TRPCError({
-          code: "CONFLICT",
-          message: "Quiz with that id already exists",
-        });
-      }
-
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: err.message,
@@ -101,9 +94,8 @@ export const getQuizzesHandler = async ({
             answers: true,
           },
         },
-        quizSessions: {
-          take: 1,
-          where: { isActive: true },
+        _count: {
+          select: { quizSessions: true },
         },
       },
     });
@@ -117,7 +109,7 @@ export const getQuizzesHandler = async ({
     if (!quizzes) {
       throw new TRPCError({
         code: "NOT_FOUND",
-        message: "Quiz with that ID not found",
+        message: "Quizzes not found",
       });
     }
 
@@ -163,7 +155,7 @@ export const updateQuizFavouriteHandler = async ({
     if (!quiz) {
       throw new TRPCError({
         code: "NOT_FOUND",
-        message: "Quiz with that ID not found",
+        message: "Quiz not found",
       });
     }
 
@@ -218,7 +210,7 @@ export const updateQuizStatusHandler = async ({
     if (!quiz) {
       throw new TRPCError({
         code: "NOT_FOUND",
-        message: "Quiz with that ID not found",
+        message: "Quiz not found",
       });
     }
 
@@ -254,7 +246,7 @@ export const deleteQuizHandler = async ({
     if (!quiz) {
       throw new TRPCError({
         code: "NOT_FOUND",
-        message: "Quiz with that ID not found",
+        message: "Quiz not found",
       });
     }
 
@@ -287,9 +279,8 @@ export const searchQuizzesHandler = async ({
         : { userId },
       orderBy: { updatedAt: "desc" },
       include: {
-        quizSessions: {
-          take: 1,
-          where: { isActive: true },
+        _count: {
+          select: { quizSessions: true },
         },
       },
     });
@@ -297,7 +288,7 @@ export const searchQuizzesHandler = async ({
     if (!quiz) {
       throw new TRPCError({
         code: "NOT_FOUND",
-        message: "Forms not found",
+        message: "Quiz not found",
       });
     }
 

@@ -115,10 +115,7 @@ export const SearchBar = () => {
                     <CardSessionButton
                       buttonSize="xxs"
                       status={quiz.status}
-                      isSession={
-                        Array.isArray(quiz.quizSessions) &&
-                        quiz.quizSessions.length > 0
-                      }
+                      isSession={quiz._count.quizSessions > 0}
                     />
                   </div>
                 </CommandItem>

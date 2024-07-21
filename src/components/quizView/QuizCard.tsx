@@ -5,9 +5,7 @@ import { useViewQuiz } from "@/hooks";
 import { Heart } from "lucide-react";
 
 export const QuizCard = () => {
-  const { status, quizSessions, isFavourite } = useViewQuiz();
-
-  const isSession = Array.isArray(quizSessions) && quizSessions.length > 0;
+  const { status, _count, isFavourite } = useViewQuiz();
 
   return (
     <Card className="grid h-72 w-full grid-cols-5 grid-rows-5 gap-2 hover:shadow-lg sm:max-w-sm">
@@ -35,7 +33,7 @@ export const QuizCard = () => {
 
         <CardSessionButton
           buttonSize="default"
-          isSession={isSession}
+          isSession={_count.quizSessions > 0}
           status={status}
         />
       </div>
