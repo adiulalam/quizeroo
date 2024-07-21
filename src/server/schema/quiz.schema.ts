@@ -21,6 +21,10 @@ export const allQuizSchema = z.object({
   cursor: z.string().nullish(),
 });
 
+export const getSearchSchema = z.object({
+  title: z.string(),
+});
+
 export const updateQuizFavouriteSchema = z.object({
   params,
   body: z.object({
@@ -36,6 +40,7 @@ export const updateQuizStatusSchema = z.object({
 });
 
 export type ParamsType = TypeOf<typeof params>;
+export type GetSearchSchemaType = TypeOf<typeof getSearchSchema>;
 export type CreateQuizSchemaType = TypeOf<typeof createQuizSchema>;
 export type AllQuizSchemaType = TypeOf<typeof allQuizSchema>;
 export type UpdateQuizFavouriteType = TypeOf<

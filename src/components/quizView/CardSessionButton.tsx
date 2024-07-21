@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/Button";
-import { useViewQuiz } from "@/hooks";
+import { Button, type buttonVariants } from "@/components/ui/Button";
 import { Dot } from "lucide-react";
 import {
   Tooltip,
@@ -8,18 +7,27 @@ import {
   TooltipTrigger,
 } from "../ui/Tooltip";
 import clsx from "clsx";
+import { type VariantProps } from "class-variance-authority";
+import { type Status } from "@prisma/client";
 
-export const CardSessionButton = () => {
-  const { quizSessions, status } = useViewQuiz();
+type CardSessionButtonType = {
+  buttonSize: VariantProps<typeof buttonVariants>["size"];
+  status: Status;
+  isSession: boolean;
+};
 
-  const isSession = Array.isArray(quizSessions) && quizSessions.length > 0;
-
+export const CardSessionButton = ({
+  buttonSize,
+  status,
+  isSession,
+}: CardSessionButtonType) => {
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
           <div className="flex justify-between gap-2">
             <Button
+              size={buttonSize}
               className={clsx(
                 "w-full",
                 isSession &&
@@ -32,7 +40,7 @@ export const CardSessionButton = () => {
             </Button>
           </div>
         </TooltipTrigger>
-        <TooltipContent>
+        <TooltipContent side="left">
           <p>
             {status === "DRAFT"
               ? "Quiz must be completed"

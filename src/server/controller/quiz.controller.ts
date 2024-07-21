@@ -2,6 +2,7 @@ import { type Session } from "next-auth";
 import type {
   AllQuizSchemaType,
   CreateQuizSchemaType,
+  GetSearchSchemaType,
   ParamsType,
   UpdateQuizFavouriteType,
   UpdateQuizStatusType,
@@ -254,6 +255,49 @@ export const deleteQuizHandler = async ({
       throw new TRPCError({
         code: "NOT_FOUND",
         message: "Quiz with that ID not found",
+      });
+    }
+
+    return quiz;
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: err.message,
+      });
+    }
+    throw err;
+  }
+};
+
+export const searchQuizzesHandler = async ({
+  input,
+  session,
+}: {
+  input: GetSearchSchemaType;
+  session: Session;
+}) => {
+  try {
+    const userId = session.user.id;
+
+    const quiz = await db.quiz.findMany({
+      take: 5,
+      where: input.title
+        ? { userId, title: { contains: input.title } }
+        : { userId },
+      orderBy: { updatedAt: "desc" },
+      include: {
+        quizSessions: {
+          take: 1,
+          where: { isActive: true },
+        },
+      },
+    });
+
+    if (!quiz) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Forms not found",
       });
     }
 

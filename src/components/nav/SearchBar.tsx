@@ -1,5 +1,4 @@
 import { useTheme } from "next-themes";
-import { useRouter } from "next/navigation";
 import { Button } from "../ui/Button";
 import { cn } from "@/utils/theme";
 import {
@@ -22,11 +21,19 @@ import {
   User2Icon,
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+import { debounce } from "lodash";
+import { api } from "@/utils/api";
+import { Badge } from "../ui/Badge";
+import { CardSessionButton } from "../quizView";
+import { DialogTitle } from "../ui/Dialog";
+import { DialogDescription } from "@radix-ui/react-dialog";
 
 export const SearchBar = () => {
-  const router = useRouter();
+  const [input, setInput] = useState("");
   const [open, setOpen] = useState(false);
   const { setTheme } = useTheme();
+
+  const { data } = api.quiz.searchQuizzes.useQuery({ title: input });
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -54,6 +61,10 @@ export const SearchBar = () => {
     command();
   }, []);
 
+  const functionDebounce = debounce((value: string) => setInput(value), 300);
+
+  const handleOnChange = (value: string) => void functionDebounce(value);
+
   return (
     <>
       <Button
@@ -71,22 +82,47 @@ export const SearchBar = () => {
       </Button>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Type a command or search..." />
+        <DialogTitle className="hidden" aria-hidden="true">
+          Searchbar
+        </DialogTitle>
+        <DialogDescription className="hidden" aria-hidden="true">
+          Searchbar for quizzes
+        </DialogDescription>
+        <CommandInput
+          placeholder="Type a command or search..."
+          onValueChange={handleOnChange}
+        />
         <CommandList>
           <ScrollArea
             className={"[&>[data-radix-scroll-area-viewport]]:max-h-[300px]"}
           >
             <CommandEmpty>No results found.</CommandEmpty>
+
             <CommandGroup heading="Links">
-              <CommandItem
-                value={"Quiz 1"}
-                onSelect={() => {
-                  runCommand(() => router.push("quizUuid" as string));
-                }}
-              >
-                <FileIcon className="mr-2 h-4 w-4" />
-                Quiz 1
-              </CommandItem>
+              {data?.map((quiz, index) => (
+                <CommandItem
+                  key={quiz.id}
+                  className="flex justify-between"
+                  value={`${index}-${quiz.title}`}
+                >
+                  <div className="flex w-full items-center gap-2">
+                    <FileIcon className="size-4 min-w-4" />
+                    <span>{quiz.title}</span>
+                  </div>
+
+                  <div className="flex items-center justify-end gap-2">
+                    <Badge>{quiz.status}</Badge>
+                    <CardSessionButton
+                      buttonSize="xxs"
+                      status={quiz.status}
+                      isSession={
+                        Array.isArray(quiz.quizSessions) &&
+                        quiz.quizSessions.length > 0
+                      }
+                    />
+                  </div>
+                </CommandItem>
+              ))}
             </CommandGroup>
 
             <CommandGroup heading="Settings">

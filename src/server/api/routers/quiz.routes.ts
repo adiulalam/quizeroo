@@ -3,12 +3,14 @@ import {
   createQuizHandler,
   deleteQuizHandler,
   getQuizzesHandler,
+  searchQuizzesHandler,
   updateQuizFavouriteHandler,
   updateQuizStatusHandler,
 } from "@/server/controller/quiz.controller";
 import {
   allQuizSchema,
   createQuizSchema,
+  getSearchSchema,
   params,
   updateQuizFavouriteSchema,
   updateQuizStatusSchema,
@@ -24,6 +26,11 @@ export const quizRouter = createTRPCRouter({
     .input(allQuizSchema)
     .query(({ input, ctx: { session } }) =>
       getQuizzesHandler({ session, input }),
+    ),
+  searchQuizzes: protectedProcedure
+    .input(getSearchSchema)
+    .query(({ input, ctx: { session } }) =>
+      searchQuizzesHandler({ session, input }),
     ),
   updateQuizFavourite: protectedProcedure
     .input(updateQuizFavouriteSchema)
