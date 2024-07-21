@@ -36,7 +36,6 @@ export const CardQuestion = () => {
 
     return null;
   }, [questions]);
-  console.log("🚀 ~ question ~ question:", question);
 
   const questionsLength = Array.isArray(questions) && (questions.length || 1);
 
@@ -56,11 +55,13 @@ export const CardQuestion = () => {
         {answers.map((answer, index) => (
           <TooltipProvider key={index}>
             <Tooltip>
-              <TooltipTrigger>
-                <AnswerButton
-                  iconSize="medium"
-                  variant={answerMap[String(index)]}
-                />
+              <TooltipTrigger asChild>
+                <span>
+                  <AnswerButton
+                    iconSize="medium"
+                    variant={answerMap[String(index)]}
+                  />
+                </span>
               </TooltipTrigger>
               {typeof answer !== "number" && (
                 <TooltipContent>

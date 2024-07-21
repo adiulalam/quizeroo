@@ -11,10 +11,10 @@ import { createQuestionSchema } from "@/server/schema/question.schema";
 import type { CreateQuizSchemaType } from "@/server/schema/quiz.schema";
 import { MutateQuizProvider, QuestionFormProvider } from "@/provider";
 import { useQuizDialog } from "@/hooks";
+import { QuestionDialogSkeleton } from "../skeleton";
 
-// todo: fix this mess here
 const mutationQuestionsSchema = z.object({
-  questions: createQuestionSchema.array(),
+  questions: createQuestionSchema,
 });
 
 export type mutationQuestionsSchemaType = {
@@ -77,7 +77,7 @@ export const StepQuestions = ({
   }
 
   if (isLoading) {
-    return <p>loading</p>;
+    return <QuestionDialogSkeleton />;
   }
 
   return (

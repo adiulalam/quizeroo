@@ -4,24 +4,26 @@ export const params = z.object({
   id: z.string().uuid(),
 });
 
-export const createQuestionSchema = z.object({
-  id: z.string().uuid(),
-  name: z.string().min(8, {
-    message: "Question title must be at least 8 characters.",
-  }),
-  answers: z
-    .object({
-      id: z.string().uuid(),
-      name: z.string().min(8, {
-        message: "Question title must be at least 8 characters.",
-      }),
-      isCorrect: z.boolean({
-        message: "Correct value must be true or false.",
-      }),
-    })
-    .array()
-    .max(4, { message: "Maximium of 4 answers" }),
-});
+export const createQuestionSchema = z
+  .object({
+    id: z.string().uuid(),
+    name: z.string().min(8, {
+      message: "Question title must be at least 8 characters.",
+    }),
+    answers: z
+      .object({
+        id: z.string().uuid(),
+        name: z.string().min(8, {
+          message: "Question title must be at least 8 characters.",
+        }),
+        isCorrect: z.boolean({
+          message: "Correct value must be true or false.",
+        }),
+      })
+      .array()
+      .max(4, { message: "Maximium of 4 answers" }),
+  })
+  .array();
 
 export const updateQuestionOrderSchema = z
   .object({
@@ -30,7 +32,7 @@ export const updateQuestionOrderSchema = z
   })
   .array();
 
-export const updateQuestionsSchema = createQuestionSchema.array();
+export const updateQuestionsSchema = createQuestionSchema;
 
 export type ParamsType = TypeOf<typeof params>;
 export type CreateQuestionSchemaType = TypeOf<typeof createQuestionSchema>;
