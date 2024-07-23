@@ -116,6 +116,7 @@ export const SearchBar = () => {
                       buttonSize="xxs"
                       status={quiz.status}
                       isSession={quiz._count.quizSessions > 0}
+                      id={quiz.id}
                     />
                   </div>
                 </CommandItem>

@@ -9,7 +9,6 @@ import {
 import clsx from "clsx";
 import { type VariantProps } from "class-variance-authority";
 import { type Status } from "@prisma/client";
-import { useViewQuiz } from "@/hooks";
 import { api } from "@/utils/api";
 import { toast } from "../ui/useToast";
 
@@ -17,19 +16,21 @@ type CardSessionButtonType = {
   buttonSize: VariantProps<typeof buttonVariants>["size"];
   status: Status;
   isSession: boolean;
+  id: string;
 };
 
 export const CardSessionButton = ({
   buttonSize,
   status,
   isSession,
+  id,
 }: CardSessionButtonType) => {
-  const { id } = useViewQuiz();
   const { quiz } = api.useUtils();
 
   const { mutate } = api.quizSession.updateQuizSession.useMutation({
     onSuccess: () => {
       void quiz.getQuizzes.invalidate();
+      void quiz.searchQuizzes.invalidate();
 
       toast({
         title: isSession ? "Session stopped" : "Session started",

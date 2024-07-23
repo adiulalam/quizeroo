@@ -286,7 +286,13 @@ export const searchQuizzesHandler = async ({
       orderBy: { updatedAt: "desc" },
       include: {
         _count: {
-          select: { quizSessions: true },
+          select: {
+            quizSessions: {
+              where: {
+                isActive: true,
+              },
+            },
+          },
         },
       },
     });
