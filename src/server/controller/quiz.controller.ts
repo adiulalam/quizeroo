@@ -95,7 +95,13 @@ export const getQuizzesHandler = async ({
           },
         },
         _count: {
-          select: { quizSessions: true },
+          select: {
+            quizSessions: {
+              where: {
+                isActive: true,
+              },
+            },
+          },
         },
       },
     });

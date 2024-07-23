@@ -9,6 +9,9 @@ import {
 import clsx from "clsx";
 import { type VariantProps } from "class-variance-authority";
 import { type Status } from "@prisma/client";
+import { useViewQuiz } from "@/hooks";
+import { api } from "@/utils/api";
+import { toast } from "../ui/useToast";
 
 type CardSessionButtonType = {
   buttonSize: VariantProps<typeof buttonVariants>["size"];
@@ -21,12 +24,37 @@ export const CardSessionButton = ({
   status,
   isSession,
 }: CardSessionButtonType) => {
+  const { id } = useViewQuiz();
+  const { quiz } = api.useUtils();
+
+  const { mutate } = api.quizSession.updateQuizSession.useMutation({
+    onSuccess: () => {
+      void quiz.getQuizzes.invalidate();
+
+      toast({
+        title: isSession ? "Session stopped" : "Session started",
+      });
+    },
+    onError: (e) => {
+      const message = e?.message;
+      toast({
+        title: `Action Failed! ${message}`,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const onClickHandler = () => {
+    mutate({ id });
+  };
+
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
           <div className="flex justify-between gap-2">
             <Button
+              onClick={onClickHandler}
               size={buttonSize}
               className={clsx(
                 "w-full",

@@ -10,20 +10,22 @@ import {
 } from "../ui/Tooltip";
 
 export const CardMenuEdit = () => {
-  const { status } = useViewQuiz();
+  const { status, _count } = useViewQuiz();
+
+  const isSession = _count.quizSessions > 0;
 
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <DialogTrigger asChild>
-            <span>
-              <DropdownMenuItem disabled={status === "COMPLETED"}>
+          <span>
+            <DialogTrigger asChild>
+              <DropdownMenuItem disabled={status === "COMPLETED" || isSession}>
                 <Pencil className="mr-2 size-4" />
                 Edit
               </DropdownMenuItem>
-            </span>
-          </DialogTrigger>
+            </DialogTrigger>
+          </span>
         </TooltipTrigger>
         {status === "COMPLETED" && (
           <TooltipContent>
