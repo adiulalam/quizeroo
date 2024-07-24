@@ -1,5 +1,8 @@
 import { type Session } from "next-auth";
-import type { ParamsType } from "../schema/quiz.schema";
+import type {
+  GetSessionNameSchemaType,
+  ParamsType,
+} from "../schema/quizSession.schema";
 import { TRPCError } from "@trpc/server";
 import { Prisma } from "@prisma/client";
 import { db } from "../db";
@@ -106,6 +109,38 @@ export const updateQuizSessionHandler = async ({
     }
 
     return quiz;
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: err.message,
+      });
+    }
+    throw err;
+  }
+};
+
+export const getSessionNameHandler = async ({
+  input,
+}: {
+  input: GetSessionNameSchemaType;
+}) => {
+  try {
+    const quizSession = await db.quizSession.findFirstOrThrow({
+      where: {
+        roomName: input.roomName,
+        isActive: true,
+      },
+    });
+
+    if (!quizSession) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Quiz Session not found",
+      });
+    }
+
+    return quizSession;
   } catch (err) {
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
       throw new TRPCError({

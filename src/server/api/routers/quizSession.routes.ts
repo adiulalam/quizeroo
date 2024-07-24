@@ -1,6 +1,14 @@
-import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-import { updateQuizSessionHandler } from "@/server/controller/quizSession.controller";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "@/server/api/trpc";
+import {
+  getSessionNameHandler,
+  updateQuizSessionHandler,
+} from "@/server/controller/quizSession.controller";
 import { params } from "@/server/schema/quiz.schema";
+import { getSessionNameSchema } from "@/server/schema/quizSession.schema";
 
 export const quizSessionRouter = createTRPCRouter({
   updateQuizSession: protectedProcedure
@@ -9,6 +17,13 @@ export const quizSessionRouter = createTRPCRouter({
       updateQuizSessionHandler({
         session,
         params: input,
+      }),
+    ),
+  getSessionName: publicProcedure
+    .input(getSessionNameSchema)
+    .mutation(({ input }) =>
+      getSessionNameHandler({
+        input,
       }),
     ),
 });

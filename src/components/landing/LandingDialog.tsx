@@ -11,10 +11,8 @@ import {
 } from "@/components/ui/Dialog";
 import { Input } from "@/components/ui/Input";
 import { DoorOpen, Loader2, PanelLeftClose } from "lucide-react";
-import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import {
   Form,
   FormControl,
@@ -23,35 +21,51 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/Form";
-
-const formSchema = z.object({
-  roomName: z.string().min(2, {
-    message: "Room name must be at least 2 characters.",
-  }),
-});
+import {
+  getSessionNameSchema,
+  type GetSessionNameSchemaType,
+} from "@/server/schema/quizSession.schema";
+import { api } from "@/utils/api";
+import { toast } from "../ui/useToast";
+import { useRouter } from "next/navigation";
+import { cn } from "@/utils/theme";
 
 export const LandingDialog = ({ children }: { children: React.ReactNode }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const { mutate, isPending } = api.quizSession.getSessionName.useMutation({
+    onSuccess: ({ id }) => {
+      router.push(`/join/${id}`);
+    },
+    onError: (e) => {
+      const message = e?.message;
+      toast({
+        title: `Action Failed! ${message}`,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const form = useForm<GetSessionNameSchemaType>({
+    resolver: zodResolver(getSessionNameSchema),
     defaultValues: {
       roomName: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    setIsLoading(true);
+  function onSubmit(values: GetSessionNameSchemaType) {
+    mutate({ roomName: values.roomName });
   }
+
+  const Icon = isPending ? Loader2 : DoorOpen;
 
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         className="sm:max-w-[425px]"
-        isCloseDisabled={isLoading}
-        onInteractOutside={(e) => isLoading && e.preventDefault()}
+        isCloseDisabled={isPending}
+        onInteractOutside={(e) => isPending && e.preventDefault()}
       >
         <DialogHeader>
           <DialogTitle>Join a Room</DialogTitle>
@@ -71,7 +85,7 @@ export const LandingDialog = ({ children }: { children: React.ReactNode }) => {
                   <FormControl>
                     <Input
                       placeholder="Room Name.."
-                      disabled={isLoading}
+                      disabled={isPending}
                       {...field}
                     />
                   </FormControl>
@@ -81,18 +95,16 @@ export const LandingDialog = ({ children }: { children: React.ReactNode }) => {
             />
 
             <DialogFooter className="flex w-full gap-2 sm:justify-between">
-              <DialogClose asChild disabled={isLoading}>
+              <DialogClose asChild disabled={isPending}>
                 <Button type="button" variant="destructive">
                   <PanelLeftClose className="mr-2 h-4 w-4" /> Cancel
                 </Button>
               </DialogClose>
-              <Button type="submit" disabled={isLoading}>
+              <Button type="submit" disabled={isPending}>
                 Join
-                {isLoading ? (
-                  <Loader2 className="ml-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <DoorOpen className="ml-2 h-4 w-4" />
-                )}
+                <Icon
+                  className={cn("ml-2 h-4 w-4", isPending && "animate-spin")}
+                />
               </Button>
             </DialogFooter>
           </form>
