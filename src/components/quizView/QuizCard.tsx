@@ -1,5 +1,11 @@
 import { Card } from "@/components/ui/Card";
-import { CardText, CardMenu, CardSessionButton, CardQuestion } from ".";
+import {
+  CardText,
+  CardMenu,
+  CardSessionButton,
+  CardQuestion,
+  CardSessionLink,
+} from ".";
 import { Badge } from "../ui/Badge";
 import { useViewQuiz } from "@/hooks";
 import { Heart } from "lucide-react";
@@ -31,12 +37,15 @@ export const QuizCard = () => {
           <CardMenu />
         </div>
 
-        <CardSessionButton
-          buttonSize="default"
-          isSession={_count.quizSessions > 0}
-          status={status}
-          id={id}
-        />
+        <div className="flex w-full flex-row gap-2">
+          <CardSessionButton
+            buttonSize="default"
+            isSession={_count.quizSessions > 0}
+            status={status}
+            id={id}
+          />
+          <CardSessionLink />
+        </div>
       </div>
     </Card>
   );

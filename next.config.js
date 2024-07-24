@@ -18,6 +18,9 @@ const config = {
     APP_URL: process.env.APP_URL,
     WS_URL: process.env.WS_URL,
   },
+  experimental: {
+    swcPlugins: [["next-superjson-plugin", {}]],
+  },
 };
 
 export default config;

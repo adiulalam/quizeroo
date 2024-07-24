@@ -53,7 +53,7 @@ export const CardSessionButton = ({
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <div className="flex justify-between gap-2">
+          <div className="flex w-full justify-between gap-2">
             <Button
               onClick={onClickHandler}
               size={buttonSize}

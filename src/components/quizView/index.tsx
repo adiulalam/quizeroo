@@ -10,6 +10,7 @@ import { CardMenuFavourite } from "./CardMenuFavourite";
 import { CardMenuStatus } from "./CardMenuStatus";
 import { CardMenuDelete, CardMenuDeleteAlert } from "./CardMenuDelete";
 import { CardMenuEdit } from "./CardMenuEdit";
+import { CardSessionLink } from "./CardSessionLink";
 
 export {
   Sortable,
@@ -25,4 +26,5 @@ export {
   CardMenuDelete,
   CardMenuDeleteAlert,
   CardMenuEdit,
+  CardSessionLink,
 };
