@@ -30,13 +30,14 @@ model Question {
     id        String   @id @default(uuid())
     name      String
     order     Int      @default(autoincrement())
+    countdown Int      @default(30)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
     quizId String
     quiz   Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
 
-    answers Answer[] // A question can have multiple answers
+    answers Answer[]
 
     @@index([quizId])
 }
@@ -144,7 +145,7 @@ model User {
     isTempUser    Boolean      @default(false)
     isActive      Boolean      @default(true)
     quizSessionId String?
-    quizSession   QuizSession? @relation(fields: [quizSessionId], references: [id], onDelete: SetNull, name: "quizSessionId")
+    quizSession   QuizSession? @relation(fields: [quizSessionId], references: [id], onDelete: Cascade, name: "quizSessionId")
 
     accounts     Account[]
     sessions     Session[]
