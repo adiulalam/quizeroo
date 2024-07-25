@@ -43,7 +43,7 @@ declare module "next-auth" {
 
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    jwt({ token, user }) {
+    jwt: ({ token, user }) => {
       if (user) token.isTempUser = user?.isTempUser ?? false;
       return token;
     },
@@ -84,7 +84,7 @@ export const authOptions: NextAuthOptions = {
               },
               username: { label: "Username", type: "text" },
             },
-            async authorize(credentials) {
+            authorize: async (credentials) => {
               const creds = await z
                 .object({
                   username: z.string().min(1),
@@ -92,8 +92,8 @@ export const authOptions: NextAuthOptions = {
                 })
                 .parseAsync(credentials);
 
-              const user = await db.user.findFirst({
-                where: {
+              const user = await db.user.create({
+                data: {
                   name: creds.username,
                   isTempUser: true,
                   isActive: true,
