@@ -69,10 +69,10 @@ model QuizSession {
     quiz   Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
 
     userId String
-    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, name: "userId")
 
     userAnswers UserAnswer[]
-    tempUsers   TempUser[]
+    users       User[]       @relation(name: "quizSessionId")
 
     @@index([roomName, quizId, userId])
 }
@@ -83,8 +83,8 @@ model UserAnswer {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    tempUserId String
-    tempUser   TempUser @relation(fields: [tempUserId], references: [id], onDelete: Cascade)
+    userId String
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     quizSessionId String
     quizSession   QuizSession @relation(fields: [quizSessionId], references: [id], onDelete: Cascade)
@@ -92,22 +92,7 @@ model UserAnswer {
     answerId String
     answer   Answer @relation(fields: [answerId], references: [id], onDelete: Cascade)
 
-    @@index([tempUserId, quizSessionId, answerId])
-}
-
-model TempUser {
-    id        String   @id @default(uuid())
-    name      String
-    isActive  Boolean  @default(false)
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    quizSessionId String
-    quizSession   QuizSession @relation(fields: [quizSessionId], references: [id], onDelete: Cascade)
-
-    userAnswers UserAnswer[]
-
-    @@index([quizSessionId])
+    @@index([userId, quizSessionId, answerId])
 }
 
 model Post {
@@ -151,16 +136,22 @@ model Session {
 }
 
 model User {
-    id            String        @id @default(uuid())
+    id            String       @id @default(uuid())
     name          String?
-    email         String?       @unique
+    email         String?      @unique
     emailVerified DateTime?
     image         String?
-    accounts      Account[]
-    sessions      Session[]
-    posts         Post[]
-    quizSessions  QuizSession[]
-    quizs         Quiz[]
+    isTempUser    Boolean      @default(false)
+    isActive      Boolean      @default(true)
+    quizSessionId String?
+    quizSession   QuizSession? @relation(fields: [quizSessionId], references: [id], onDelete: SetNull, name: "quizSessionId")
+
+    accounts     Account[]
+    sessions     Session[]
+    posts        Post[]
+    quizSessions QuizSession[] @relation(name: "userId")
+    quizzes      Quiz[]
+    userAnswers  UserAnswer[]
 }
 
 model VerificationToken {

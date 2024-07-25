@@ -22,15 +22,17 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: DefaultSession["user"] & {
       id: string;
+      isTempUser: boolean;
       // ...other properties
       // role: UserRole;
     };
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    isTempUser: boolean;
+    // ...other properties
+    // role: UserRole;
+  }
 }
 
 /**
@@ -41,13 +43,23 @@ declare module "next-auth" {
 
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    jwt({ token, user }) {
+      if (user) token.isTempUser = user?.isTempUser ?? false;
+      return token;
+    },
+    session: ({ session, token }) => {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.sub,
+          isTempUser: token?.isTempUser ?? false,
+        },
+      };
+    },
+  },
+  session: {
+    strategy: "jwt",
   },
   adapter: PrismaAdapter(db) as Adapter,
   providers:
@@ -80,15 +92,17 @@ export const authOptions: NextAuthOptions = {
                 })
                 .parseAsync(credentials);
 
-              const user = await db.tempUser.findFirst({
+              const user = await db.user.findFirst({
                 where: {
                   name: creds.username,
+                  isTempUser: true,
+                  isActive: true,
                   quizSessionId: creds.quizSessionId,
                 },
               });
 
               if (user) {
-                return { ...user, isTempUser: true };
+                return user;
               } else {
                 return null;
               }
