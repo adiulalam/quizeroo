@@ -6,8 +6,7 @@ import {
   type NextAuthOptions,
 } from "next-auth";
 import { type Adapter } from "next-auth/adapters";
-import Auth0Provider from "next-auth/providers/auth0";
-import CredentialsProvider from "next-auth/providers/credentials";
+import { Auth0Provider, CredentialsProvider } from "./providers";
 import { env } from "@/env";
 import { db } from "@/server/db";
 import { z } from "zod";
@@ -62,54 +61,51 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   adapter: PrismaAdapter(db) as Adapter,
-  providers:
-    process.env.WSS !== "true"
-      ? [
-          Auth0Provider({
-            clientId: env.AUTH0_CLIENT_ID,
-            clientSecret: env.AUTH0_CLIENT_SECRET,
-            issuer: env.AUTH0_ISSUER,
-            authorization: {
-              params: {
-                prompt: "login",
-              },
-            },
-          }),
-          CredentialsProvider({
-            name: "Credentials",
-            credentials: {
-              quizSessionId: {
-                label: "Quiz Session Id",
-                type: "text",
-              },
-              username: { label: "Username", type: "text" },
-            },
-            authorize: async (credentials) => {
-              const creds = await z
-                .object({
-                  username: z.string().min(1),
-                  quizSessionId: z.string().uuid(),
-                })
-                .parseAsync(credentials);
+  providers: [
+    Auth0Provider({
+      clientId: env.AUTH0_CLIENT_ID,
+      clientSecret: env.AUTH0_CLIENT_SECRET,
+      issuer: env.AUTH0_ISSUER,
+      authorization: {
+        params: {
+          prompt: "login",
+        },
+      },
+    }),
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        quizSessionId: {
+          label: "Quiz Session Id",
+          type: "text",
+        },
+        username: { label: "Username", type: "text" },
+      },
+      authorize: async (credentials) => {
+        const creds = await z
+          .object({
+            username: z.string().min(1),
+            quizSessionId: z.string().uuid(),
+          })
+          .parseAsync(credentials);
 
-              const user = await db.user.create({
-                data: {
-                  name: creds.username,
-                  isTempUser: true,
-                  isActive: true,
-                  quizSessionId: creds.quizSessionId,
-                },
-              });
+        const user = await db.user.create({
+          data: {
+            name: creds.username,
+            isTempUser: true,
+            isActive: true,
+            quizSessionId: creds.quizSessionId,
+          },
+        });
 
-              if (user) {
-                return user;
-              } else {
-                return null;
-              }
-            },
-          }),
-        ]
-      : [],
+        if (user) {
+          return user;
+        } else {
+          return null;
+        }
+      },
+    }),
+  ],
 };
 
 /**
