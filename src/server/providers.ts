@@ -12,6 +12,8 @@ interface Auth0Profile extends Record<string, unknown> {
   isTempUser: boolean;
 }
 
+// Added here than import so Websocket works
+// Seems to be an issue on typescripe/node side of thing for default export
 function Auth0<P extends Auth0Profile>(
   options: OAuthUserConfig<P>,
 ): OAuthConfig<P> {
