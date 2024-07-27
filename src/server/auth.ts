@@ -9,7 +9,8 @@ import { type Adapter } from "next-auth/adapters";
 import { Auth0Provider, CredentialsProvider } from "./providers";
 import { env } from "@/env";
 import { db } from "@/server/db";
-import { z } from "zod";
+import { mutateTempUserSchema } from "./schema/user.schema";
+import { createTempUserHandler } from "./controller/user.controller";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -42,8 +43,15 @@ declare module "next-auth" {
 
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    jwt: ({ token, user }) => {
+    jwt: async ({ token, user, trigger, session }) => {
       if (user) token.isTempUser = user?.isTempUser ?? false;
+
+      const name = (session as { name: string | null })?.name;
+
+      if (trigger === "update" && name && name.length > 0) {
+        token.name = name;
+      }
+
       return token;
     },
     session: ({ session, token }) => {
@@ -79,24 +87,12 @@ export const authOptions: NextAuthOptions = {
           label: "Quiz Session Id",
           type: "text",
         },
-        username: { label: "Username", type: "text" },
+        name: { label: "Name", type: "text" },
       },
       authorize: async (credentials) => {
-        const creds = await z
-          .object({
-            username: z.string().min(1),
-            quizSessionId: z.string().uuid(),
-          })
-          .parseAsync(credentials);
+        const creds = await mutateTempUserSchema.parseAsync(credentials);
 
-        const user = await db.user.create({
-          data: {
-            name: creds.username,
-            isTempUser: true,
-            isActive: true,
-            quizSessionId: creds.quizSessionId,
-          },
-        });
+        const user = await createTempUserHandler({ input: creds });
 
         if (user) {
           return user;

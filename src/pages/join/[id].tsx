@@ -2,33 +2,10 @@
 // import { getSessionNameHandler } from "@/server/controller/quizSession.controller";
 // import type { GetServerSidePropsContext } from "next";
 // import { getServerSession } from "next-auth";
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
-import { signIn, useSession } from "next-auth/react";
+import { JoinContainer } from "@/components/join";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { useState } from "react";
 
 const Join = () => {
-  const session = useSession();
-  console.log("🚀 ~ Join ~ session:", session);
-  const router = useRouter();
-  const id = router.query.id as string;
-  console.log("🚀 ~ Join ~ router:", id);
-
-  const [value, setValue] = useState("");
-
-  const onClickHandler = async () => {
-    console.log("🚀 ~ Join ~ value:", value);
-
-    const response = await signIn("credentials", {
-      username: value,
-      quizSessionId: id,
-      redirect: false,
-    });
-    console.log("🚀 ~ onClickHandler ~ response:", response);
-  };
-
   return (
     <>
       <Head>
@@ -37,10 +14,7 @@ const Join = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <p>Join {id}</p>
-      <Input value={value} onChange={(e) => setValue(e.target.value)} />
-
-      <Button onClick={onClickHandler}>Submit</Button>
+      <JoinContainer />
     </>
   );
 };
