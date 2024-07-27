@@ -1,7 +1,6 @@
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { JoinForm } from ".";
-import { Button } from "../ui/Button";
+import { JoinFooter, JoinForm, JoinHeader, JoinWaiting } from ".";
 import { useRouter } from "next/router";
 import { api } from "@/utils/api";
 
@@ -12,13 +11,13 @@ export const JoinContainer = () => {
   const { status } = useSession();
   const [showForm, setShowForm] = useState(false);
 
-  const { data, isPending } = api.user.getUser.useQuery(undefined, {
+  const { data, isLoading } = api.user.getUser.useQuery(undefined, {
     enabled: status === "authenticated",
   });
 
   const isEqualQuizSession = !!(data && data.quizSessionId === id);
 
-  if (status === "loading" || isPending) {
+  if (status === "loading" || isLoading) {
     return <p>loading</p>;
   }
 
@@ -27,8 +26,14 @@ export const JoinContainer = () => {
   }
 
   return (
-    <div>
-      <Button onClick={() => setShowForm(true)}>Change name</Button>
+    <div className="flex h-dvh flex-col items-center justify-between">
+      <JoinHeader />
+
+      <div className="flex h-full w-full bg-muted/40">
+        <JoinWaiting setShowForm={setShowForm} />
+      </div>
+
+      <JoinFooter />
     </div>
   );
 };

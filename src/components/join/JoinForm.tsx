@@ -77,6 +77,7 @@ export const JoinForm = ({ setShowForm }: JoinFormtype) => {
     }
     setShowForm(false);
   };
+
   return (
     <Form {...form}>
       <form
