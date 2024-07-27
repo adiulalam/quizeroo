@@ -7,6 +7,7 @@ import {
 } from "./QuestionFormProvider";
 import { QuestionProvider, QuestionContext } from "./QuestionProvider";
 import { QuizDialogContext, QuizDialogProvider } from "./QuizDialogProvider";
+import { QuizSessionProvider, QuizSessionContext } from "./QuizSessionProvider";
 import { ViewQuizProvider, ViewQuizContext } from "./ViewQuizProvider";
 
 export {
@@ -24,4 +25,6 @@ export {
   QuizDialogProvider,
   AnswerContext,
   AnswerProvider,
+  QuizSessionContext,
+  QuizSessionProvider,
 };

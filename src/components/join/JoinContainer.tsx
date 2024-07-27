@@ -3,6 +3,7 @@ import { useState } from "react";
 import { JoinFooter, JoinForm, JoinHeader, JoinWaiting } from ".";
 import { useRouter } from "next/router";
 import { api } from "@/utils/api";
+import { QuizSessionProvider } from "@/provider";
 
 export const JoinContainer = () => {
   const router = useRouter();
@@ -26,14 +27,16 @@ export const JoinContainer = () => {
   }
 
   return (
-    <div className="flex h-dvh flex-col items-center justify-between">
-      <JoinHeader />
+    <QuizSessionProvider value={data}>
+      <div className="flex h-dvh flex-col items-center justify-between">
+        <JoinHeader isWaiting={false} />
 
-      <div className="flex h-full w-full bg-muted/40">
-        <JoinWaiting setShowForm={setShowForm} />
+        <div className="flex h-full w-full bg-muted/40 p-2">
+          <JoinWaiting setShowForm={setShowForm} />
+        </div>
+
+        <JoinFooter isWaiting={false} />
       </div>
-
-      <JoinFooter />
-    </div>
+    </QuizSessionProvider>
   );
 };
