@@ -82,7 +82,7 @@ export const JoinForm = ({ setShowForm }: JoinFormtype) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex h-dvh items-center justify-center bg-muted/40"
+        className="flex h-dvh items-center justify-center bg-muted/40 p-2"
       >
         <Card className="w-full sm:w-96">
           <CardHeader>
@@ -118,7 +118,9 @@ export const JoinForm = ({ setShowForm }: JoinFormtype) => {
                 Cancel
               </Button>
             )}
-            <Button type="submit">Submit</Button>
+            <Button type="submit" disabled={!form.formState.isDirty}>
+              Submit
+            </Button>
           </CardFooter>
         </Card>
       </form>

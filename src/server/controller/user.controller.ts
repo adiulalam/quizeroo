@@ -86,6 +86,28 @@ export const getUserHandler = async ({ session }: { session: Session }) => {
       where: {
         id: userId,
       },
+      include: {
+        quizSession: {
+          include: {
+            quiz: {
+              include: {
+                questions: {
+                  orderBy: {
+                    order: "asc",
+                  },
+                  include: {
+                    answers: {
+                      orderBy: {
+                        order: "asc",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     });
 
     if (!user) {
