@@ -1,7 +1,7 @@
-import { useQuizSession } from "@/hooks";
+import { useQuizTempUser } from "@/hooks";
 
 export const JoinFooter = ({ isWaiting }: { isWaiting: boolean }) => {
-  const { name } = useQuizSession();
+  const { name } = useQuizTempUser();
 
   return (
     <div className="flex h-14 w-full items-center justify-between gap-2 p-2">

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { JoinFooter, JoinForm, JoinHeader, JoinWaiting } from ".";
 import { useRouter } from "next/router";
 import { api } from "@/utils/api";
-import { QuizSessionProvider } from "@/provider";
+import { QuizTempUserProvider } from "@/provider";
 
 export const JoinContainer = () => {
   const router = useRouter();
@@ -12,7 +12,7 @@ export const JoinContainer = () => {
   const { status } = useSession();
   const [showForm, setShowForm] = useState(false);
 
-  const { data, isLoading } = api.user.getUser.useQuery(undefined, {
+  const { data, isLoading } = api.user.getTempUser.useQuery(undefined, {
     enabled: status === "authenticated",
   });
 
@@ -27,7 +27,7 @@ export const JoinContainer = () => {
   }
 
   return (
-    <QuizSessionProvider value={data}>
+    <QuizTempUserProvider value={data}>
       <div className="flex h-dvh flex-col items-center justify-between">
         <JoinHeader isWaiting={false} />
 
@@ -37,6 +37,6 @@ export const JoinContainer = () => {
 
         <JoinFooter isWaiting={false} />
       </div>
-    </QuizSessionProvider>
+    </QuizTempUserProvider>
   );
 };

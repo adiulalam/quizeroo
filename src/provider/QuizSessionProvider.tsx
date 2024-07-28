@@ -2,7 +2,7 @@ import type { RouterOutputs } from "@/utils/api";
 import { createContext } from "react";
 import type { ReactNode } from "react";
 
-type QuizSessionType = RouterOutputs["user"]["getUser"];
+type QuizSessionType = RouterOutputs["user"]["getUserQuizSession"];
 
 export const QuizSessionContext = createContext<QuizSessionType | undefined>(
   undefined,

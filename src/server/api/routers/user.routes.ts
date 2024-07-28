@@ -1,7 +1,8 @@
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import {
   updateTempUserHandler,
-  getUserHandler,
+  getTempUserHandler,
+  getUserQuizSessionHandler,
 } from "@/server/controller/user.controller";
 import { mutateTempUserSchema } from "@/server/schema/user.schema";
 
@@ -14,8 +15,13 @@ export const userRouter = createTRPCRouter({
         input,
       }),
     ),
-  getUser: protectedProcedure.query(({ ctx: { session } }) =>
-    getUserHandler({
+  getTempUser: protectedProcedure.query(({ ctx: { session } }) =>
+    getTempUserHandler({
+      session,
+    }),
+  ),
+  getUserQuizSession: protectedProcedure.query(({ ctx: { session } }) =>
+    getUserQuizSessionHandler({
       session,
     }),
   ),

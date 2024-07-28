@@ -8,6 +8,10 @@ import {
 import { QuestionProvider, QuestionContext } from "./QuestionProvider";
 import { QuizDialogContext, QuizDialogProvider } from "./QuizDialogProvider";
 import { QuizSessionProvider, QuizSessionContext } from "./QuizSessionProvider";
+import {
+  QuizTempUserContext,
+  QuizTempUserProvider,
+} from "./QuizTempUserProvider";
 import { ViewQuizProvider, ViewQuizContext } from "./ViewQuizProvider";
 
 export {
@@ -27,4 +31,6 @@ export {
   AnswerProvider,
   QuizSessionContext,
   QuizSessionProvider,
+  QuizTempUserContext,
+  QuizTempUserProvider,
 };

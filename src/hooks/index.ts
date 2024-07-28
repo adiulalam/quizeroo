@@ -5,6 +5,7 @@ import { useQuestionForm } from "./useQuestionForm";
 import { useQuizDialog } from "./useQuizDialog";
 import { useQuizSession } from "./useQuizSession";
 import { useSidebar } from "./useSidebar";
+import { useQuizTempUser } from "./useTempUser";
 import { useViewQuiz } from "./useViewQuiz";
 
 export {
@@ -16,4 +17,5 @@ export {
   useQuestionForm,
   useViewQuiz,
   useQuizSession,
+  useQuizTempUser,
 };

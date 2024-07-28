@@ -78,7 +78,7 @@ export const updateTempUserHandler = async ({
   }
 };
 
-export const getUserHandler = async ({ session }: { session: Session }) => {
+export const getTempUserHandler = async ({ session }: { session: Session }) => {
   try {
     const userId = session.user.id;
 
@@ -89,6 +89,62 @@ export const getUserHandler = async ({ session }: { session: Session }) => {
       include: {
         quizSession: {
           include: {
+            quiz: {
+              include: {
+                questions: {
+                  orderBy: {
+                    order: "asc",
+                  },
+                  include: {
+                    answers: {
+                      orderBy: {
+                        order: "asc",
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!user) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "User not found",
+      });
+    }
+
+    return user;
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: err.message,
+      });
+    }
+    throw err;
+  }
+};
+
+export const getUserQuizSessionHandler = async ({
+  session,
+}: {
+  session: Session;
+}) => {
+  try {
+    const userId = session.user.id;
+
+    const user = await db.user.findFirstOrThrow({
+      where: {
+        id: userId,
+      },
+      include: {
+        quizSession: {
+          include: {
+            users: true,
             quiz: {
               include: {
                 questions: {

@@ -1,14 +1,11 @@
+import { ServeContainer } from "@/components/serve";
 import { authOptions } from "@/server/auth";
 import { getSessionNameHandler } from "@/server/controller/quizSession.controller";
 import type { GetServerSidePropsContext } from "next";
 import { getServerSession } from "next-auth";
 import Head from "next/head";
-import { useRouter } from "next/router";
 
 const Serve = () => {
-  const router = useRouter();
-  const id = router.query.id as string;
-  console.log("🚀 ~ Serve ~ router:", id);
   return (
     <>
       <Head>
@@ -17,7 +14,7 @@ const Serve = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <p>Serve {id}</p>
+      <ServeContainer />
     </>
   );
 };
