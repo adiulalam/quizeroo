@@ -6,7 +6,12 @@ export const ServeHeader = () => {
   const router = useRouter();
   const id = router.query.id as string;
 
-  const { isWaiting, currentQuestion } = useCurrentQuestion();
+  const {
+    currentQuestionIndex,
+    totalQuestionLength,
+    isWaiting,
+    currentQuestion,
+  } = useCurrentQuestion();
 
   return (
     <div className="flex h-32 w-full items-center justify-center gap-2 p-2">
@@ -33,6 +38,7 @@ export const ServeHeader = () => {
       ) : (
         <ScrollArea className="flex max-h-full items-center justify-center overflow-y-auto p-2">
           <h2 className="scroll-m-20 text-center text-base font-bold tracking-tight first:mt-0 sm:text-3xl">
+            {currentQuestionIndex}/{totalQuestionLength}:{" "}
             {currentQuestion?.name}
           </h2>
         </ScrollArea>
