@@ -1,13 +1,11 @@
 import { api } from "@/utils/api";
 import { QuizSessionProvider } from "@/provider";
-import { ServeFooter, ServeHeader, ServeWaiting } from ".";
+import { ServeFooter, ServeHeader, ServeWaiting, ServeQuestion } from ".";
 
 export const ServeContainer = ({ id }: { id: string }) => {
   const { data, isLoading } = api.quizSession.getUserQuizSession.useQuery({
     id,
   });
-
-  const isWaiting = true;
 
   if (isLoading) {
     return <p>loading..</p>;
@@ -16,13 +14,13 @@ export const ServeContainer = ({ id }: { id: string }) => {
   return (
     <QuizSessionProvider value={data!}>
       <div className="flex h-dvh flex-col items-center justify-between">
-        <ServeHeader isWaiting={isWaiting} />
+        <ServeHeader />
 
         <div className="flex h-full w-full bg-muted/40 p-2">
-          <ServeWaiting />
+          {!data?.currentQuestionId ? <ServeWaiting /> : <ServeQuestion />}
         </div>
 
-        <ServeFooter isWaiting={isWaiting} />
+        <ServeFooter />
       </div>
     </QuizSessionProvider>
   );

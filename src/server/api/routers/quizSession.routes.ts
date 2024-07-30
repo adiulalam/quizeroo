@@ -7,11 +7,33 @@ import {
   getSessionNameHandler,
   getUserQuizSessionHandler,
   updateQuizSessionHandler,
+  updateSessionQuestionHandler,
 } from "@/server/controller/quizSession.controller";
 import { params } from "@/server/schema/quiz.schema";
-import { getSessionNameSchema } from "@/server/schema/quizSession.schema";
+import {
+  getSessionNameSchema,
+  updateSessionQuestionSchema,
+  type UpdateSessionQuestionType,
+} from "@/server/schema/quizSession.schema";
+import { observable } from "@trpc/server/observable";
+import { ee } from "./user.routes";
 
 export const quizSessionRouter = createTRPCRouter({
+  onNextQuestion: protectedProcedure
+    .input(updateSessionQuestionSchema)
+    .subscription(({ input, ctx: { session } }) => {
+      return observable<UpdateSessionQuestionType>((emit) => {
+        const onNextQuestion = (data: UpdateSessionQuestionType) => {
+          if (data.id === input.id && session.user.id) {
+            emit.next(data);
+          }
+        };
+        ee.on("nextQuestion", onNextQuestion);
+        return () => {
+          ee.off("nextQuestion", onNextQuestion);
+        };
+      });
+    }),
   updateQuizSession: protectedProcedure
     .input(params)
     .mutation(({ input, ctx: { session } }) =>
@@ -35,4 +57,23 @@ export const quizSessionRouter = createTRPCRouter({
         params: input,
       }),
     ),
+  updateSessionQuestion: protectedProcedure
+    .input(updateSessionQuestionSchema)
+    .mutation(async ({ input, ctx: { session } }) => {
+      const quizSession = await updateSessionQuestionHandler({
+        session,
+        input,
+      });
+
+      if (quizSession.currentQuestionId) {
+        const nextQuestionParams: UpdateSessionQuestionType = {
+          id: quizSession.id,
+          currentQuestionId: quizSession.currentQuestionId,
+        };
+
+        ee.emit("nextQuestion", nextQuestionParams);
+      }
+
+      return quizSession;
+    }),
 });

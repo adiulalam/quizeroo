@@ -10,5 +10,13 @@ export const getSessionNameSchema = z.object({
   }),
 });
 
+export const updateSessionQuestionSchema = z.object({
+  id: z.string().uuid(),
+  currentQuestionId: z.string().uuid(),
+});
+
 export type ParamsType = TypeOf<typeof params>;
 export type GetSessionNameSchemaType = TypeOf<typeof getSessionNameSchema>;
+export type UpdateSessionQuestionType = TypeOf<
+  typeof updateSessionQuestionSchema
+>;

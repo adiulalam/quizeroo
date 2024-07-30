@@ -81,16 +81,17 @@ export const updateTempUserHandler = async ({
 export const getTempUserHandler = async ({ session }: { session: Session }) => {
   try {
     const userId = session.user.id;
+    console.log("🚀 ~ getTempUserHandler ~ userId:", userId);
 
     const user = await db.user.findFirstOrThrow({
       where: {
         id: userId,
-        quizSession: {
-          isActive: true,
-        },
       },
       include: {
         quizSession: {
+          where: {
+            isActive: true,
+          },
           include: {
             quiz: {
               include: {

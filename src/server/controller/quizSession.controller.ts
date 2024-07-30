@@ -2,6 +2,7 @@ import { type Session } from "next-auth";
 import type {
   GetSessionNameSchemaType,
   ParamsType,
+  UpdateSessionQuestionType,
 } from "../schema/quizSession.schema";
 import { TRPCError } from "@trpc/server";
 import { Prisma } from "@prisma/client";
@@ -194,6 +195,45 @@ export const getUserQuizSessionHandler = async ({
       throw new TRPCError({
         code: "NOT_FOUND",
         message: "Quiz Session not found",
+      });
+    }
+
+    return quizSession;
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: err.message,
+      });
+    }
+    throw err;
+  }
+};
+
+export const updateSessionQuestionHandler = async ({
+  input,
+  session,
+}: {
+  input: UpdateSessionQuestionType;
+  session: Session;
+}) => {
+  try {
+    const userId = session.user.id;
+
+    const quizSession = await db.quizSession.update({
+      where: {
+        id: input.id,
+        userId,
+      },
+      data: {
+        currentQuestionId: input.currentQuestionId,
+      },
+    });
+
+    if (!quizSession) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Quiz Session Session not found",
       });
     }
 

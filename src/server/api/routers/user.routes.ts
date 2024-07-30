@@ -3,6 +3,7 @@ import {
   updateTempUserHandler,
   getTempUserHandler,
 } from "@/server/controller/user.controller";
+import type { UpdateSessionQuestionType } from "@/server/schema/quizSession.schema";
 import { mutateTempUserSchema } from "@/server/schema/user.schema";
 import { observable } from "@trpc/server/observable";
 import { EventEmitter } from "events";
@@ -10,6 +11,7 @@ import { z } from "zod";
 
 interface MyEvents {
   join: (data: JoinQuizSession) => void;
+  nextQuestion: (data: UpdateSessionQuestionType) => void;
 }
 
 class MyEventEmitter extends EventEmitter {
@@ -30,7 +32,7 @@ class MyEventEmitter extends EventEmitter {
   }
 }
 
-const ee = new MyEventEmitter();
+export const ee = new MyEventEmitter();
 
 const joinQuizSessionSchema = z.object({
   id: z.string().uuid(),
