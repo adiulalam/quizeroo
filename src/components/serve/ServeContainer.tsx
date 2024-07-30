@@ -1,9 +1,11 @@
 import { api } from "@/utils/api";
 import { QuizSessionProvider } from "@/provider";
-import { ServeFooter, ServeHeader } from ".";
+import { ServeFooter, ServeHeader, ServeWaiting } from ".";
 
-export const ServeContainer = () => {
-  const { data, isLoading } = api.user.getUserQuizSession.useQuery();
+export const ServeContainer = ({ id }: { id: string }) => {
+  const { data, isLoading } = api.quizSession.getUserQuizSession.useQuery({
+    id,
+  });
 
   const isWaiting = true;
 
@@ -17,7 +19,7 @@ export const ServeContainer = () => {
         <ServeHeader isWaiting={isWaiting} />
 
         <div className="flex h-full w-full bg-muted/40 p-2">
-          {/* <JoinWaiting setShowForm={setShowForm} /> */}
+          <ServeWaiting />
         </div>
 
         <ServeFooter isWaiting={isWaiting} />

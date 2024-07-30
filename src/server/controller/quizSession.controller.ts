@@ -151,3 +151,60 @@ export const getSessionNameHandler = async ({
     throw err;
   }
 };
+
+export const getUserQuizSessionHandler = async ({
+  params,
+  session,
+}: {
+  params: ParamsType;
+  session: Session;
+}) => {
+  try {
+    const userId = session.user.id;
+
+    const quizSession = await db.quizSession.findFirstOrThrow({
+      where: {
+        id: params.id,
+        isActive: true,
+        userId,
+      },
+      include: {
+        users: true,
+        user: true,
+        quiz: {
+          include: {
+            questions: {
+              orderBy: {
+                order: "asc",
+              },
+              include: {
+                answers: {
+                  orderBy: {
+                    order: "asc",
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!quizSession) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Quiz Session not found",
+      });
+    }
+
+    return quizSession;
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: err.message,
+      });
+    }
+    throw err;
+  }
+};

@@ -1,11 +1,12 @@
 import { ServeContainer } from "@/components/serve";
 import { authOptions } from "@/server/auth";
 import { getSessionNameHandler } from "@/server/controller/quizSession.controller";
+import type { QuizSession } from "@prisma/client";
 import type { GetServerSidePropsContext } from "next";
 import { getServerSession } from "next-auth";
 import Head from "next/head";
 
-const Serve = () => {
+const Serve = ({ quizSession }: { quizSession: QuizSession }) => {
   return (
     <>
       <Head>
@@ -14,7 +15,7 @@ const Serve = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <ServeContainer />
+      <ServeContainer id={quizSession.id} />
     </>
   );
 };
@@ -37,7 +38,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       input: { roomName: id },
     });
 
-    if (userSession.user.id !== quizSession.userId) {
+    if (userSession.user.id !== quizSession.userId || !quizSession.isActive) {
       return { redirect: { destination: "/", permanent: false } };
     }
 

@@ -72,7 +72,6 @@ export const JoinForm = ({ setShowForm }: JoinFormtype) => {
       await signIn("credentials", {
         name: values.name,
         quizSessionId: id,
-        redirect: false,
       });
     }
     setShowForm(false);
