@@ -39,6 +39,7 @@ model Question {
 
     answers      Answer[]
     quizSessions QuizSession[]
+    userAnswers  UserAnswer[]
 
     @@index([quizId])
 }
@@ -94,6 +95,9 @@ model UserAnswer {
 
     quizSessionId String
     quizSession   QuizSession @relation(fields: [quizSessionId], references: [id], onDelete: Cascade)
+
+    questionId String
+    question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
 
     answerId String
     answer   Answer @relation(fields: [answerId], references: [id], onDelete: Cascade)

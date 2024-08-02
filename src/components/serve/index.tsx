@@ -5,7 +5,7 @@ import { ServeQuestion } from "./ServeQuestion";
 import { ServeQuestionAnswer } from "./ServeQuestionAnswer";
 import { ServeQuestionCounter } from "./ServeQuestionCounter";
 import { ServeQuestionInfo } from "./ServeQuestionInfo";
-import { ServeQuestionSubmission } from "./ServeQuestionSubmission";
+import { ServeAnswerCount } from "./ServeAnswerCount";
 import { ServeWaiting } from "./ServeWaiting";
 import { ServeWaitingStart } from "./ServeWaitingStart";
 
@@ -19,5 +19,5 @@ export {
   ServeQuestionInfo,
   ServeQuestionAnswer,
   ServeQuestionCounter,
-  ServeQuestionSubmission,
+  ServeAnswerCount,
 };

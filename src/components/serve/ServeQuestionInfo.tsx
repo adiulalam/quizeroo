@@ -2,7 +2,7 @@ import { ArrowRight, SkipForward } from "lucide-react";
 import { Button } from "../ui/Button";
 import { ServeQuestionCounter } from "./ServeQuestionCounter";
 import { useQuizSession } from "@/hooks";
-import { ServeQuestionSubmission } from "./ServeQuestionSubmission";
+import { ServeAnswerCount } from "./ServeAnswerCount";
 
 export const ServeQuestionInfo = () => {
   const { showSubmission } = useQuizSession();
@@ -13,7 +13,7 @@ export const ServeQuestionInfo = () => {
     <div className="flex h-auto w-full items-center justify-between gap-2 p-2">
       {!showSubmission && <ServeQuestionCounter />}
 
-      <ServeQuestionSubmission />
+      <ServeAnswerCount />
 
       <Button
         size="lg"

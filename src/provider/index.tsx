@@ -1,3 +1,7 @@
+import {
+  AnswerCounterContext,
+  AnswerCounterProvider,
+} from "./AnswerCounterProvider";
 import { AnswerProvider, AnswerContext } from "./AnswerProvider";
 import { MutateQuizContext, MutateQuizProvider } from "./MutateQuizProvider";
 import { NavbarContext, NavbarProvider } from "./NavbarProvider";
@@ -33,4 +37,6 @@ export {
   QuizSessionProvider,
   QuizTempUserContext,
   QuizTempUserProvider,
+  AnswerCounterContext,
+  AnswerCounterProvider,
 };
