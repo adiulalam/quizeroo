@@ -7,24 +7,14 @@ import {
 } from "@/components/ui/Card";
 import { useViewQuiz } from "@/hooks";
 import { useMemo } from "react";
-import {
-  AnswerButton,
-  type answerButtonVariants,
-} from "@/components/ui/AnswerButton";
-import type { VariantProps } from "class-variance-authority";
+import { AnswerButton } from "@/components/ui/AnswerButton";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/Tooltip";
-
-const answerMap = {
-  "0": "triangle",
-  "1": "diamond",
-  "2": "circle",
-  "3": "square",
-} as Record<string, VariantProps<typeof answerButtonVariants>["variant"]>;
+import { answerMap } from "@/utils/constants";
 
 export const CardQuestion = () => {
   const { questions } = useViewQuiz();

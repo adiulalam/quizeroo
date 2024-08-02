@@ -61,11 +61,12 @@ model Quiz {
 }
 
 model QuizSession {
-    id        String   @id @default(uuid())
-    roomName  String   @unique
-    isActive  Boolean  @default(false)
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id             String   @id @default(uuid())
+    roomName       String   @unique
+    isActive       Boolean  @default(false)
+    showSubmission Boolean  @default(false)
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
 
     quizId String
     quiz   Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)

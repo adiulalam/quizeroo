@@ -2,6 +2,8 @@ import type { NavItem } from "@/types/Navbar.types";
 import { Filter, Sort } from "@/types/Quiz.types";
 import { LayoutDashboardIcon, User2Icon, LogOut, Layers3 } from "lucide-react";
 import { signOut } from "next-auth/react";
+import { type answerButtonVariants } from "@/components/ui/AnswerButton";
+import type { VariantProps } from "class-variance-authority";
 
 export const navItems: NavItem[] = [
   {
@@ -42,3 +44,10 @@ export const filterLists = [
   { name: "Completed", value: Filter.completed },
   { name: "Favourite", value: Filter.favourite },
 ] as const;
+
+export const answerMap = {
+  "0": "triangle",
+  "1": "diamond",
+  "2": "circle",
+  "3": "square",
+} as Record<string, VariantProps<typeof answerButtonVariants>["variant"]>;

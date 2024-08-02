@@ -15,11 +15,7 @@ export const JoinHeader = ({ isWaiting }: { isWaiting: boolean }) => {
       </Link>
 
       {!isWaiting && (
-        <div
-          className={
-            "flex min-w-14 items-center justify-center rounded-full bg-muted/80"
-          }
-        >
+        <div className="flex min-w-14 items-center justify-center rounded-full bg-muted/80">
           <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
             30
           </h4>
