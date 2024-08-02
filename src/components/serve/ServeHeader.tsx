@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { ScrollArea } from "../ui/ScrollArea";
 import { useCurrentQuestion } from "@/hooks";
+import { H1, H2, H3 } from "../ui/Typography";
 
 export const ServeHeader = () => {
   const router = useRouter();
@@ -18,29 +19,21 @@ export const ServeHeader = () => {
       {isWaiting ? (
         <div className="flex h-full gap-2">
           <div className="flex h-full flex-col items-center justify-center overflow-hidden text-ellipsis bg-muted/80 p-2">
-            <h2 className="scroll-m-20 text-start text-base font-light tracking-tight first:mt-0 sm:text-3xl">
-              Join at
-            </h2>
-            <h2 className="scroll-m-20 text-start text-base font-bold tracking-tight first:mt-0 sm:text-3xl">
-              www.website.com
-            </h2>
+            <H3 className="font-light">Join at</H3>
+            <H2 className="font-bold">www.website.com</H2>
           </div>
 
           <div className="flex h-full flex-col items-center justify-center gap-1 bg-muted/80 p-2">
-            <h3 className="scroll-m-20 truncate text-base font-semibold  tracking-tight sm:text-2xl">
-              Room Code:
-            </h3>
-            <h1 className="scroll-m-20 text-lg font-extrabold tracking-tight sm:text-4xl lg:text-5xl">
-              {id}
-            </h1>
+            <H3>Room Code:</H3>
+            <H1 className="font-extrabold">{id}</H1>
           </div>
         </div>
       ) : (
         <ScrollArea className="flex max-h-full items-center justify-center overflow-y-auto p-2">
-          <h2 className="scroll-m-20 text-center text-base font-bold tracking-tight first:mt-0 sm:text-3xl">
+          <H2 className="font-bold">
             {currentQuestionIndex}/{totalQuestionLength}:{" "}
             {currentQuestion?.name}
-          </h2>
+          </H2>
         </ScrollArea>
       )}
     </div>

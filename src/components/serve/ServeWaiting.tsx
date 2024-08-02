@@ -5,6 +5,7 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/Card";
 import { useState } from "react";
 import { ScrollArea } from "../ui/ScrollArea";
 import { ServeWaitingStart } from ".";
+import { H2 } from "../ui/Typography";
 
 export const ServeWaiting = () => {
   const { id, user, users } = useQuizSession();
@@ -44,9 +45,7 @@ export const ServeWaiting = () => {
         <ServeWaitingStart userCount={tempUsers.length} />
 
         {tempUsers.length <= 0 ? (
-          <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-            Waiting for users...
-          </h2>
+          <H2 className="border-b pb-2">Waiting for users...</H2>
         ) : (
           <div className="flex flex-wrap justify-center gap-2">
             {tempUsers.map((user) => (

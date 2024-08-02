@@ -2,6 +2,7 @@ import { useCurrentQuestion, useQuizSession } from "@/hooks";
 import { AnswerButton } from "../ui/AnswerButton";
 import { answerMap } from "@/utils/constants";
 import { cn } from "@/utils/theme";
+import { H2 } from "../ui/Typography";
 
 export const ServeQuestionAnswer = () => {
   const { currentQuestion } = useCurrentQuestion();
@@ -22,9 +23,7 @@ export const ServeQuestionAnswer = () => {
               showSubmission ? { isCorrectAnswer: answer.isCorrect } : undefined
             }
           >
-            <h2 className="max-w-[80%] scroll-m-20 whitespace-normal text-center text-lg font-bold tracking-tight first:mt-0 sm:text-3xl">
-              {answer.name}
-            </h2>
+            <H2 className="max-w-[80%] text-center font-bold">{answer.name}</H2>
           </AnswerButton>
         </div>
       ))}

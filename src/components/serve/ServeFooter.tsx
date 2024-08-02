@@ -1,6 +1,7 @@
 import { useCurrentQuestion } from "@/hooks";
 import { cn } from "@/utils/theme";
 import { useRouter } from "next/router";
+import { H3, H4 } from "../ui/Typography";
 
 export const ServeFooter = () => {
   const router = useRouter();
@@ -15,13 +16,11 @@ export const ServeFooter = () => {
         isWaiting ? "hidden" : "flex",
       )}
     >
-      <h3 className="scroll-m-20 truncate text-base font-semibold tracking-tight sm:text-2xl">
-        www.website.com
-      </h3>
+      <H3 className="truncate">www.website.com</H3>
 
-      <h4 className="scroll-m-20 text-base tracking-tight sm:text-xl">
+      <H4>
         Room Code: <b>{id}</b>
-      </h4>
+      </H4>
     </div>
   );
 };

@@ -2,6 +2,7 @@ import { useStepper } from "@/components/ui/Stepper";
 import { Button } from "@/components/ui/Button";
 import { type CreateQuizSchemaType } from "@/server/schema/quiz.schema";
 import { RotateCcw } from "lucide-react";
+import { H1 } from "../ui/Typography";
 
 export const QuizStepperFooter = ({
   setQuizData,
@@ -23,7 +24,7 @@ export const QuizStepperFooter = ({
     <>
       {hasCompletedAllSteps && (
         <div className="my-2 flex h-40 items-center justify-center rounded-md border bg-secondary text-primary">
-          <h1 className="text-xl">Woohoo! Quiz has been created! 🎉</h1>
+          <H1>Woohoo! Quiz has been created! 🎉</H1>
         </div>
       )}
       <div className="flex w-full justify-end gap-2">

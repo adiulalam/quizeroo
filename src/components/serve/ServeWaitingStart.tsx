@@ -2,6 +2,7 @@ import { api } from "@/utils/api";
 import { Button } from "../ui/Button";
 import { CirclePlay } from "lucide-react";
 import { useCurrentQuestion, useQuizSession } from "@/hooks";
+import { H1 } from "../ui/Typography";
 
 export const ServeWaitingStart = ({ userCount }: { userCount: number }) => {
   const { id } = useQuizSession();
@@ -21,9 +22,7 @@ export const ServeWaitingStart = ({ userCount }: { userCount: number }) => {
 
   return (
     <div className="flex w-full items-center justify-between gap-2">
-      <h1 className="m-auto scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-        Quizeroo
-      </h1>
+      <H1 className="m-auto">Quizeroo</H1>
 
       <Button onClick={onClickHandler} disabled={userCount <= 0}>
         Start <CirclePlay className="ml-2 size-4" />
