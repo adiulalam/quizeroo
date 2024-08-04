@@ -6,12 +6,11 @@ import { H1 } from "../ui/Typography";
 
 export const ServeWaitingStart = ({ userCount }: { userCount: number }) => {
   const { id } = useQuizSession();
-  const { nextQuestion } = useCurrentQuestion();
 
-  const { quizSession } = api.useUtils();
+  const { setCurrentQuestionId, nextQuestion } = useCurrentQuestion();
 
   const { mutate } = api.quizSession.updateSessionQuestion.useMutation({
-    onSuccess: () => quizSession.getUserQuizSession.invalidate(),
+    onSuccess: (data) => setCurrentQuestionId(data.currentQuestionId),
   });
 
   const onClickHandler = () => {

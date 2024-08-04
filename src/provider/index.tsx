@@ -3,6 +3,10 @@ import {
   AnswerCounterProvider,
 } from "./AnswerCounterProvider";
 import { AnswerProvider, AnswerContext } from "./AnswerProvider";
+import {
+  CurrentQuestionProvider,
+  CurrentQuestionContext,
+} from "./CurrentQuestionProvider";
 import { MutateQuizContext, MutateQuizProvider } from "./MutateQuizProvider";
 import { NavbarContext, NavbarProvider } from "./NavbarProvider";
 import {
@@ -39,4 +43,6 @@ export {
   QuizTempUserProvider,
   AnswerCounterContext,
   AnswerCounterProvider,
+  CurrentQuestionContext,
+  CurrentQuestionProvider,
 };
