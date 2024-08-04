@@ -1,21 +1,21 @@
-import { useQuizSession } from "@/hooks";
 import type { RouterOutputs } from "@/utils/api";
 import { createContext, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 
-type CurrentQuestionOutputType =
+type ServeOutputType =
   RouterOutputs["quizSession"]["getUserQuizSession"]["quiz"]["questions"][number];
+
+type JoinOutputType = NonNullable<
+  RouterOutputs["user"]["getTempUser"]["quizSession"]
+>["quiz"]["questions"][number];
 
 type CurrentQuestionType = {
   totalQuestionLength: number;
   currentQuestionIndex: number;
   isWaiting: boolean;
-  currentQuestion: CurrentQuestionOutputType | null | undefined;
-  nextQuestion: CurrentQuestionOutputType | null | undefined;
+  currentQuestion: ServeOutputType | JoinOutputType | null | undefined;
+  nextQuestion: ServeOutputType | JoinOutputType | null | undefined;
   hasNextQuestion: boolean;
-} & CurrentQuestionProviderType;
-
-type CurrentQuestionProviderType = {
   currentQuestionId: string | null;
   setCurrentQuestionId: React.Dispatch<React.SetStateAction<string | null>>;
 };
@@ -24,18 +24,19 @@ export const CurrentQuestionContext = createContext<
   CurrentQuestionType | undefined
 >(undefined);
 
+type CurrentQuestionProviderType = {
+  children: ReactNode;
+  defaultCurrentQuestionId: string | null;
+  questions: ServeOutputType[] | JoinOutputType[];
+};
+
 export const CurrentQuestionProvider = ({
   children,
-}: {
-  children: ReactNode;
-}) => {
-  const {
-    quiz: { questions },
-    ...rest
-  } = useQuizSession();
-
+  defaultCurrentQuestionId,
+  questions,
+}: CurrentQuestionProviderType) => {
   const [currentQuestionId, setCurrentQuestionId] = useState<string | null>(
-    rest.currentQuestionId,
+    defaultCurrentQuestionId,
   );
 
   const questionProperty = useMemo(() => {

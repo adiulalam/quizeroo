@@ -18,7 +18,10 @@ export const ServeContainer = ({ id }: { id: string }) => {
 
   return (
     <QuizSessionProvider value={data}>
-      <CurrentQuestionProvider>
+      <CurrentQuestionProvider
+        defaultCurrentQuestionId={data.currentQuestionId}
+        questions={data.quiz.questions}
+      >
         <div className="flex h-dvh flex-col items-center justify-between">
           <ServeHeader />
 
