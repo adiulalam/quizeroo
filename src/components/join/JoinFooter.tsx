@@ -1,8 +1,9 @@
-import { useQuizTempUser } from "@/hooks";
+import { useCurrentQuestion, useQuizTempUser } from "@/hooks";
 import { H3, H4 } from "../ui/Typography";
 
-export const JoinFooter = ({ isWaiting }: { isWaiting: boolean }) => {
+export const JoinFooter = () => {
   const { name } = useQuizTempUser();
+  const { isWaiting } = useCurrentQuestion();
 
   return (
     <div className="flex h-14 w-full items-center justify-between gap-2 p-2">

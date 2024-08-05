@@ -9,6 +9,7 @@ import { ServeAnswerCount } from "./ServeAnswerCount";
 import { ServeWaiting } from "./ServeWaiting";
 import { ServeWaitingStart } from "./ServeWaitingStart";
 import { ServeBody } from "./ServeBody";
+import { ServeHeaderQuestion } from "./ServeHeaderQuestion";
 
 export {
   ServeContainer,
@@ -22,4 +23,5 @@ export {
   ServeQuestionCounter,
   ServeAnswerCount,
   ServeBody,
+  ServeHeaderQuestion,
 };

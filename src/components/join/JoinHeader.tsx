@@ -1,8 +1,11 @@
 import { Shapes } from "lucide-react";
 import Link from "next/link";
 import { H3, H4 } from "../ui/Typography";
+import { useCurrentQuestion } from "@/hooks";
 
-export const JoinHeader = ({ isWaiting }: { isWaiting: boolean }) => {
+export const JoinHeader = () => {
+  const { isWaiting } = useCurrentQuestion();
+
   return (
     <div className="flex h-14 w-full items-center justify-between gap-2 p-2">
       {!isWaiting && <H3 className="truncate">1/10</H3>}

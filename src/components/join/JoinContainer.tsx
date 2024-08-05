@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { JoinFooter, JoinForm, JoinHeader, JoinWaiting } from ".";
+import { JoinBody, JoinFooter, JoinForm, JoinHeader } from ".";
 import { useRouter } from "next/router";
 import { api } from "@/utils/api";
 import { CurrentQuestionProvider, QuizTempUserProvider } from "@/provider";
@@ -31,15 +31,14 @@ export const JoinContainer = () => {
       <CurrentQuestionProvider
         defaultCurrentQuestionId={data.quizSession?.currentQuestionId ?? null}
         questions={data.quizSession?.quiz.questions ?? []}
+        defaultShowSubmission={!!data.quizSession?.showSubmission}
       >
         <div className="flex h-dvh flex-col items-center justify-between">
-          <JoinHeader isWaiting={false} />
+          <JoinHeader />
 
-          <div className="flex h-full w-full bg-muted/40 p-2">
-            <JoinWaiting setShowForm={setShowForm} />
-          </div>
+          <JoinBody setShowForm={setShowForm} />
 
-          <JoinFooter isWaiting={false} />
+          <JoinFooter />
         </div>
       </CurrentQuestionProvider>
     </QuizTempUserProvider>

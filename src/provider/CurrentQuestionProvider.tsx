@@ -18,6 +18,8 @@ type CurrentQuestionType = {
   hasNextQuestion: boolean;
   currentQuestionId: string | null;
   setCurrentQuestionId: React.Dispatch<React.SetStateAction<string | null>>;
+  showSubmission: boolean;
+  setShowSubmission: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const CurrentQuestionContext = createContext<
@@ -27,16 +29,21 @@ export const CurrentQuestionContext = createContext<
 type CurrentQuestionProviderType = {
   children: ReactNode;
   defaultCurrentQuestionId: string | null;
+  defaultShowSubmission: boolean;
   questions: ServeOutputType[] | JoinOutputType[];
 };
 
 export const CurrentQuestionProvider = ({
   children,
   defaultCurrentQuestionId,
+  defaultShowSubmission,
   questions,
 }: CurrentQuestionProviderType) => {
   const [currentQuestionId, setCurrentQuestionId] = useState<string | null>(
     defaultCurrentQuestionId,
+  );
+  const [showSubmission, setShowSubmission] = useState<boolean>(
+    defaultShowSubmission,
   );
 
   const questionProperty = useMemo(() => {
@@ -65,12 +72,18 @@ export const CurrentQuestionProvider = ({
       nextQuestion,
       hasNextQuestion,
       currentQuestionId,
-      setCurrentQuestionId,
     };
-  }, [currentQuestionId, questions, setCurrentQuestionId]);
+  }, [currentQuestionId, questions]);
+
+  const value = {
+    ...questionProperty,
+    setCurrentQuestionId,
+    showSubmission,
+    setShowSubmission,
+  };
 
   return (
-    <CurrentQuestionContext.Provider value={questionProperty}>
+    <CurrentQuestionContext.Provider value={value}>
       {children}
     </CurrentQuestionContext.Provider>
   );

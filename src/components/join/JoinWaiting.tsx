@@ -1,7 +1,7 @@
 import { Button } from "../ui/Button";
 import { H1, H4 } from "../ui/Typography";
 
-type JoinWaitingtype = {
+export type JoinWaitingtype = {
   setShowForm: React.Dispatch<React.SetStateAction<boolean>>;
 };
 

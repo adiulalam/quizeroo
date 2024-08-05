@@ -21,6 +21,7 @@ export const ServeContainer = ({ id }: { id: string }) => {
       <CurrentQuestionProvider
         defaultCurrentQuestionId={data.currentQuestionId}
         questions={data.quiz.questions}
+        defaultShowSubmission={data.showSubmission}
       >
         <div className="flex h-dvh flex-col items-center justify-between">
           <ServeHeader />

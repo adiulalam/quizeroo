@@ -1,12 +1,15 @@
-import { useCurrentQuestion, useQuizSession } from "@/hooks";
+import { useCurrentQuestion } from "@/hooks";
 import { AnswerButton } from "../ui/AnswerButton";
 import { answerMap } from "@/utils/constants";
 import { cn } from "@/utils/theme";
 import { H2 } from "../ui/Typography";
 
-export const ServeQuestionAnswer = () => {
-  const { currentQuestion } = useCurrentQuestion();
-  const { showSubmission } = useQuizSession();
+export const ServeQuestionAnswer = ({
+  onClickHandler,
+}: {
+  onClickHandler?: (answerId: string) => void;
+}) => {
+  const { currentQuestion, showSubmission } = useCurrentQuestion();
 
   return (
     <div className="flex h-full w-full flex-wrap">
@@ -22,6 +25,7 @@ export const ServeQuestionAnswer = () => {
             showAnswer={
               showSubmission ? { isCorrectAnswer: answer.isCorrect } : undefined
             }
+            onClick={() => onClickHandler && onClickHandler(answer.id)}
           >
             <H2 className="max-w-[80%] text-center font-bold">{answer.name}</H2>
           </AnswerButton>
