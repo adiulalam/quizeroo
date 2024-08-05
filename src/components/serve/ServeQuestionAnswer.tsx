@@ -4,11 +4,9 @@ import { answerMap } from "@/utils/constants";
 import { cn } from "@/utils/theme";
 import { H2 } from "../ui/Typography";
 
-export const ServeQuestionAnswer = ({
-  onClickHandler,
-}: {
-  onClickHandler?: (answerId: string) => void;
-}) => {
+export const ServeQuestionAnswer = (
+  props: React.ButtonHTMLAttributes<HTMLButtonElement>,
+) => {
   const { currentQuestion, showSubmission } = useCurrentQuestion();
 
   return (
@@ -16,6 +14,7 @@ export const ServeQuestionAnswer = ({
       {currentQuestion?.answers.map((answer, index) => (
         <div key={answer.id} className="flex w-1/2 flex-grow p-2">
           <AnswerButton
+            id={answer.id}
             className={cn(
               "flex h-full w-full flex-col gap-2 sm:flex-row",
               !answer.isCorrect && showSubmission && "opacity-50",
@@ -25,7 +24,7 @@ export const ServeQuestionAnswer = ({
             showAnswer={
               showSubmission ? { isCorrectAnswer: answer.isCorrect } : undefined
             }
-            onClick={() => onClickHandler && onClickHandler(answer.id)}
+            {...props}
           >
             <H2 className="max-w-[80%] text-center font-bold">{answer.name}</H2>
           </AnswerButton>
