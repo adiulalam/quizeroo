@@ -174,9 +174,7 @@ export const getUserQuizSessionHandler = async ({
         user: true,
         userAnswers: true,
         question: {
-          include: {
-            _count: { select: { userAnswers: true } },
-          },
+          include: { userAnswers: true },
         },
         quiz: {
           include: {

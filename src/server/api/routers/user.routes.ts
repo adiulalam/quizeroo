@@ -5,6 +5,7 @@ import {
 } from "@/server/controller/user.controller";
 import type { UpdateSessionQuestionType } from "@/server/schema/quizSession.schema";
 import { mutateTempUserSchema } from "@/server/schema/user.schema";
+import type { UserAnswer } from "@prisma/client";
 import { observable } from "@trpc/server/observable";
 import { EventEmitter } from "events";
 import { z } from "zod";
@@ -12,6 +13,7 @@ import { z } from "zod";
 interface MyEvents {
   join: (data: JoinQuizSession) => void;
   nextQuestion: (data: UpdateSessionQuestionType) => void;
+  answer: (data: UserAnswer) => void;
 }
 
 class MyEventEmitter extends EventEmitter {

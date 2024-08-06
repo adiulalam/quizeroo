@@ -1,9 +1,25 @@
 import { useCurrentQuestion, useQuizTempUser } from "@/hooks";
 import { ServeHeaderQuestion, ServeQuestionAnswer } from "../serve";
+import { api } from "@/utils/api";
+import { useState } from "react";
+import { JoinQuestionSubmitted } from ".";
 
 export const JoinQuestion = () => {
-  const { quizSessionId } = useQuizTempUser();
+  const { quizSessionId, quizSession } = useQuizTempUser();
   const { currentQuestionId } = useCurrentQuestion();
+
+  const [isAnswerSubmitted, setIsAnswerSubmitted] = useState<boolean>(
+    !!(
+      quizSession?.question?.userAnswers &&
+      quizSession.question.userAnswers.length > 0
+    ),
+  );
+
+  const { mutate } = api.userAnswer.createUserAnswer.useMutation({
+    onSuccess: () => {
+      setIsAnswerSubmitted(true);
+    },
+  });
 
   const onClickHandler = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -11,7 +27,7 @@ export const JoinQuestion = () => {
     const answerId = e.currentTarget.id;
     if (!quizSessionId || !currentQuestionId || !answerId) return;
 
-    console.log("🚀 ~ onClickHandler ~ id:", answerId);
+    mutate({ answerId, quizSessionId, questionId: currentQuestionId });
   };
 
   return (
@@ -19,7 +35,11 @@ export const JoinQuestion = () => {
       <div className="flex max-h-32 w-full justify-center gap-2 bg-secondary p-2">
         <ServeHeaderQuestion />
       </div>
-      <ServeQuestionAnswer onClick={onClickHandler} />
+      {isAnswerSubmitted ? (
+        <JoinQuestionSubmitted />
+      ) : (
+        <ServeQuestionAnswer onClick={onClickHandler} />
+      )}
     </div>
   );
 };
