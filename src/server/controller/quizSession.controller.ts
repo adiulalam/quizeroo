@@ -231,6 +231,7 @@ export const updateSessionQuestionHandler = async ({
       },
       data: {
         currentQuestionId: input.currentQuestionId,
+        showSubmission: input.showSubmission,
       },
     });
 

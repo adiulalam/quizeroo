@@ -16,6 +16,7 @@ type CurrentQuestionType = {
   currentQuestion: ServeOutputType | JoinOutputType | null | undefined;
   nextQuestion: ServeOutputType | JoinOutputType | null | undefined;
   hasNextQuestion: boolean;
+  isFinished: boolean;
   currentQuestionId: string | null;
   setCurrentQuestionId: React.Dispatch<React.SetStateAction<string | null>>;
   showSubmission: boolean;
@@ -63,6 +64,7 @@ export const CurrentQuestionProvider = ({
       currentIndex < questions.length - 1 ? questions[currentIndex + 1] : null;
 
     const hasNextQuestion = currentIndex < questions.length - 1;
+    const isFinished = !nextQuestion && showSubmission;
 
     return {
       totalQuestionLength,
@@ -70,10 +72,11 @@ export const CurrentQuestionProvider = ({
       isWaiting,
       currentQuestion,
       nextQuestion,
+      isFinished,
       hasNextQuestion,
       currentQuestionId,
     };
-  }, [currentQuestionId, questions]);
+  }, [currentQuestionId, questions, showSubmission]);
 
   const value = {
     ...questionProperty,

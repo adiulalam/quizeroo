@@ -4,6 +4,10 @@ import {
 } from "./AnswerCounterProvider";
 import { AnswerProvider, AnswerContext } from "./AnswerProvider";
 import {
+  AnswerSubmittedContext,
+  AnswerSubmittedProvider,
+} from "./AnswerSubmittedProvider";
+import {
   CurrentQuestionProvider,
   CurrentQuestionContext,
 } from "./CurrentQuestionProvider";
@@ -45,4 +49,6 @@ export {
   AnswerCounterProvider,
   CurrentQuestionContext,
   CurrentQuestionProvider,
+  AnswerSubmittedContext,
+  AnswerSubmittedProvider,
 };

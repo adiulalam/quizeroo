@@ -13,6 +13,7 @@ export const getSessionNameSchema = z.object({
 export const updateSessionQuestionSchema = z.object({
   id: z.string().uuid(),
   currentQuestionId: z.string().uuid(),
+  showSubmission: z.boolean()
 });
 
 export type ParamsType = TypeOf<typeof params>;

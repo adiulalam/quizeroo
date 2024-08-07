@@ -3,7 +3,11 @@ import { useState } from "react";
 import { JoinBody, JoinFooter, JoinForm, JoinHeader } from ".";
 import { useRouter } from "next/router";
 import { api } from "@/utils/api";
-import { CurrentQuestionProvider, QuizTempUserProvider } from "@/provider";
+import {
+  AnswerSubmittedProvider,
+  CurrentQuestionProvider,
+  QuizTempUserProvider,
+} from "@/provider";
 
 export const JoinContainer = () => {
   const router = useRouter();
@@ -17,6 +21,11 @@ export const JoinContainer = () => {
   });
 
   const isEqualQuizSession = !!(data && data.quizSessionId === id);
+  const isAnswerSubmitted = !!(
+    data &&
+    data.quizSession?.question?.userAnswers &&
+    data.quizSession.question.userAnswers.length > 0
+  );
 
   if (status === "loading" || isLoading) {
     return <p>loading</p>;
@@ -36,7 +45,9 @@ export const JoinContainer = () => {
         <div className="flex h-dvh flex-col items-center justify-between">
           <JoinHeader />
 
-          <JoinBody setShowForm={setShowForm} />
+          <AnswerSubmittedProvider defaultIsAnswerSubmitted={isAnswerSubmitted}>
+            <JoinBody setShowForm={setShowForm} />
+          </AnswerSubmittedProvider>
 
           <JoinFooter />
         </div>

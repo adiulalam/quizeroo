@@ -9,10 +9,10 @@ import {
   updateQuizSessionHandler,
   updateSessionQuestionHandler,
 } from "@/server/controller/quizSession.controller";
-import { params } from "@/server/schema/quiz.schema";
 import {
   getSessionNameSchema,
   updateSessionQuestionSchema,
+  params,
   type UpdateSessionQuestionType,
 } from "@/server/schema/quizSession.schema";
 import { observable } from "@trpc/server/observable";
@@ -20,7 +20,7 @@ import { ee } from "./user.routes";
 
 export const quizSessionRouter = createTRPCRouter({
   onNextQuestion: protectedProcedure
-    .input(updateSessionQuestionSchema)
+    .input(params)
     .subscription(({ input, ctx: { session } }) => {
       return observable<UpdateSessionQuestionType>((emit) => {
         const onNextQuestion = (data: UpdateSessionQuestionType) => {
@@ -69,6 +69,7 @@ export const quizSessionRouter = createTRPCRouter({
         const nextQuestionParams: UpdateSessionQuestionType = {
           id: quizSession.id,
           currentQuestionId: quizSession.currentQuestionId,
+          showSubmission: quizSession.showSubmission,
         };
 
         ee.emit("nextQuestion", nextQuestionParams);
