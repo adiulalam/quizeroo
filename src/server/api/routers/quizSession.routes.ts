@@ -14,11 +14,33 @@ import {
   updateSessionQuestionSchema,
   params,
   type UpdateSessionQuestionType,
+  type UpdateCountDownType,
+  updateCountdownSchema,
+  streamQuizSessionSchema,
 } from "@/server/schema/quizSession.schema";
 import { observable } from "@trpc/server/observable";
 import { ee } from "./user.routes";
 
 export const quizSessionRouter = createTRPCRouter({
+  onCountdown: protectedProcedure
+    .input(streamQuizSessionSchema)
+    .subscription(({ input, ctx: { session } }) => {
+      return observable<UpdateCountDownType>((emit) => {
+        const onCountdown = (data: UpdateCountDownType) => {
+          if (
+            data.id === input.id &&
+            data.currentQuestionId === input.currentQuestionId &&
+            session.user.id
+          ) {
+            emit.next(data);
+          }
+        };
+        ee.on("countdown", onCountdown);
+        return () => {
+          ee.off("countdown", onCountdown);
+        };
+      });
+    }),
   onNextQuestion: protectedProcedure
     .input(params)
     .subscription(({ input, ctx: { session } }) => {
@@ -76,5 +98,12 @@ export const quizSessionRouter = createTRPCRouter({
       }
 
       return quizSession;
+    }),
+  updateCountdown: protectedProcedure
+    .input(updateCountdownSchema)
+    .mutation(({ input }) => {
+      ee.emit("countdown", input);
+
+      return input;
     }),
 });

@@ -3,7 +3,10 @@ import {
   updateTempUserHandler,
   getTempUserHandler,
 } from "@/server/controller/user.controller";
-import type { UpdateSessionQuestionType } from "@/server/schema/quizSession.schema";
+import type {
+  StreamCountDownType,
+  UpdateSessionQuestionType,
+} from "@/server/schema/quizSession.schema";
 import { mutateTempUserSchema } from "@/server/schema/user.schema";
 import type { UserAnswer } from "@prisma/client";
 import { observable } from "@trpc/server/observable";
@@ -14,6 +17,7 @@ interface MyEvents {
   join: (data: JoinQuizSession) => void;
   nextQuestion: (data: UpdateSessionQuestionType) => void;
   answer: (data: UserAnswer) => void;
+  countdown: (data: StreamCountDownType) => void;
 }
 
 class MyEventEmitter extends EventEmitter {

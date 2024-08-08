@@ -10,14 +10,26 @@ export const getSessionNameSchema = z.object({
   }),
 });
 
-export const updateSessionQuestionSchema = z.object({
+export const streamQuizSessionSchema = z.object({
   id: z.string().uuid(),
   currentQuestionId: z.string().uuid(),
-  showSubmission: z.boolean()
 });
+
+export const updateSessionQuestionSchema = z
+  .object({
+    showSubmission: z.boolean(),
+  })
+  .merge(streamQuizSessionSchema);
+
+export const updateCountdownSchema = z
+  .object({
+    countdown: z.number(),
+  })
+  .merge(streamQuizSessionSchema);
 
 export type ParamsType = TypeOf<typeof params>;
 export type GetSessionNameSchemaType = TypeOf<typeof getSessionNameSchema>;
 export type UpdateSessionQuestionType = TypeOf<
   typeof updateSessionQuestionSchema
 >;
+export type UpdateCountDownType = TypeOf<typeof updateCountdownSchema>;

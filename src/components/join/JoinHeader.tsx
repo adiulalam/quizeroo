@@ -1,7 +1,8 @@
 import { Shapes } from "lucide-react";
 import Link from "next/link";
-import { H3, H4 } from "../ui/Typography";
+import { H3 } from "../ui/Typography";
 import { useCurrentQuestion } from "@/hooks";
+import { JoinHeaderCountdown } from "./JoinHeaderCountdown";
 
 export const JoinHeader = () => {
   const { isWaiting, currentQuestionIndex, totalQuestionLength } =
@@ -19,11 +20,7 @@ export const JoinHeader = () => {
         <Shapes className="size-8" />
       </Link>
 
-      {!isWaiting && (
-        <div className="flex min-w-14 items-center justify-center rounded-full bg-muted/80">
-          <H4>30</H4>
-        </div>
-      )}
+      {!isWaiting && <JoinHeaderCountdown />}
     </div>
   );
 };
