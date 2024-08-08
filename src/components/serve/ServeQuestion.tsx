@@ -1,5 +1,5 @@
 import { AnswerCounterProvider } from "@/provider";
-import { ServeQuestionAnswer, ServeQuestionInfo } from ".";
+import { ServeQuestionAnswer, ServeQuestionChart, ServeQuestionInfo } from ".";
 import { useCurrentQuestion, useQuizSession } from "@/hooks";
 
 export const ServeQuestion = () => {
@@ -13,7 +13,7 @@ export const ServeQuestion = () => {
     >
       <div className="flex h-full w-full flex-col gap-2">
         <ServeQuestionInfo />
-        {showSubmission ? <p>show submission</p> : <ServeQuestionAnswer />}
+        {showSubmission ? <ServeQuestionChart /> : <ServeQuestionAnswer />}
       </div>
     </AnswerCounterProvider>
   );

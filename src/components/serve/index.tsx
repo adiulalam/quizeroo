@@ -11,6 +11,7 @@ import { ServeWaitingStart } from "./ServeWaitingStart";
 import { ServeBody } from "./ServeBody";
 import { ServeHeaderQuestion } from "./ServeHeaderQuestion";
 import { ServeButton } from "./ServeButton";
+import { ServeQuestionChart } from "./ServeQuestionChart";
 
 export {
   ServeContainer,
@@ -26,4 +27,5 @@ export {
   ServeBody,
   ServeHeaderQuestion,
   ServeButton,
+  ServeQuestionChart,
 };

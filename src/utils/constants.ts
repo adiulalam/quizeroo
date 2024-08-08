@@ -1,6 +1,15 @@
 import type { NavItem } from "@/types/Navbar.types";
 import { Filter, Sort } from "@/types/Quiz.types";
-import { LayoutDashboardIcon, User2Icon, LogOut, Layers3 } from "lucide-react";
+import {
+  LayoutDashboardIcon,
+  User2Icon,
+  LogOut,
+  Layers3,
+  Triangle,
+  Diamond,
+  Circle,
+  Square,
+} from "lucide-react";
 import { signOut } from "next-auth/react";
 import { type answerButtonVariants } from "@/components/ui/AnswerButton";
 import type { VariantProps } from "class-variance-authority";
@@ -51,3 +60,10 @@ export const answerMap = {
   "2": "circle",
   "3": "square",
 } as Record<string, VariantProps<typeof answerButtonVariants>["variant"]>;
+
+export const shapeMap = {
+  triangle: { color: "var(--color-triangle)", Icon: Triangle },
+  diamond: { color: "var(--color-diamond)", Icon: Diamond },
+  circle: { color: "var(--color-circle)", Icon: Circle },
+  square: { color: "var(--color-square)", Icon: Square },
+} as const;
