@@ -12,6 +12,7 @@ import { ServeBody } from "./ServeBody";
 import { ServeHeaderQuestion } from "./ServeHeaderQuestion";
 import { ServeButton } from "./ServeButton";
 import { ServeQuestionChart } from "./ServeQuestionChart";
+import { ServeQuestionChartLabel } from "./ServeQuestionChartLabel";
 
 export {
   ServeContainer,
@@ -28,4 +29,5 @@ export {
   ServeHeaderQuestion,
   ServeButton,
   ServeQuestionChart,
+  ServeQuestionChartLabel,
 };

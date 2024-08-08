@@ -41,9 +41,16 @@
     --chart-5: 27 87% 67%;
 
     --triangle: #be123c;
+    --triangle-foreground: #f43f5e;
+
     --diamond: #1d4ed8;
+    --diamond-foreground: #3b82f6;
+
     --circle: #a16207;
+    --circle-foreground: #eab308;
+
     --square: #15803d;
+    --square-foreground: #22c55e;
   }
 
   .dark {
@@ -82,9 +89,16 @@
     --chart-5: 340 75% 55%;
 
     --triangle: #f43f5e;
+    --triangle-foreground: #be123c;
+
     --diamond: #3b82f6;
+    --diamond-foreground: #1d4ed8;
+
     --circle: #eab308;
+    --circle-foreground: #a16207;
+
     --square: #22c55e;
+    --square-foreground: #15803d;
   }
 }
 

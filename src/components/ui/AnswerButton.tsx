@@ -7,14 +7,10 @@ import { Check, Circle, Diamond, Square, Triangle, X } from "lucide-react";
 export const answerButtonVariants = cva("", {
   variants: {
     variant: {
-      triangle:
-        "bg-rose-700 dark:bg-rose-500 hover:bg-rose-500 dark:hover:bg-rose-700",
-      diamond:
-        "bg-blue-700 dark:bg-blue-500 hover:bg-blue-500 dark:hover:bg-blue-700",
-      circle:
-        "bg-yellow-700 dark:bg-yellow-500 hover:bg-yellow-500 dark:hover:bg-yellow-700",
-      square:
-        "bg-green-700 dark:bg-green-500 hover:bg-green-500 dark:hover:bg-green-700",
+      triangle: "bg-triangle hover:bg-triangle-foreground",
+      diamond: "bg-diamond hover:bg-diamond-foreground",
+      circle: "bg-circle hover:bg-circle-foreground",
+      square: "bg-square hover:bg-square-foreground",
     },
     iconSize: {
       small: "size-4",

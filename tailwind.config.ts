@@ -15,6 +15,22 @@ const config = {
     },
     extend: {
       colors: {
+        triangle: {
+          DEFAULT: "var(--triangle)",
+          foreground: "var(--triangle-foreground)",
+        },
+        diamond: {
+          DEFAULT: "var(--diamond)",
+          foreground: "var(--diamond-foreground)",
+        },
+        circle: {
+          DEFAULT: "var(--circle)",
+          foreground: "var(--circle-foreground)",
+        },
+        square: {
+          DEFAULT: "var(--square)",
+          foreground: "var(--square-foreground)",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
