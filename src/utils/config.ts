@@ -14,10 +14,10 @@ export const serveChartConfig = {
   },
   circle: {
     label: "Circle",
-    color: "hsl(var(--circle))",
+    color: "var(--circle)",
   },
   square: {
     label: "Square",
-    color: "hsl(var(--square))",
+    color: "var(--square)",
   },
 } satisfies ChartConfig;
