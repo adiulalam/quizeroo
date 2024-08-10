@@ -1,4 +1,8 @@
-import { useCurrentQuestion, useQuizTempUser } from "@/hooks";
+import {
+  useCurrentQuestion,
+  useQuestionCountdown,
+  useQuizTempUser,
+} from "@/hooks";
 import { ServeQuestionAnswer } from "../serve";
 import { api } from "@/utils/api";
 import { useAnswerSubmitted } from "@/hooks/useAnswerSubmitted";
@@ -7,6 +11,7 @@ export const JoinQuestionAnswer = () => {
   const { quizSessionId } = useQuizTempUser();
   const { currentQuestionId } = useCurrentQuestion();
   const { setIsAnswerSubmitted, setIsAnswerCorrect } = useAnswerSubmitted();
+  const { counter } = useQuestionCountdown();
 
   const { mutate } = api.userAnswer.createUserAnswer.useMutation({
     onSuccess: (data) => {
@@ -24,5 +29,7 @@ export const JoinQuestionAnswer = () => {
     mutate({ answerId, quizSessionId, questionId: currentQuestionId });
   };
 
-  return <ServeQuestionAnswer onClick={onClickHandler} />;
+  return (
+    <ServeQuestionAnswer onClick={onClickHandler} disabled={counter <= 0} />
+  );
 };

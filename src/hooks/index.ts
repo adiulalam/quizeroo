@@ -4,6 +4,7 @@ import { useCountDown } from "./useCountDown";
 import { useCurrentQuestion } from "./useCurrentQuestion";
 import { useMutateQuiz } from "./useMutateQuiz";
 import { useQuestion } from "./useQuestion";
+import { useQuestionCountdown } from "./useQuestionCountdown";
 import { useQuestionForm } from "./useQuestionForm";
 import { useQuizDialog } from "./useQuizDialog";
 import { useQuizSession } from "./useQuizSession";
@@ -24,4 +25,5 @@ export {
   useCurrentQuestion,
   useCountDown,
   useAnswerCounter,
+  useQuestionCountdown,
 };

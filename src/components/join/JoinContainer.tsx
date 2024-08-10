@@ -6,6 +6,7 @@ import { api } from "@/utils/api";
 import {
   AnswerSubmittedProvider,
   CurrentQuestionProvider,
+  QuestionCountdownProvider,
   QuizTempUserProvider,
 } from "@/provider";
 
@@ -39,17 +40,19 @@ export const JoinContainer = () => {
         questions={data.quizSession?.quiz.questions ?? []}
         defaultShowSubmission={!!data.quizSession?.showSubmission}
       >
-        <div className="flex h-dvh flex-col items-center justify-between">
-          <JoinHeader />
+        <QuestionCountdownProvider>
+          <div className="flex h-dvh flex-col items-center justify-between">
+            <JoinHeader />
 
-          <AnswerSubmittedProvider
-            userAnswers={data.quizSession?.question?.userAnswers ?? []}
-          >
-            <JoinBody setShowForm={setShowForm} />
-          </AnswerSubmittedProvider>
+            <AnswerSubmittedProvider
+              userAnswers={data.quizSession?.question?.userAnswers ?? []}
+            >
+              <JoinBody setShowForm={setShowForm} />
+            </AnswerSubmittedProvider>
 
-          <JoinFooter />
-        </div>
+            <JoinFooter />
+          </div>
+        </QuestionCountdownProvider>
       </CurrentQuestionProvider>
     </QuizTempUserProvider>
   );

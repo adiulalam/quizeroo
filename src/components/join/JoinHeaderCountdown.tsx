@@ -1,12 +1,12 @@
 import { H4 } from "../ui/Typography";
 import { useCurrentQuestion, useQuizTempUser } from "@/hooks";
+import { useQuestionCountdown } from "@/hooks";
 import { api } from "@/utils/api";
-import { useState } from "react";
 
 export const JoinHeaderCountdown = () => {
   const { quizSession } = useQuizTempUser();
-  const { currentQuestionId, currentQuestion } = useCurrentQuestion();
-  const [counter, setCounter] = useState(currentQuestion?.countdown ?? 30);
+  const { currentQuestionId } = useCurrentQuestion();
+  const { counter, setCounter } = useQuestionCountdown();
 
   api.quizSession.onCountdown.useSubscription(
     {
