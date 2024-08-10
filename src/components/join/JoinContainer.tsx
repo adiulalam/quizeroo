@@ -20,12 +20,9 @@ export const JoinContainer = () => {
     enabled: status === "authenticated",
   });
 
+  console.log("🚀 ~ JoinContainer ~ data:", data);
+
   const isEqualQuizSession = !!(data && data.quizSessionId === id);
-  const isAnswerSubmitted = !!(
-    data &&
-    data.quizSession?.question?.userAnswers &&
-    data.quizSession.question.userAnswers.length > 0
-  );
 
   if (status === "loading" || isLoading) {
     return <p>loading</p>;
@@ -45,7 +42,9 @@ export const JoinContainer = () => {
         <div className="flex h-dvh flex-col items-center justify-between">
           <JoinHeader />
 
-          <AnswerSubmittedProvider defaultIsAnswerSubmitted={isAnswerSubmitted}>
+          <AnswerSubmittedProvider
+            userAnswers={data.quizSession?.question?.userAnswers ?? []}
+          >
             <JoinBody setShowForm={setShowForm} />
           </AnswerSubmittedProvider>
 

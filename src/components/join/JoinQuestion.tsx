@@ -1,5 +1,9 @@
 import { ServeHeaderQuestion } from "../serve";
-import { JoinQuestionAnswer, JoinQuestionSubmitted } from ".";
+import {
+  JoinQuestionAnswer,
+  JoinQuestionOutcome,
+  JoinQuestionSubmitted,
+} from ".";
 import { useAnswerSubmitted } from "@/hooks/useAnswerSubmitted";
 import { useCurrentQuestion } from "@/hooks";
 
@@ -14,7 +18,7 @@ export const JoinQuestion = () => {
         <ServeHeaderQuestion showTotal={false} />
       </div>
       {showSubmission ? (
-        <p>show submission</p>
+        <JoinQuestionOutcome />
       ) : isAnswerSubmitted ? (
         <JoinQuestionSubmitted />
       ) : (

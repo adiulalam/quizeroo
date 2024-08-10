@@ -6,6 +6,7 @@ import { JoinHeader } from "./JoinHeader";
 import { JoinHeaderCountdown } from "./JoinHeaderCountdown";
 import { JoinQuestion } from "./JoinQuestion";
 import { JoinQuestionAnswer } from "./JoinQuestionAnswer";
+import { JoinQuestionOutcome } from "./JoinQuestionOutcome";
 import { JoinQuestionSubmitted } from "./JoinQuestionSubmitted";
 import { JoinWaiting } from "./JoinWaiting";
 
@@ -20,4 +21,5 @@ export {
   JoinQuestionSubmitted,
   JoinQuestionAnswer,
   JoinHeaderCountdown,
+  JoinQuestionOutcome,
 };

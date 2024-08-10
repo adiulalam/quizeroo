@@ -36,6 +36,9 @@ export const createUserAnswerHandler = async ({
         questionId: input.questionId,
         quizSessionId: input.quizSessionId,
       },
+      include: {
+        answer: true,
+      },
     });
 
     if (!userAnswer) {

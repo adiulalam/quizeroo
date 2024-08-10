@@ -6,11 +6,12 @@ import { useAnswerSubmitted } from "@/hooks/useAnswerSubmitted";
 export const JoinQuestionAnswer = () => {
   const { quizSessionId } = useQuizTempUser();
   const { currentQuestionId } = useCurrentQuestion();
-  const { setIsAnswerSubmitted } = useAnswerSubmitted();
+  const { setIsAnswerSubmitted, setIsAnswerCorrect } = useAnswerSubmitted();
 
   const { mutate } = api.userAnswer.createUserAnswer.useMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
       setIsAnswerSubmitted(true);
+      setIsAnswerCorrect(data.answer.isCorrect);
     },
   });
 
