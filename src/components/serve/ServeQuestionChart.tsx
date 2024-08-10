@@ -15,6 +15,7 @@ type ResultType = {
   shape: string;
   total: number;
   fill: string;
+  labelData: { shape: string; isCorrect: boolean };
 }[];
 
 export const ServeQuestionChart = () => {
@@ -31,6 +32,7 @@ export const ServeQuestionChart = () => {
 
       const index = answers.findIndex((answer) => answer.id === userAnswerId);
       const shape = answerMap[index] ?? "triangle";
+      const isCorrect = !!answers[index]?.isCorrect;
 
       const existingEntry = result.find((entry) => entry.shape === shape);
 
@@ -38,7 +40,7 @@ export const ServeQuestionChart = () => {
         existingEntry.total += 1;
       } else {
         const fill = shapeMap[shape].color;
-        result.push({ shape, total: 1, fill });
+        result.push({ shape, total: 1, fill, labelData: { shape, isCorrect } });
       }
     });
 
@@ -75,7 +77,7 @@ export const ServeQuestionChart = () => {
                 label={{ position: "bottom", fontSize: 20 }}
               >
                 <LabelList
-                  dataKey="shape"
+                  dataKey="labelData"
                   position="top"
                   offset={12}
                   fontSize={12}
