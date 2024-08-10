@@ -6,18 +6,18 @@ export const serveChartConfig = {
   },
   triangle: {
     label: "Triangle",
-    color: "var(--triangle)",
+    color: "hsl(var(--triangle))",
   },
   diamond: {
     label: "Diamond",
-    color: "var(--diamond)",
+    color: "hsl(var(--diamond))",
   },
   circle: {
     label: "Circle",
-    color: "var(--circle)",
+    color: "hsl(var(--circle))",
   },
   square: {
     label: "Square",
-    color: "var(--square)",
+    color: "hsl(var(--square))",
   },
 } satisfies ChartConfig;

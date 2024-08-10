@@ -28,6 +28,9 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
+    --success: 120 100% 50%;
+    --success-foreground: 210 40% 98%;
+
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
@@ -40,17 +43,17 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
 
-    --triangle: #be123c;
-    --triangle-foreground: #f43f5e;
+    --triangle: 345 83% 41%;
+    --triangle-foreground: 350 89% 60%;
 
-    --diamond: #1d4ed8;
-    --diamond-foreground: #3b82f6;
+    --diamond: 224 76% 48%;
+    --diamond-foreground: 217 91% 60%;
 
-    --circle: #a16207;
-    --circle-foreground: #eab308;
+    --circle: 35 92% 33%;
+    --circle-foreground: 45 93% 47%;
 
-    --square: #15803d;
-    --square-foreground: #22c55e;
+    --square: 142 72% 29%;
+    --square-foreground: 142 71% 45%;
   }
 
   .dark {
@@ -78,6 +81,9 @@
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
+    --success: 120 63% 31%;
+    --success-foreground: 210 40% 98%;
+
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
@@ -88,17 +94,17 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
 
-    --triangle: #f43f5e;
-    --triangle-foreground: #be123c;
+    --triangle: 350 89% 60%;
+    --triangle-foreground: 345 83% 41%;
 
-    --diamond: #3b82f6;
-    --diamond-foreground: #1d4ed8;
+    --diamond: 217 91% 60%;
+    --diamond-foreground: 224 76% 48%;
 
-    --circle: #eab308;
-    --circle-foreground: #a16207;
+    --circle: 45 93% 47%;
+    --circle-foreground: 35 92% 33%;
 
-    --square: #22c55e;
-    --square-foreground: #15803d;
+    --square: 142 71% 45%;
+    --square-foreground: 142 72% 29%;
   }
 }
 

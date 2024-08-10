@@ -16,20 +16,20 @@ const config = {
     extend: {
       colors: {
         triangle: {
-          DEFAULT: "var(--triangle)",
-          foreground: "var(--triangle-foreground)",
+          DEFAULT: "hsl(var(--triangle))",
+          foreground: "hsl(var(--triangle-foreground))",
         },
         diamond: {
-          DEFAULT: "var(--diamond)",
-          foreground: "var(--diamond-foreground)",
+          DEFAULT: "hsl(var(--diamond))",
+          foreground: "hsl(var(--diamond-foreground))",
         },
         circle: {
-          DEFAULT: "var(--circle)",
-          foreground: "var(--circle-foreground)",
+          DEFAULT: "hsl(var(--circle))",
+          foreground: "hsl(var(--circle-foreground))",
         },
         square: {
-          DEFAULT: "var(--square)",
-          foreground: "var(--square-foreground)",
+          DEFAULT: "hsl(var(--square))",
+          foreground: "hsl(var(--square-foreground))",
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -43,6 +43,10 @@ const config = {
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
+        },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
