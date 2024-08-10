@@ -21,8 +21,6 @@ export const JoinContainer = () => {
     enabled: status === "authenticated",
   });
 
-  console.log("🚀 ~ JoinContainer ~ data:", data);
-
   const isEqualQuizSession = !!(data && data.quizSessionId === id);
 
   if (status === "loading" || isLoading) {

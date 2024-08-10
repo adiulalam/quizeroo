@@ -65,8 +65,6 @@ export const StepQuestions = ({
   const { isDirty } = form.formState;
 
   function onSubmit(data: mutationQuestionsSchemaType) {
-    console.log("🚀 ~ onSubmit ~ _data:", data);
-
     if (isDirty) {
       mutate(data.questions);
     } else {

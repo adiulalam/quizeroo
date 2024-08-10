@@ -19,6 +19,7 @@ const Join = () => {
   );
 };
 
+// todo: fix this shit right here
 // export async function getServerSideProps(context: GetServerSidePropsContext) {
 //   try {
 //     const id = context.query.id;
