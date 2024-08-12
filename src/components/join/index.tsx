@@ -1,6 +1,7 @@
 import { JoinBody } from "./JoinBody";
 import { JoinContainer } from "./JoinContainer";
 import { JoinFooter } from "./JoinFooter";
+import { JoinFooterScore } from "./JoinFooterScore";
 import { JoinForm } from "./JoinForm";
 import { JoinHeader } from "./JoinHeader";
 import { JoinHeaderCountdown } from "./JoinHeaderCountdown";
@@ -22,4 +23,5 @@ export {
   JoinQuestionAnswer,
   JoinHeaderCountdown,
   JoinQuestionOutcome,
+  JoinFooterScore,
 };

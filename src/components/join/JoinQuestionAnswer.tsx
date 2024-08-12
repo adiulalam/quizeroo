@@ -2,21 +2,25 @@ import {
   useCurrentQuestion,
   useQuestionCountdown,
   useQuizTempUser,
+  useUserScore,
 } from "@/hooks";
 import { ServeQuestionAnswer } from "../serve";
 import { api } from "@/utils/api";
 import { useAnswerSubmitted } from "@/hooks/useAnswerSubmitted";
+import { calculateScore } from "@/utils/functions";
 
 export const JoinQuestionAnswer = () => {
   const { quizSessionId } = useQuizTempUser();
-  const { currentQuestionId } = useCurrentQuestion();
+  const { currentQuestion } = useCurrentQuestion();
   const { setIsAnswerSubmitted, setIsAnswerCorrect } = useAnswerSubmitted();
+  const { setScore } = useUserScore();
   const { counter } = useQuestionCountdown();
 
   const { mutate } = api.userAnswer.createUserAnswer.useMutation({
     onSuccess: (data) => {
       setIsAnswerSubmitted(true);
       setIsAnswerCorrect(data.answer.isCorrect);
+      setScore((prev) => ({ ...prev, pendingScore: data.score }));
     },
   });
 
@@ -24,9 +28,22 @@ export const JoinQuestionAnswer = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     const answerId = e.currentTarget.id;
-    if (!quizSessionId || !currentQuestionId || !answerId) return;
+    const answer = currentQuestion?.answers.find(({ id }) => id === answerId);
 
-    mutate({ answerId, quizSessionId, questionId: currentQuestionId });
+    if (!quizSessionId || !answer || !currentQuestion) return;
+
+    const score = calculateScore({
+      currentCounter: counter,
+      maxCounter: currentQuestion.countdown,
+      isCorrect: !!answer.isCorrect,
+    });
+
+    mutate({
+      quizSessionId,
+      score,
+      answerId: answer.id,
+      questionId: currentQuestion.id,
+    });
   };
 
   return (

@@ -8,6 +8,7 @@ import {
   CurrentQuestionProvider,
   QuestionCountdownProvider,
   QuizTempUserProvider,
+  UserScoreProvider,
 } from "@/provider";
 
 export const JoinContainer = () => {
@@ -39,17 +40,19 @@ export const JoinContainer = () => {
         defaultShowSubmission={!!data.quizSession?.showSubmission}
       >
         <QuestionCountdownProvider>
-          <div className="flex h-dvh flex-col items-center justify-between">
-            <JoinHeader />
+          <UserScoreProvider>
+            <div className="flex h-dvh flex-col items-center justify-between">
+              <JoinHeader />
 
-            <AnswerSubmittedProvider
-              userAnswers={data.quizSession?.question?.userAnswers ?? []}
-            >
-              <JoinBody setShowForm={setShowForm} />
-            </AnswerSubmittedProvider>
+              <AnswerSubmittedProvider
+                userAnswers={data.quizSession?.question?.userAnswers ?? []}
+              >
+                <JoinBody setShowForm={setShowForm} />
+              </AnswerSubmittedProvider>
 
-            <JoinFooter />
-          </div>
+              <JoinFooter />
+            </div>
+          </UserScoreProvider>
         </QuestionCountdownProvider>
       </CurrentQuestionProvider>
     </QuizTempUserProvider>

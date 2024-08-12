@@ -35,6 +35,7 @@ export const createUserAnswerHandler = async ({
         answerId: input.answerId,
         questionId: input.questionId,
         quizSessionId: input.quizSessionId,
+        score: input.score,
       },
       include: {
         answer: true,

@@ -10,6 +10,7 @@ import { useQuizDialog } from "./useQuizDialog";
 import { useQuizSession } from "./useQuizSession";
 import { useSidebar } from "./useSidebar";
 import { useQuizTempUser } from "./useTempUser";
+import { useUserScore } from "./useUserScore";
 import { useViewQuiz } from "./useViewQuiz";
 
 export {
@@ -26,4 +27,5 @@ export {
   useCountDown,
   useAnswerCounter,
   useQuestionCountdown,
+  useUserScore,
 };

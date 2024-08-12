@@ -12,6 +12,7 @@ export const streamUserAnswerSchema = z.object({
 export const createUserAnswerSchema = z
   .object({
     answerId: z.string().uuid(),
+    score: z.number().min(0).max(100),
   })
   .merge(streamUserAnswerSchema);
 

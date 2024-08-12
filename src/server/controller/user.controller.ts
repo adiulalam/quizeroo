@@ -92,6 +92,11 @@ export const getTempUserHandler = async ({ session }: { session: Session }) => {
             isActive: true,
           },
           include: {
+            userAnswers: {
+              where: {
+                userId,
+              },
+            },
             question: {
               include: {
                 userAnswers: {

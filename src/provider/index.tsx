@@ -28,6 +28,7 @@ import {
   QuizTempUserContext,
   QuizTempUserProvider,
 } from "./QuizTempUserProvider";
+import { UserScoreContext, UserScoreProvider } from "./UserScoreProvider";
 import { ViewQuizProvider, ViewQuizContext } from "./ViewQuizProvider";
 
 export {
@@ -55,6 +56,8 @@ export {
   CurrentQuestionProvider,
   AnswerSubmittedContext,
   AnswerSubmittedProvider,
-  QuestionCountdownProvider,
   QuestionCountdownContext,
+  QuestionCountdownProvider,
+  UserScoreContext,
+  UserScoreProvider,
 };

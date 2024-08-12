@@ -38,3 +38,26 @@ export const draggingVariants = cva(
     },
   },
 );
+
+export const calculateScore = ({
+  maxCounter,
+  currentCounter,
+  isCorrect,
+}: {
+  maxCounter: number;
+  currentCounter: number;
+  isCorrect: boolean;
+}) => {
+  if (!isCorrect) return 0;
+
+  const maxScore = 100;
+
+  // Handle edge case where maxCounter is 0 to prevent division by zero.
+  if (maxCounter <= 0) return 0;
+
+  // Calculate the score.
+  const score = Math.floor((maxScore / maxCounter) * currentCounter);
+
+  // Cap the score at maxScore.
+  return Math.min(score, maxScore);
+};
