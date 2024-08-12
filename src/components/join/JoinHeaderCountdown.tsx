@@ -1,12 +1,14 @@
 import { H4 } from "../ui/Typography";
 import { useCurrentQuestion, useQuizTempUser } from "@/hooks";
 import { useQuestionCountdown } from "@/hooks";
+import { useAnswerSubmitted } from "@/hooks/useAnswerSubmitted";
 import { api } from "@/utils/api";
 
 export const JoinHeaderCountdown = () => {
   const { quizSession } = useQuizTempUser();
   const { currentQuestionId } = useCurrentQuestion();
   const { counter, setCounter } = useQuestionCountdown();
+  const { isAnswerSubmitted, setIsAnswerCorrect } = useAnswerSubmitted();
 
   api.quizSession.onCountdown.useSubscription(
     {
@@ -14,8 +16,12 @@ export const JoinHeaderCountdown = () => {
       currentQuestionId: currentQuestionId!,
     },
     {
-      onData: (data) => {
-        setCounter(data.countdown);
+      onData: ({ countdown }) => {
+        setCounter(countdown);
+
+        if (!isAnswerSubmitted && countdown <= 0) {
+          setIsAnswerCorrect(false);
+        }
       },
     },
   );

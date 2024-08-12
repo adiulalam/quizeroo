@@ -41,17 +41,17 @@ export const JoinContainer = () => {
       >
         <QuestionCountdownProvider>
           <UserScoreProvider>
-            <div className="flex h-dvh flex-col items-center justify-between">
-              <JoinHeader />
+            <AnswerSubmittedProvider
+              userAnswers={data.quizSession?.question?.userAnswers ?? []}
+            >
+              <div className="flex h-dvh flex-col items-center justify-between">
+                <JoinHeader />
 
-              <AnswerSubmittedProvider
-                userAnswers={data.quizSession?.question?.userAnswers ?? []}
-              >
                 <JoinBody setShowForm={setShowForm} />
-              </AnswerSubmittedProvider>
 
-              <JoinFooter />
-            </div>
+                <JoinFooter />
+              </div>
+            </AnswerSubmittedProvider>
           </UserScoreProvider>
         </QuestionCountdownProvider>
       </CurrentQuestionProvider>
