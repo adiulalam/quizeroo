@@ -91,7 +91,7 @@ export const getTempUserHandler = async ({
   try {
     // Check if the quiz session active
     const sessionId = params.id;
-    await db.quizSession.findFirstOrThrow({
+    const quizSessionQuery = db.quizSession.findFirstOrThrow({
       where: {
         id: sessionId,
         isActive: true,
@@ -99,8 +99,7 @@ export const getTempUserHandler = async ({
     });
 
     const userId = session.user.id;
-
-    const user = await db.user.findFirstOrThrow({
+    const userQuery = db.user.findFirstOrThrow({
       where: {
         id: userId,
       },
@@ -145,6 +144,8 @@ export const getTempUserHandler = async ({
         },
       },
     });
+
+    const [, user] = await db.$transaction([quizSessionQuery, userQuery]);
 
     if (!user) {
       throw new TRPCError({
