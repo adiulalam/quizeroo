@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { H1, H4 } from "./Typography";
 import { Button } from "./Button";
+import { House, RefreshCw } from "lucide-react";
 
 export const ErrorBox = ({
   children,
@@ -22,11 +23,22 @@ export const ErrorBox = ({
 
       {homeButton && (
         <Button asChild>
-          <Link href="/">Go to Homepage</Link>
+          <Link href="/" className="flex items-center justify-center gap-2">
+            <span>Go to Homepage</span>
+            <House className="size-4" />
+          </Link>
         </Button>
       )}
 
-      {refetch && <Button onClick={() => refetch()}>Retry</Button>}
+      {refetch && (
+        <Button
+          onClick={() => refetch()}
+          className="flex items-center justify-center gap-2"
+        >
+          <span>Retry</span>
+          <RefreshCw className="size-4" />
+        </Button>
+      )}
 
       {children}
     </div>
