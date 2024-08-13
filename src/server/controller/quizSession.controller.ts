@@ -172,7 +172,6 @@ export const getUserQuizSessionHandler = async ({
       include: {
         users: true,
         user: true,
-        userAnswers: true,
         question: {
           include: { userAnswers: true },
         },

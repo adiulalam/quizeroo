@@ -7,6 +7,7 @@ import {
   Sortable,
 } from "@/components/quizView";
 import { QuizSkeleton } from "@/components/skeleton";
+import { ErrorBox } from "@/components/ui/ErrorBox";
 import InfiniteScroll from "@/components/ui/InfiniteScroll";
 import { ViewQuizProvider } from "@/provider";
 import { authOptions } from "@/server/auth";
@@ -37,7 +38,7 @@ const Create = () => {
     isFetchingNextPage,
     isLoading,
     isError,
-    error,
+    refetch,
   } = api.quiz.getQuizzes.useInfiniteQuery(
     {
       filter,
@@ -50,7 +51,13 @@ const Create = () => {
   );
 
   if (isError) {
-    throw error;
+    return (
+      <NavbarContainer>
+        <div className="flex h-full w-full items-center justify-center">
+          <ErrorBox refetch={refetch} />
+        </div>
+      </NavbarContainer>
+    );
   }
 
   return (

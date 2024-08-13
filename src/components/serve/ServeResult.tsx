@@ -10,16 +10,23 @@ import {
 } from "@/components/ui/Table";
 import { TablePagination } from "../ui/TablePagination";
 import { ScrollArea } from "../ui/ScrollArea";
+import { Skeleton } from "../ui/Skeleton";
+import { ErrorBox } from "../ui/ErrorBox";
 
 export const ServeResult = () => {
-  const { data, isLoading, isError, table, columnLength } = useResultTable();
+  const { data, isLoading, isError, table, columnLength, refetch } =
+    useResultTable();
 
   if (isLoading) {
-    return <p>loading..</p>;
+    return <Skeleton className="h-full w-full" />;
   }
 
   if (!data || isError) {
-    return <p>Error..</p>;
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <ErrorBox refetch={refetch} />
+      </div>
+    );
   }
 
   return (

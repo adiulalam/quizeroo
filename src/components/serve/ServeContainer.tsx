@@ -1,6 +1,8 @@
 import { api } from "@/utils/api";
 import { CurrentQuestionProvider, QuizSessionProvider } from "@/provider";
 import { ServeFooter, ServeHeader, ServeBody } from ".";
+import { SessionSkeleton } from "../skeleton/SessionSkeleton";
+import { ErrorBox } from "../ui/ErrorBox";
 
 export const ServeContainer = ({ id }: { id: string }) => {
   const { data, isLoading, isError } =
@@ -9,11 +11,15 @@ export const ServeContainer = ({ id }: { id: string }) => {
     });
 
   if (isLoading) {
-    return <p>loading..</p>;
+    return <SessionSkeleton />;
   }
 
   if (!data || isError) {
-    return <p>Error..</p>;
+    return (
+      <div className="flex h-dvh items-center justify-center">
+        <ErrorBox homeButton />
+      </div>
+    );
   }
 
   return (

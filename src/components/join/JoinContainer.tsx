@@ -10,6 +10,8 @@ import {
   QuizTempUserProvider,
   UserScoreProvider,
 } from "@/provider";
+import { SessionSkeleton } from "../skeleton/SessionSkeleton";
+import { ErrorBox } from "../ui/ErrorBox";
 
 export const JoinContainer = () => {
   const router = useRouter();
@@ -18,18 +20,29 @@ export const JoinContainer = () => {
   const { status } = useSession();
   const [showForm, setShowForm] = useState(false);
 
-  const { data, isLoading } = api.user.getTempUser.useQuery(undefined, {
-    enabled: status === "authenticated",
-  });
+  const { data, isLoading, isError } = api.user.getTempUser.useQuery(
+    undefined,
+    {
+      enabled: status === "authenticated",
+    },
+  );
 
   const isEqualQuizSession = !!(data && data.quizSessionId === id);
 
   if (status === "loading" || isLoading) {
-    return <p>loading</p>;
+    return <SessionSkeleton />;
   }
 
   if (showForm || status === "unauthenticated" || !isEqualQuizSession) {
     return <JoinForm setShowForm={setShowForm} />;
+  }
+
+  if (isError) {
+    return (
+      <div className="flex h-dvh items-center justify-center">
+        <ErrorBox homeButton />
+      </div>
+    );
   }
 
   return (
