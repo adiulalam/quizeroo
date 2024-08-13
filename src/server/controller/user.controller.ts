@@ -1,5 +1,8 @@
 import { type Session } from "next-auth";
-import type { MutateTempUserSchemaType } from "../schema/user.schema";
+import type {
+  MutateTempUserSchemaType,
+  ParamsType,
+} from "../schema/user.schema";
 import { TRPCError } from "@trpc/server";
 import { Prisma } from "@prisma/client";
 import { db } from "../db";
@@ -78,8 +81,23 @@ export const updateTempUserHandler = async ({
   }
 };
 
-export const getTempUserHandler = async ({ session }: { session: Session }) => {
+export const getTempUserHandler = async ({
+  session,
+  params,
+}: {
+  session: Session;
+  params: ParamsType;
+}) => {
   try {
+    // Check if the quiz session active
+    const sessionId = params.id;
+    await db.quizSession.findFirstOrThrow({
+      where: {
+        id: sessionId,
+        isActive: true,
+      },
+    });
+
     const userId = session.user.id;
 
     const user = await db.user.findFirstOrThrow({

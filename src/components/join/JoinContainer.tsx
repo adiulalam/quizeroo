@@ -21,21 +21,11 @@ export const JoinContainer = () => {
   const [showForm, setShowForm] = useState(false);
 
   const { data, isLoading, isError } = api.user.getTempUser.useQuery(
-    undefined,
+    { id },
     {
       enabled: status === "authenticated",
     },
   );
-
-  const isEqualQuizSession = !!(data && data.quizSessionId === id);
-
-  if (status === "loading" || isLoading) {
-    return <SessionSkeleton />;
-  }
-
-  if (showForm || status === "unauthenticated" || !isEqualQuizSession) {
-    return <JoinForm setShowForm={setShowForm} />;
-  }
 
   if (isError) {
     return (
@@ -43,6 +33,15 @@ export const JoinContainer = () => {
         <ErrorBox homeButton />
       </div>
     );
+  }
+
+  if (status === "loading" || isLoading) {
+    return <SessionSkeleton />;
+  }
+
+  const isEqualQuizSession = !!(data && data.quizSessionId === id);
+  if (showForm || status === "unauthenticated" || !isEqualQuizSession) {
+    return <JoinForm setShowForm={setShowForm} />;
   }
 
   return (

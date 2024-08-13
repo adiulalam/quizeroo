@@ -4,20 +4,21 @@ import {
   getTempUserHandler,
 } from "@/server/controller/user.controller";
 import type {
-  StreamCountDownType,
+  UpdateCountDownType,
   UpdateSessionQuestionType,
 } from "@/server/schema/quizSession.schema";
-import { mutateTempUserSchema } from "@/server/schema/user.schema";
+import { mutateTempUserSchema, params } from "@/server/schema/user.schema";
 import type { UserAnswer } from "@prisma/client";
 import { observable } from "@trpc/server/observable";
 import { EventEmitter } from "events";
 import { z } from "zod";
 
+// todo: fix this shit right here
 interface MyEvents {
   join: (data: JoinQuizSession) => void;
   nextQuestion: (data: UpdateSessionQuestionType) => void;
   answer: (data: UserAnswer) => void;
-  countdown: (data: StreamCountDownType) => void;
+  countdown: (data: UpdateCountDownType) => void;
 }
 
 class MyEventEmitter extends EventEmitter {
@@ -72,21 +73,24 @@ export const userRouter = createTRPCRouter({
         input,
       }),
     ),
-  getTempUser: protectedProcedure.query(async ({ ctx: { session } }) => {
-    const tempUser = await getTempUserHandler({
-      session,
-    });
+  getTempUser: protectedProcedure
+    .input(params)
+    .query(async ({ input, ctx: { session } }) => {
+      const tempUser = await getTempUserHandler({
+        session,
+        params: input,
+      });
 
-    if (tempUser.name && tempUser.quizSessionId) {
-      const joinParams: JoinQuizSession = {
-        id: tempUser.id,
-        name: tempUser.name,
-        quizSessionId: tempUser.quizSessionId,
-      };
+      if (tempUser.name && tempUser.quizSessionId) {
+        const joinParams: JoinQuizSession = {
+          id: tempUser.id,
+          name: tempUser.name,
+          quizSessionId: tempUser.quizSessionId,
+        };
 
-      ee.emit("join", joinParams);
-    }
+        ee.emit("join", joinParams);
+      }
 
-    return tempUser;
-  }),
+      return tempUser;
+    }),
 });
