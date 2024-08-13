@@ -8,6 +8,7 @@ import { useQuestionCountdown } from "./useQuestionCountdown";
 import { useQuestionForm } from "./useQuestionForm";
 import { useQuizDialog } from "./useQuizDialog";
 import { useQuizSession } from "./useQuizSession";
+import { useResultTable } from "./useResultTable";
 import { useSidebar } from "./useSidebar";
 import { useQuizTempUser } from "./useTempUser";
 import { useUserScore } from "./useUserScore";
@@ -28,4 +29,5 @@ export {
   useAnswerCounter,
   useQuestionCountdown,
   useUserScore,
+  useResultTable,
 };

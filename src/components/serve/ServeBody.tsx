@@ -1,5 +1,5 @@
 import { useCurrentQuestion } from "@/hooks";
-import { ServeWaiting, ServeQuestion } from ".";
+import { ServeWaiting, ServeQuestion, ServeResult } from ".";
 
 export const ServeBody = () => {
   const { currentQuestionId } = useCurrentQuestion();
@@ -8,7 +8,7 @@ export const ServeBody = () => {
   return (
     <div className="flex h-full w-full bg-muted/40 p-2">
       {isFinished ? (
-        <p>Quiz finished</p>
+        <ServeResult />
       ) : currentQuestionId ? (
         <ServeQuestion />
       ) : (
