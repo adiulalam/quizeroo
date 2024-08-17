@@ -8,7 +8,7 @@ import { TRPCError } from "@trpc/server";
 import { Prisma } from "@prisma/client";
 import { db } from "../db";
 
-// todo: add logic to delete quiz session with no users
+// todo: add logic to update quiz room name with no users
 export const updateQuizSessionHandler = async ({
   params,
   session,
