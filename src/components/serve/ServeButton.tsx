@@ -60,7 +60,7 @@ export const ServeButton = (
   return (
     <Button
       size="lg"
-      className="right-0 top-0 flex h-9 px-6 sm:absolute sm:h-11 sm:px-8"
+      className="h-9 px-6 sm:h-11 sm:px-8"
       onClick={onClickHandler}
       {...props}
     >
