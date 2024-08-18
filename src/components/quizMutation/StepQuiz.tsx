@@ -53,9 +53,10 @@ export const StepQuiz = ({ quizData, setQuizData }: StepQuizType) => {
 
       nextStep();
     },
-    onError: () => {
+    onError: (e) => {
+      const message = e?.message;
       toast({
-        title: "Action Failed!",
+        title: `Action Failed! ${message}`,
         variant: "destructive",
       });
     },

@@ -20,6 +20,15 @@ export const createQuizHandler = async ({
   session: Session;
 }) => {
   try {
+    const isTempUser = session.user.isTempUser;
+
+    if (!isTempUser) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "Temp user cannot create quiz",
+      });
+    }
+
     const userId = session.user.id;
 
     const { id, title, isFavourite } = input;
