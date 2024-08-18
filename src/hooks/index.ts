@@ -2,6 +2,7 @@ import { useAnswer } from "./useAnswer";
 import { useAnswerCounter } from "./useAnswerCounter";
 import { useCountDown } from "./useCountDown";
 import { useCurrentQuestion } from "./useCurrentQuestion";
+import { useHostname } from "./useHostname";
 import { useMutateQuiz } from "./useMutateQuiz";
 import { useQuestion } from "./useQuestion";
 import { useQuestionCountdown } from "./useQuestionCountdown";
@@ -30,4 +31,5 @@ export {
   useQuestionCountdown,
   useUserScore,
   useResultTable,
+  useHostname,
 };

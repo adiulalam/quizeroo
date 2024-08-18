@@ -14,6 +14,7 @@ import { ServeButton } from "./ServeButton";
 import { ServeQuestionChart } from "./ServeQuestionChart";
 import { ServeQuestionChartLabel } from "./ServeQuestionChartLabel";
 import { ServeResult } from "./ServeResult";
+import { ServeWaitingQr } from "./ServeWaitingQr";
 
 export {
   ServeContainer,
@@ -32,4 +33,5 @@ export {
   ServeQuestionChart,
   ServeQuestionChartLabel,
   ServeResult,
+  ServeWaitingQr,
 };

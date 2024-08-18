@@ -1,4 +1,4 @@
-import { useCurrentQuestion } from "@/hooks";
+import { useCurrentQuestion, useHostname } from "@/hooks";
 import { cn } from "@/utils/theme";
 import { useRouter } from "next/router";
 import { H3, H4 } from "../ui/Typography";
@@ -8,6 +8,7 @@ export const ServeFooter = () => {
   const id = router.query.id as string;
 
   const { isWaiting } = useCurrentQuestion();
+  const { origin } = useHostname();
 
   return (
     <div
@@ -16,7 +17,7 @@ export const ServeFooter = () => {
         isWaiting ? "hidden" : "flex",
       )}
     >
-      <H3 className="truncate">www.website.com</H3>
+      <H3 className="truncate">{origin}</H3>
 
       <H4>
         Room Code: <b>{id}</b>

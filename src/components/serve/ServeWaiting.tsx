@@ -4,7 +4,7 @@ import { api } from "@/utils/api";
 import { Card, CardHeader, CardTitle } from "@/components/ui/Card";
 import { useState } from "react";
 import { ScrollArea } from "../ui/ScrollArea";
-import { ServeWaitingStart } from ".";
+import { ServeWaitingQr, ServeWaitingStart } from ".";
 import { H2 } from "../ui/Typography";
 
 export const ServeWaiting = () => {
@@ -43,6 +43,8 @@ export const ServeWaiting = () => {
     <ScrollArea className="flex h-[calc(100dvh-8rem)] w-full p-2">
       <div className="flex flex-col flex-wrap items-center justify-center gap-8">
         <ServeWaitingStart userCount={tempUsers.length} />
+
+        <ServeWaitingQr />
 
         {tempUsers.length <= 0 ? (
           <H2 className="border-b pb-2">Waiting for users...</H2>
