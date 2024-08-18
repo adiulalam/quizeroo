@@ -15,11 +15,11 @@ import { Filter, Order, Sort } from "@/types/Quiz.types";
 import { api } from "@/utils/api";
 import { getFilterBy, getOrderBy, getSortBy } from "@/utils/functions";
 import type { GetServerSidePropsContext } from "next";
-import { getServerSession } from "next-auth";
+import { getServerSession, type Session } from "next-auth";
 import Head from "next/head";
 import { useSearchParams } from "next/navigation";
 
-const Create = () => {
+const Create = ({ userSession }: { userSession: Session }) => {
   const searchParams = useSearchParams();
 
   const filter_by = searchParams.get("filter_by") ?? Filter.all;
@@ -72,7 +72,7 @@ const Create = () => {
         <div className="flex flex-col gap-2">
           <div className="flex w-full flex-col-reverse flex-wrap justify-between gap-2 sm:flex-row">
             <div className="flex justify-between gap-2 sm:justify-normal">
-              <QuizCreate />
+              <QuizCreate isTempUser={userSession.user.isTempUser} />
               <div className="flex gap-2">
                 <Sortable />
                 <Orderable />
