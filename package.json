@@ -15,7 +15,8 @@
     "dev": "run-p dev:*",
     "postinstall": "prisma generate",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "wss": "dotenv -e .env -v NODE_ENV=production -- tsx src/server/api/wssProdServer.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.6.0",

@@ -4,19 +4,13 @@
  *
  * We also create a few inference helpers for input and output types.
  */
-import {
-  httpLink,
-  loggerLink,
-  // splitLink,
-  type TRPCLink,
-  wsLink,
-} from "@trpc/client";
+import { httpLink, loggerLink, type TRPCLink, wsLink } from "@trpc/client";
 import { createTRPCNext } from "@trpc/next";
 import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
 import superjson from "superjson";
 import { createWSClient } from "@trpc/client";
-// import type { TRPCLink } from "@trpc/client";
 import { type AppRouter } from "@/server/api/root";
+import { env } from "@/env";
 
 const getBaseUrl = () => {
   if (typeof window !== "undefined") return ""; // browser should use relative url
@@ -33,7 +27,7 @@ function getEndingLink(): TRPCLink<AppRouter> {
   }
 
   const client = createWSClient({
-    url: process.env.NEXT_PUBLIC_WS_URL ?? "ws://localhost:3001",
+    url: env.NEXT_PUBLIC_WSS_URL ?? "ws://localhost:3001",
   });
   return wsLink({
     client,
@@ -53,19 +47,6 @@ export const api = createTRPCNext<AppRouter>({
         }),
 
         getEndingLink(),
-        // splitLink({
-        //   condition: (op) => op.type === "subscription",
-        //   true: wsLink({
-        //     client: createWSClient({
-        //       url: process.env.NEXT_PUBLIC_WS_URL ?? "ws://localhost:3001",
-        //     }),
-        //     transformer: superjson,
-        //   }),
-        //   false: httpLink({
-        //     transformer: superjson,
-        //     url: `${getBaseUrl()}/api/trpc`,
-        //   }),
-        // }),
       ],
     };
   },

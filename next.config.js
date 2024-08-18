@@ -13,11 +13,6 @@ const config = {
     defaultLocale: "en",
   },
   transpilePackages: ["geist"],
-  publicRuntimeConfig: {
-    // Will be available on both server and client
-    APP_URL: process.env.APP_URL,
-    WS_URL: process.env.WS_URL,
-  },
   experimental: {
     swcPlugins: [["next-superjson-plugin", {}]],
   },
