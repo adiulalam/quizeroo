@@ -20,7 +20,8 @@ export const ServeFooter = () => {
       <H3 className="truncate">{origin}</H3>
 
       <H4>
-        Room Code: <b>{id}</b>
+        <span className="hidden sm:inline">Room Code: </span>
+        <b>{id}</b>
       </H4>
     </div>
   );

@@ -11,7 +11,7 @@ export const ServeHeader = () => {
   const { origin } = useHostname();
 
   return (
-    <div className="flex max-h-32 w-full justify-center gap-2 p-2">
+    <div className="max-h-auto flex w-full justify-center gap-2 p-2">
       {isWaiting ? (
         <div className="flex w-full flex-wrap items-center justify-center gap-2">
           <div className="flex flex-col items-center justify-center overflow-hidden text-ellipsis bg-muted/80 p-2">

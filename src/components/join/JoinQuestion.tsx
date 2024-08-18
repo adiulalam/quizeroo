@@ -14,7 +14,7 @@ export const JoinQuestion = () => {
 
   return (
     <div className="flex h-full w-full flex-col gap-2">
-      <div className="flex max-h-32 w-full justify-center gap-2 bg-secondary p-2">
+      <div className="flex max-h-32 w-full justify-center gap-2 bg-card p-2">
         <ServeHeaderQuestion showTotal={false} />
       </div>
       {showSubmission ? (
