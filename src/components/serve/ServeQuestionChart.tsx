@@ -53,7 +53,9 @@ export const ServeQuestionChart = () => {
     <div className="flex h-full w-full items-center justify-center">
       <Card className="h-auto w-full max-w-4xl">
         <CardHeader>
-          <CardTitle>Total submission: {totalSubmission}</CardTitle>
+          <CardTitle className="text-center">
+            Total Submissions: {totalSubmission}
+          </CardTitle>
         </CardHeader>
         <CardContent hidden={totalSubmission <= 0}>
           <ChartContainer config={serveChartConfig}>
