@@ -11,6 +11,7 @@ import { CardMenuStatus } from "./CardMenuStatus";
 import { CardMenuDelete, CardMenuDeleteAlert } from "./CardMenuDelete";
 import { CardMenuEdit } from "./CardMenuEdit";
 import { CardSessionLink } from "./CardSessionLink";
+import { TempUserAlert } from "./TempUserAlert";
 
 export {
   Sortable,
@@ -27,4 +28,5 @@ export {
   CardMenuDeleteAlert,
   CardMenuEdit,
   CardSessionLink,
+  TempUserAlert,
 };

@@ -5,6 +5,7 @@ import {
   Orderable,
   QuizCard,
   Sortable,
+  TempUserAlert,
 } from "@/components/quizView";
 import { QuizSkeleton } from "@/components/skeleton";
 import { ErrorBox } from "@/components/ui/ErrorBox";
@@ -70,6 +71,7 @@ const Create = ({ userSession }: { userSession: Session }) => {
 
       <NavbarContainer>
         <div className="flex flex-col gap-2">
+          {userSession.user.isTempUser && <TempUserAlert />}
           <div className="flex w-full flex-col-reverse flex-wrap justify-between gap-2 sm:flex-row">
             <div className="flex justify-between gap-2 sm:justify-normal">
               <QuizCreate isTempUser={userSession.user.isTempUser} />
