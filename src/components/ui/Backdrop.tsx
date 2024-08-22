@@ -1,4 +1,10 @@
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/Dialog";
 import { LoaderCircle } from "lucide-react";
 
 type BackdropType = {
@@ -14,6 +20,12 @@ const Backdrop = ({ open, children }: BackdropType) => {
         className="flex items-center justify-center border-transparent bg-transparent"
         allowDisabledButton={false}
       >
+        <DialogTitle className="hidden" aria-hidden="true">
+          Loading
+        </DialogTitle>
+        <DialogDescription className="hidden" aria-hidden="true">
+          Page is loading
+        </DialogDescription>
         <LoaderCircle className="size-12 animate-spin" />
       </DialogContent>
     </Dialog>

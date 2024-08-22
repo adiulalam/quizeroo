@@ -28,7 +28,11 @@ export const LandingOptions = () => {
       </LandingDialog>
 
       <Backdrop open={isBackdropOpen}>
-        <Button variant="outline" onClick={onClickHandler}>
+        <Button
+          variant="outline"
+          onClick={onClickHandler}
+          data-testid="create-room-button"
+        >
           Create a Room
         </Button>
       </Backdrop>

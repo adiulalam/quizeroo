@@ -11,6 +11,7 @@ import { env } from "@/env";
 import { db } from "@/server/db";
 import { mutateTempUserSchema } from "./schema/user.schema";
 import { createTempUserHandler } from "./controller/user.controller";
+import { z } from "zod";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -71,6 +72,7 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db) as Adapter,
   providers: [
     Auth0Provider({
+      id: "auth0",
       clientId: env.AUTH0_CLIENT_ID,
       clientSecret: env.AUTH0_CLIENT_SECRET,
       issuer: env.AUTH0_ISSUER,
@@ -81,6 +83,7 @@ export const authOptions: NextAuthOptions = {
       },
     }),
     CredentialsProvider({
+      id: "temp-user-login",
       name: "Credentials",
       credentials: {
         quizSessionId: {
@@ -101,6 +104,42 @@ export const authOptions: NextAuthOptions = {
         }
       },
     }),
+    ...(process.env.NODE_ENV === "test" ||
+    process.env.NODE_ENV === "development"
+      ? [
+          CredentialsProvider({
+            id: "test-login",
+            name: "TestCredentials",
+            credentials: {
+              email: {
+                label: "Email",
+                type: "email",
+                placeholder: "email@email.com",
+              },
+            },
+            authorize: async (credentials) => {
+              // todo: add a hardcoded id to check from
+              const creds = await z
+                .object({
+                  email: z.string().email(),
+                })
+                .parseAsync(credentials);
+
+              const user = await db.user.findFirstOrThrow({
+                where: {
+                  email: creds.email,
+                },
+              });
+
+              if (user) {
+                return user;
+              } else {
+                return null;
+              }
+            },
+          }),
+        ]
+      : []),
   ],
 };
 
