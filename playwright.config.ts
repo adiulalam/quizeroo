@@ -23,7 +23,7 @@ export default defineConfig({
   use: {
     baseURL: baseUrl,
     trace: "on-first-retry",
-    storageState: "./__tests__/setup/storageState.json",
+    storageState: "./__tests__/setup/storageState.host.json",
   },
   globalSetup: "./__tests__/setup/global.ts",
 
