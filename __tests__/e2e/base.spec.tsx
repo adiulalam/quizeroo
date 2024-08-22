@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 // Reset storage state for this file to avoid being authenticated
 test.describe("Home Page", () => {
   test.use({ storageState: { cookies: [], origins: [] } });
-  test("Goto base url", async ({ page }) => {
+  test("Manual sign in", async ({ page }) => {
     await page.goto("/");
 
     await page.getByTestId("create-room-button").click();
