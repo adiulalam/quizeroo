@@ -10,6 +10,9 @@ import { defineConfig, devices } from "@playwright/test";
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
+
+const baseUrl = process.env.PLAYWRIGHT_TEST_BASE_URL ?? "http://localhost:3000";
+
 export default defineConfig({
   testDir: "./__tests__/e2e/",
   fullyParallel: true,
@@ -18,8 +21,11 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: "html",
   use: {
+    baseURL: baseUrl,
     trace: "on-first-retry",
+    storageState: "./__tests__/setup/storageState.json",
   },
+  globalSetup: "./__tests__/setup/global.ts",
 
   /* Configure projects for major browsers */
   projects: [
@@ -40,9 +46,8 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
+  webServer: {
+    command: "npm run dev",
+    port: 3000,
+  },
 });
