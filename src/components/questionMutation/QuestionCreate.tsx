@@ -23,6 +23,7 @@ export const QuestionCreate = () => {
       variant="outline"
       className="border-2 border-dashed border-primary/80 shadow-sm"
       onClick={onClickHandler}
+      data-testid="button-create-question"
     >
       <Plus className="mr-2 size-4" />
       Add a new question

@@ -58,13 +58,15 @@ export const QuestionsDragable = () => {
 
   return (
     <DndContext onDragEnd={onDragHandler} sensors={sensors}>
-      <SortableContext items={fields}>
-        {fields.map((field, index) => (
-          <QuestionProvider key={field.id} value={{ ...field, index }}>
-            <QuestionCollapse />
-          </QuestionProvider>
-        ))}
-      </SortableContext>
+      <div className="flex flex-col gap-4" data-testid="question-items">
+        <SortableContext items={fields}>
+          {fields.map((field, index) => (
+            <QuestionProvider key={field.id} value={{ ...field, index }}>
+              <QuestionCollapse />
+            </QuestionProvider>
+          ))}
+        </SortableContext>
+      </div>
     </DndContext>
   );
 };

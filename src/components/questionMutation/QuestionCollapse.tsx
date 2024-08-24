@@ -38,6 +38,7 @@ export const QuestionCollapse = () => {
       className={draggingVariants({
         dragging: isDragging ? "over" : undefined,
       })}
+      data-testid="question-card"
     >
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-1 sm:gap-2">

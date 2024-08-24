@@ -29,11 +29,17 @@ export const QuizStepperActions = ({
             size="sm"
             variant="secondary"
             type="button"
+            data-testid="button-quiz-prev-step"
           >
             <ArrowBigLeft className="mr-2 size-4" />
             Prev
           </Button>
-          <Button size="sm" type="submit" disabled={isLoading}>
+          <Button
+            size="sm"
+            type="submit"
+            disabled={isLoading}
+            data-testid="button-quiz-next-step"
+          >
             {isLastStep ? "Finish" : "Next"}
             {isLoading ? (
               <Loader2 className="ml-2 size-4 animate-spin" />

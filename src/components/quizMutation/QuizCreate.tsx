@@ -11,7 +11,11 @@ export const QuizCreate = ({ isTempUser }: { isTempUser: boolean }) => {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button className="w-fit" disabled={isTempUser}>
+        <Button
+          className="w-fit"
+          disabled={isTempUser}
+          data-testid="button-create-quiz"
+        >
           <CirclePlus className="size-5" strokeWidth={3} />
           <span className="ml-2 hidden md:block">Create New Quiz</span>
         </Button>

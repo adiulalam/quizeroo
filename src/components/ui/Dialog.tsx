@@ -67,6 +67,7 @@ const DialogContent = React.forwardRef<
               isCloseDisabled ? "opacity-20" : "opacity-70",
               "absolute right-4 top-4 rounded-sm  ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground",
             )}
+            data-testid="button-close-dialog"
           >
             <X className="h-4 w-4" />
             <span className="sr-only">Close</span>

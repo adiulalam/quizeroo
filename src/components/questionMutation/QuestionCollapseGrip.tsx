@@ -21,6 +21,7 @@ export const QuestionCollapseGrip = () => {
       className="relative cursor-grab p-0 text-primary/50 sm:p-2"
       {...attributes}
       {...listeners}
+      data-testid="button-grip-question"
     >
       <GripVertical className="size-4" />
     </Button>

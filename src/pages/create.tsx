@@ -90,7 +90,10 @@ const Create = ({ userSession }: { userSession: Session }) => {
             </div>
           ) : (
             <>
-              <div className="flex h-full w-full flex-row flex-wrap items-center justify-evenly gap-4">
+              <div
+                className="flex h-full w-full flex-row flex-wrap items-center justify-evenly gap-4"
+                data-testid="quiz-items"
+              >
                 {data?.pages.map((quizzesData) =>
                   quizzesData.data.quizzes.map((quizData) => (
                     <ViewQuizProvider key={quizData.id} value={quizData}>

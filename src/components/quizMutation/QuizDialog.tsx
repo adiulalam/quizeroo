@@ -11,7 +11,7 @@ export const QuizDialog = () => {
   const { isUpdate } = useQuizDialog();
 
   return (
-    <DialogContent className="p-0 sm:max-w-2xl">
+    <DialogContent className="p-0 sm:max-w-2xl" data-testid="quiz-dialog">
       <ScrollArea className="max-h-[95vh] p-5">
         <DialogTitle className="hidden" aria-hidden="true">
           {isUpdate ? "Update" : "Create"} quiz

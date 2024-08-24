@@ -33,6 +33,7 @@ export const QuestionCollapseDelete = () => {
             size="sm"
             className="p-1 sm:p-2"
             onClick={onClickHandler}
+            data-testid="button-delete-question"
           >
             <Trash2 />
           </Button>

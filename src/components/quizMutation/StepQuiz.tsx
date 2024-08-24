@@ -83,7 +83,11 @@ export const StepQuiz = ({ quizData, setQuizData }: StepQuizType) => {
             <FormItem>
               <FormLabel>Quiz Title</FormLabel>
               <FormControl>
-                <Input placeholder="Title.." {...field} />
+                <Input
+                  {...field}
+                  placeholder="Title.."
+                  data-testid="input-quiz-title"
+                />
               </FormControl>
               <FormDescription>This is your quiz title.</FormDescription>
               <FormMessage />
@@ -104,6 +108,7 @@ export const StepQuiz = ({ quizData, setQuizData }: StepQuizType) => {
                 <Switch
                   checked={field.value}
                   onCheckedChange={field.onChange}
+                  data-testid="switch-quiz-favourite"
                 />
               </FormControl>
             </FormItem>

@@ -16,7 +16,12 @@ export const QuestionCollapseTrigger = ({ isOpen }: { isOpen: boolean }) => {
       <Tooltip>
         <TooltipTrigger asChild>
           <CollapsibleTrigger asChild>
-            <Button variant="outline" size="sm" className="p-1 sm:p-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="p-1 sm:p-2"
+              data-testid="button-toggle-question"
+            >
               <Icon className="size-4" />
             </Button>
           </CollapsibleTrigger>

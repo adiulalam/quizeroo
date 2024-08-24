@@ -14,7 +14,10 @@ export const QuizCard = () => {
   const { id, status, _count, isFavourite } = useViewQuiz();
 
   return (
-    <Card className="grid h-72 w-full grid-cols-5 grid-rows-5 gap-2 hover:shadow-lg sm:max-w-sm">
+    <Card
+      className="grid h-72 w-full grid-cols-5 grid-rows-5 gap-2 hover:shadow-lg sm:max-w-sm"
+      data-testid="quiz-card"
+    >
       <div className="relative col-span-5 row-span-3 rounded-t-sm bg-muted px-6 pt-4">
         <Badge className="absolute right-0 top-0 m-2">{status}</Badge>
 

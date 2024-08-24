@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
+import { addQuiz } from "../fixtures/create";
 
-test.afterEach(async ({ page }) => {
+test.beforeEach(async ({ page }) => {
   await page.goto("/create");
 });
 
@@ -13,5 +14,9 @@ test.describe("Create Page", () => {
     await page.waitForURL(/create/);
 
     await expect(page).toHaveTitle(/Create/);
+  });
+
+  test("Create quiz", async ({ page }) => {
+    await addQuiz(page, "Learn functional programming", false);
   });
 });

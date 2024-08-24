@@ -27,7 +27,11 @@ export const QuestionCollapseContent = () => {
             <FormItem>
               <FormLabel>Question Title</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input
+                  {...field}
+                  placeholder="Question.."
+                  data-testid="input-question-title"
+                />
               </FormControl>
               <FormDescription>This is your question title.</FormDescription>
               <FormMessage />
