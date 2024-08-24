@@ -17,6 +17,6 @@ test.describe("Create Page", () => {
   });
 
   test("Create quiz", async ({ page }) => {
-    await addQuiz(page, "Learn functional programming", false);
+    await addQuiz(page, "quiz 1", false);
   });
 });
