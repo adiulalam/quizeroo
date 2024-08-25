@@ -32,6 +32,7 @@ export const AnswerCreate = () => {
       variant="ghost"
       className="w-min border-2 border-dashed border-primary/80 shadow-sm"
       onClick={onClickHandler}
+      data-testid="button-create-answer"
     >
       <Plus className="mr-2 size-4" />
       Add a new answer

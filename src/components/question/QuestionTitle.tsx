@@ -12,7 +12,7 @@ import { api } from "@/utils/api";
 
 export const QuestionTitle = () => {
   const { control } = useQuestionForm();
-  const { id, index } = useQuestion();
+  const { id, index, name } = useQuestion();
   const { question } = api.useUtils();
 
   const { mutate } = api.question.updateQuestionName.useMutation({
@@ -31,7 +31,7 @@ export const QuestionTitle = () => {
     <FormField
       control={control}
       name={`questions.${index}.name`}
-      render={({ field }) => (
+      render={({ field, fieldState: { isDirty } }) => (
         <FormItem>
           <FormLabel>Question Title</FormLabel>
           <FormControl>
@@ -39,7 +39,8 @@ export const QuestionTitle = () => {
               {...field}
               placeholder="Question.."
               data-testid="input-question-title"
-              onBlur={onBlurHandler}
+              onBlur={isDirty ? onBlurHandler : undefined}
+              data-value={name}
             />
           </FormControl>
           <FormDescription>This is your question title.</FormDescription>

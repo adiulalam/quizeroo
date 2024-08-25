@@ -26,6 +26,7 @@ export const AnswerForm = () => {
       className={draggingVariants({
         dragging: isDragging ? "over" : undefined,
       })}
+      data-testid="answer-card"
     >
       <div className="flex flex-row gap-2">
         <AnswerGrip />

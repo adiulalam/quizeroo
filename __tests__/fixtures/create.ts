@@ -34,7 +34,17 @@ export const createLocators = (page: Page) => {
 
     buttonDeleteQuestion: page.getByTestId("button-delete-question"),
 
-    // todo: mutation - question - answer step
+    // view - answer step
+    answerCard: page.getByTestId("answer-card"),
+
+    buttonCreateAnswer: page.getByTestId("button-create-answer"),
+    buttonGripAnswer: page.getByTestId("button-grip-answer"),
+
+    // mutation - answer step
+    inputAnswerTitle: page.getByTestId("input-answer-title"),
+    switchAnswerCorrect: page.getByTestId("switch-answer-correct"),
+
+    buttonDeleteAnswer: page.getByTestId("button-delete-answer"),
 
     // mutation - footer
     buttonQuizNextStep: page.getByTestId("button-quiz-next-step"),
@@ -102,8 +112,59 @@ export const addQuestion = async (page: Page, text: string) => {
 
   // Check if the question name has been saved
   await lastInputQuestion.blur();
-  const textResponse = await lastHeaderTitle.innerText();
-  expect(textResponse).toBe(text);
+  await expect(lastHeaderTitle).toHaveText(text);
+
+  // click on collapse
+  await lastButtonToggle.click();
+  await expect(lastButtonToggle).toHaveAttribute("aria-expanded", "false");
+};
+
+// Function to add a new answer
+export const addAnswer = async (
+  page: Page,
+  text: string,
+  isCorrect: boolean,
+) => {
+  const {
+    buttonCreateAnswer,
+    buttonToggleQuestion,
+    switchAnswerCorrect,
+    inputAnswerTitle,
+    answerCard,
+  } = createLocators(page);
+  // select the latest answer locator
+  const lastButtonToggle = buttonToggleQuestion.last();
+  const lastInputAnswer = inputAnswerTitle.last();
+  const lastCorrectToggle = switchAnswerCorrect.last();
+
+  // click to expand
+  await lastButtonToggle.click();
+  await expect(lastButtonToggle).toHaveAttribute("aria-expanded", "true");
+
+  const totalAnswer = await answerCard.count();
+
+  // click on 'Add new answer'
+  await buttonCreateAnswer.click();
+
+  // wait for new answer to be added
+  await expect(answerCard).toHaveCount(totalAnswer + 1);
+
+  // fill in the answer
+  await lastInputAnswer.fill(text);
+
+  // Check if the answer name has been saved
+  await lastInputAnswer.blur();
+  await expect(lastInputAnswer).toHaveAttribute("data-value", text);
+
+  // Radio button for correct answer
+  if (isCorrect) {
+    await lastCorrectToggle.click();
+    await expect(lastCorrectToggle).toHaveAttribute("aria-checked", "true");
+    await expect(lastCorrectToggle).toHaveAttribute("data-state", "checked");
+  } else {
+    await expect(lastCorrectToggle).toHaveAttribute("aria-checked", "false");
+    await expect(lastCorrectToggle).toHaveAttribute("data-state", "unchecked");
+  }
 
   // click on collapse
   await lastButtonToggle.click();

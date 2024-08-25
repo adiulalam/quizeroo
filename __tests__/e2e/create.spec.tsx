@@ -1,5 +1,10 @@
 import { expect, test } from "@playwright/test";
-import { addQuestion, addQuiz, createLocators } from "../fixtures/create";
+import {
+  addAnswer,
+  addQuestion,
+  addQuiz,
+  createLocators,
+} from "../fixtures/create";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/create");
@@ -23,7 +28,10 @@ test.describe("Create Page", () => {
     await buttonQuizNextStep.click();
 
     await addQuestion(page, "question 1");
+    await addAnswer(page, "question 1 answer 1 false", false);
+    await addAnswer(page, "question 1 answer 2 true", true);
 
     await addQuestion(page, "question 2");
+    await addAnswer(page, "question 2 answer 2 true", true);
   });
 });

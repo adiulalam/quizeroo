@@ -33,6 +33,7 @@ export const AnswerDelete = () => {
             size="sm"
             className="p-1 sm:p-2"
             onClick={onClickHandler}
+            data-testid="button-delete-answer"
           >
             <Trash2 />
           </Button>

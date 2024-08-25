@@ -10,7 +10,7 @@ import { api } from "@/utils/api";
 
 export const AnswerFormTitle = () => {
   const { index: questionIndex } = useQuestion();
-  const { index: answerIndex, id } = useAnswer();
+  const { index: answerIndex, id, name } = useAnswer();
   const { control } = useQuestionForm();
   const { question } = api.useUtils();
 
@@ -30,14 +30,15 @@ export const AnswerFormTitle = () => {
     <FormField
       control={control}
       name={`questions.${questionIndex}.answers.${answerIndex}.name`}
-      render={({ field }) => (
+      render={({ field, fieldState: { isDirty } }) => (
         <FormItem className="w-full">
           <FormControl>
             <Input
               {...field}
               placeholder="Answer.."
               data-testid="input-answer-title"
-              onBlur={onBlurHandler}
+              onBlur={isDirty ? onBlurHandler : undefined}
+              data-value={name}
             />
           </FormControl>
           <FormMessage />
