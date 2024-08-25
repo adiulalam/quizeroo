@@ -5,7 +5,7 @@ import { useStepper } from "@/components/ui/Stepper";
 import { Form } from "@/components/ui/Form";
 import { toast } from "@/components/ui/useToast";
 import { QuizStepperActions } from ".";
-import { QuestionCreate, QuestionsDragable } from "../questionMutation";
+import { QuestionCreate, QuestionsDragable } from "../question";
 import { api, type RouterOutputs } from "@/utils/api";
 import { createQuestionSchema } from "@/server/schema/question.schema";
 import type { CreateQuizSchemaType } from "@/server/schema/quiz.schema";
