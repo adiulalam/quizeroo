@@ -4,6 +4,7 @@ import { Prisma } from "@prisma/client";
 import { db } from "../db";
 import type {
   ParamsType,
+  UpdateQuestionNameSchemaType,
   UpdateQuestionOrderSchemaType,
   UpdateQuestionsSchemaType,
 } from "../schema/question.schema";
@@ -218,6 +219,47 @@ export const updateQuestionsHandler = async ({
     }
 
     return questions;
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: err.message,
+      });
+    }
+    throw err;
+  }
+};
+
+export const updateQuestionNameHandler = async ({
+  input,
+  session,
+  params,
+}: {
+  input: UpdateQuestionNameSchemaType;
+  session: Session;
+  params: ParamsType;
+}) => {
+  try {
+    const userId = session.user.id;
+
+    const question = await db.question.update({
+      where: {
+        id: params.id,
+        quiz: { userId },
+      },
+      data: {
+        name: input.name,
+      },
+    });
+
+    if (!question) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Could not update name",
+      });
+    }
+
+    return question;
   } catch (err) {
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
       throw new TRPCError({

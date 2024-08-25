@@ -1,6 +1,5 @@
-import { FormField } from "@/components/ui/Form";
 import { useSortable } from "@dnd-kit/sortable";
-import { useQuestionForm, useQuestion } from "@/hooks";
+import { useQuestion } from "@/hooks";
 import { useState } from "react";
 import { Collapsible } from "../ui/Collapsible";
 import { CSS } from "@dnd-kit/utilities";
@@ -14,7 +13,6 @@ import { draggingVariants } from "@/utils/functions";
 
 export const QuestionCollapse = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { control } = useQuestionForm();
   const question = useQuestion();
 
   const { setNodeRef, transform, transition, isDragging } = useSortable({
@@ -46,13 +44,12 @@ export const QuestionCollapse = () => {
 
           <QuestionCollapseTrigger isOpen={isOpen} />
 
-          <FormField
-            control={control}
-            name={`questions.${question.index}.name`}
-            render={({ field: { value } }) => (
-              <h4 className="px-2 text-sm font-semibold">{value}</h4>
-            )}
-          />
+          <h4
+            className="px-2 text-sm font-semibold"
+            data-testid="header-question-title"
+          >
+            {question.name}
+          </h4>
         </div>
 
         <QuestionCollapseDelete />

@@ -5,6 +5,7 @@ import { QuestionCollapseGrip } from "./QuestionCollapseGrip";
 import { QuestionCollapseTrigger } from "./QuestionCollapseTrigger";
 import { QuestionCreate } from "./QuestionCreate";
 import { QuestionsDragable } from "./QuestionsDragable";
+import { QuestionTitle } from "./QuestionTitle";
 
 export {
   QuestionCreate,
@@ -14,4 +15,5 @@ export {
   QuestionCollapseGrip,
   QuestionCollapseDelete,
   QuestionCollapseContent,
+  QuestionTitle,
 };

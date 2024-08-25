@@ -29,6 +29,7 @@ export const createLocators = (page: Page) => {
     buttonToggleQuestion: page.getByTestId("button-toggle-question"), // Expander button
     buttonGripQuestion: page.getByTestId("button-grip-question"), // Drag and drop button
 
+    headerQuestionTitle: page.getByTestId("header-question-title"),
     inputQuestionTitle: page.getByTestId("input-question-title"),
 
     buttonDeleteQuestion: page.getByTestId("button-delete-question"),
@@ -67,4 +68,44 @@ export const addQuiz = async (
       "unchecked",
     );
   }
+};
+
+// Function to add a new question
+export const addQuestion = async (page: Page, text: string) => {
+  const {
+    buttonCreateQuestion,
+    buttonToggleQuestion,
+    inputQuestionTitle,
+    headerQuestionTitle,
+    questionCard,
+  } = createLocators(page);
+
+  const totalQuestion = await questionCard.count();
+
+  // click on 'Add new question'
+  await buttonCreateQuestion.click();
+
+  // wait for new question to be added
+  await expect(questionCard).toHaveCount(totalQuestion + 1);
+
+  // select the latest question locator
+  const lastButtonToggle = buttonToggleQuestion.last();
+  const lastInputQuestion = inputQuestionTitle.last();
+  const lastHeaderTitle = headerQuestionTitle.last();
+
+  // click to expand
+  await lastButtonToggle.click();
+  await expect(lastButtonToggle).toHaveAttribute("aria-expanded", "true");
+
+  // fill in the question
+  await lastInputQuestion.fill(text);
+
+  // Check if the question name has been saved
+  await lastInputQuestion.blur();
+  const textResponse = await lastHeaderTitle.innerText();
+  expect(textResponse).toBe(text);
+
+  // click on collapse
+  await lastButtonToggle.click();
+  await expect(lastButtonToggle).toHaveAttribute("aria-expanded", "false");
 };

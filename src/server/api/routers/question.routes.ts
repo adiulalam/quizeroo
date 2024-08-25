@@ -3,11 +3,13 @@ import {
   createQuestionHandler,
   deleteQuestionHandler,
   getQuestionsHandler,
+  updateQuestionNameHandler,
   updateQuestionOrderHandler,
   updateQuestionsHandler,
 } from "@/server/controller/question.controller";
 import {
   params,
+  updateQuestionNameSchema,
   updateQuestionOrderSchema,
   updateQuestionsSchema,
 } from "@/server/schema/question.schema";
@@ -48,6 +50,15 @@ export const questionRouter = createTRPCRouter({
       updateQuestionsHandler({
         session,
         input,
+      }),
+    ),
+  updateQuestionName: protectedProcedure
+    .input(updateQuestionNameSchema)
+    .mutation(({ input, ctx: { session } }) =>
+      updateQuestionNameHandler({
+        session,
+        params: input.params,
+        input: input.body,
       }),
     ),
 });

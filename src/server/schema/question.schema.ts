@@ -4,6 +4,13 @@ export const params = z.object({
   id: z.string().uuid(),
 });
 
+export const updateQuestionNameSchema = z.object({
+  params,
+  body: z.object({
+    name: z.string().min(8),
+  }),
+});
+
 export const createQuestionSchema = z
   .object({
     id: z.string().uuid(),
@@ -40,3 +47,6 @@ export type UpdateQuestionsSchemaType = TypeOf<typeof updateQuestionsSchema>;
 export type UpdateQuestionOrderSchemaType = TypeOf<
   typeof updateQuestionOrderSchema
 >;
+export type UpdateQuestionNameSchemaType = TypeOf<
+  typeof updateQuestionNameSchema
+>["body"];
