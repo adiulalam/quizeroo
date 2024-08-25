@@ -4,7 +4,9 @@ import { Prisma } from "@prisma/client";
 import { db } from "../db";
 import type {
   ParamsType,
+  UpdateAnswerNameSchemaType,
   UpdateAnswerOrderSchemaType,
+  UpdateAnswerToggleSchemaType,
 } from "../schema/answer.schema";
 
 export const createAnswerHandler = async ({
@@ -129,6 +131,88 @@ export const updateAnswerOrderHandler = async ({
     }
 
     return answers;
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: err.message,
+      });
+    }
+    throw err;
+  }
+};
+
+export const updateAnswerNameHandler = async ({
+  input,
+  session,
+  params,
+}: {
+  input: UpdateAnswerNameSchemaType;
+  session: Session;
+  params: ParamsType;
+}) => {
+  try {
+    const userId = session.user.id;
+
+    const answer = await db.answer.update({
+      where: {
+        id: params.id,
+        question: { quiz: { userId } },
+      },
+      data: {
+        name: input.name,
+      },
+    });
+
+    if (!answer) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Could not update name",
+      });
+    }
+
+    return answer;
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: err.message,
+      });
+    }
+    throw err;
+  }
+};
+
+export const updateAnswerToggleHandler = async ({
+  input,
+  session,
+  params,
+}: {
+  input: UpdateAnswerToggleSchemaType;
+  session: Session;
+  params: ParamsType;
+}) => {
+  try {
+    const userId = session.user.id;
+
+    const answer = await db.answer.update({
+      where: {
+        id: params.id,
+        question: { quiz: { userId } },
+      },
+      data: {
+        isCorrect: input.isCorrect,
+      },
+    });
+
+    if (!answer) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Could not update answer",
+      });
+    }
+
+    return answer;
   } catch (err) {
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
       throw new TRPCError({
