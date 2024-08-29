@@ -116,14 +116,22 @@ export const authOptions: NextAuthOptions = {
                 type: "email",
                 placeholder: "email@email.com",
               },
+              test_id: {
+                label: "Test Id",
+                type: "text",
+              },
             },
             authorize: async (credentials) => {
-              // todo: add a hardcoded id to check from
               const creds = await z
                 .object({
                   email: z.string().email(),
+                  test_id: z.string().uuid(),
                 })
                 .parseAsync(credentials);
+
+              const test_id = process.env.TEST_ID;
+
+              if (creds.test_id !== test_id) return null;
 
               const user = await db.user.findFirstOrThrow({
                 where: {

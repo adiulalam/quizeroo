@@ -25,9 +25,12 @@ export default async function globalSetup(config: FullConfig) {
   const page = await browser.newPage();
 
   const signInUrl = "/api/auth/signin?callbackUrl=%2F";
+  const email = "octocat@github.com";
+  const test_id = process.env.TEST_ID!;
 
   await page.goto(baseUrl + signInUrl);
-  await page.getByLabel("Email").fill("octocat@github.com");
+  await page.getByLabel("Email").fill(email);
+  await page.getByLabel("Test Id").fill(test_id);
   await page
     .getByRole("button", { name: "Sign in with TestCredentials" })
     .click();

@@ -13,6 +13,10 @@ import { defineConfig, devices } from "@playwright/test";
 
 const baseUrl = process.env.PLAYWRIGHT_TEST_BASE_URL ?? "http://localhost:3000";
 
+// Only way to prevent accident - can be any random uuid
+const TEST_ID = "911e0b79-5421-4a21-af54-1cba3d99de5d";
+process.env.TEST_ID = TEST_ID;
+
 export default defineConfig({
   testDir: "./__tests__/e2e/",
   fullyParallel: true,
