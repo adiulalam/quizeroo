@@ -1,7 +1,14 @@
 import { api } from "@/utils/api";
 import { Button } from "../ui/Button";
-import { ArrowRight, CirclePlay, Flag, SkipForward } from "lucide-react";
+import {
+  ArrowRight,
+  CirclePlay,
+  Flag,
+  SkipForward,
+  type LucideIcon,
+} from "lucide-react";
 import { useAnswerCounter, useCurrentQuestion, useQuizSession } from "@/hooks";
+import { useMemo } from "react";
 
 export const ServeButton = (
   props: React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -32,6 +39,20 @@ export const ServeButton = (
     },
   });
 
+  const { Icon, text } = useMemo<{ text: string; Icon: LucideIcon }>(() => {
+    // No next question, quiz finish
+    if (!hasNextQuestion) return { text: "Finish", Icon: Flag };
+
+    // Quiz chart page, show next button
+    if (showSubmission) return { text: "Next", Icon: ArrowRight };
+
+    // Quiz in progress page, can skip
+    if (currentQuestionId) return { text: "Skip", Icon: SkipForward };
+
+    // Must be in the start page
+    return { text: "Start", Icon: CirclePlay };
+  }, [hasNextQuestion, showSubmission, currentQuestionId]);
+
   const onClickHandler = () => {
     if (isFinished) return;
 
@@ -47,24 +68,6 @@ export const ServeButton = (
       mutate({ id, showSubmission: false, currentQuestionId: nextQuestion.id });
     }
   };
-
-  // todo: fix this nexted shit
-  const Icon = !hasNextQuestion
-    ? Flag
-    : showSubmission
-      ? ArrowRight
-      : currentQuestionId
-        ? SkipForward
-        : CirclePlay;
-
-  // todo: this too
-  const text = !hasNextQuestion
-    ? "Finish"
-    : showSubmission
-      ? "Next"
-      : currentQuestionId
-        ? "Skip"
-        : "Start";
 
   if (isFinished) return null;
 
