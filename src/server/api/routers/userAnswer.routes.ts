@@ -4,9 +4,9 @@ import {
   createUserAnswerSchema,
   streamUserAnswerSchema,
 } from "@/server/schema/userAnswer.schema";
-import { ee } from "./user.routes";
 import { observable } from "@trpc/server/observable";
 import type { UserAnswer } from "@prisma/client";
+import { ee } from "../wssEmitter";
 
 export const userAnswerRouter = createTRPCRouter({
   onSubmitAnswer: protectedProcedure

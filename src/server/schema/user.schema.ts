@@ -11,5 +11,12 @@ export const mutateTempUserSchema = z.object({
   quizSessionId: z.string().uuid(),
 });
 
+export const joinQuizSessionSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string().min(2),
+  quizSessionId: z.string().uuid(),
+});
+
 export type ParamsType = TypeOf<typeof params>;
 export type MutateTempUserSchemaType = TypeOf<typeof mutateTempUserSchema>;
+export type JoinQuizSessionSchemaType = TypeOf<typeof joinQuizSessionSchema>;

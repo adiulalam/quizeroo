@@ -20,7 +20,7 @@ import {
   streamQuizSessionSchema,
 } from "@/server/schema/quizSession.schema";
 import { observable } from "@trpc/server/observable";
-import { ee } from "./user.routes";
+import { ee } from "../wssEmitter";
 
 export const quizSessionRouter = createTRPCRouter({
   onCountdown: protectedProcedure

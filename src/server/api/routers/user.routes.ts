@@ -3,58 +3,21 @@ import {
   updateTempUserHandler,
   getTempUserHandler,
 } from "@/server/controller/user.controller";
-import type {
-  UpdateCountDownType,
-  UpdateSessionQuestionType,
-} from "@/server/schema/quizSession.schema";
-import { mutateTempUserSchema, params } from "@/server/schema/user.schema";
-import type { UserAnswer } from "@prisma/client";
+import {
+  joinQuizSessionSchema,
+  type JoinQuizSessionSchemaType,
+  mutateTempUserSchema,
+  params,
+} from "@/server/schema/user.schema";
 import { observable } from "@trpc/server/observable";
-import { EventEmitter } from "events";
-import { z } from "zod";
-
-// todo: fix this shit right here
-interface MyEvents {
-  join: (data: JoinQuizSession) => void;
-  nextQuestion: (data: UpdateSessionQuestionType) => void;
-  answer: (data: UserAnswer) => void;
-  countdown: (data: UpdateCountDownType) => void;
-}
-
-class MyEventEmitter extends EventEmitter {
-  on<TEv extends keyof MyEvents>(event: TEv, listener: MyEvents[TEv]): this {
-    return super.on(event, listener);
-  }
-  off<TEv extends keyof MyEvents>(event: TEv, listener: MyEvents[TEv]): this {
-    return super.off(event, listener);
-  }
-  once<TEv extends keyof MyEvents>(event: TEv, listener: MyEvents[TEv]): this {
-    return super.once(event, listener);
-  }
-  emit<TEv extends keyof MyEvents>(
-    event: TEv,
-    ...args: Parameters<MyEvents[TEv]>
-  ): boolean {
-    return super.emit(event, ...args);
-  }
-}
-
-export const ee = new MyEventEmitter();
-
-const joinQuizSessionSchema = z.object({
-  id: z.string().uuid(),
-  name: z.string().min(2),
-  quizSessionId: z.string().uuid(),
-});
-
-export type JoinQuizSession = z.TypeOf<typeof joinQuizSessionSchema>;
+import { ee } from "../wssEmitter";
 
 export const userRouter = createTRPCRouter({
   onJoin: protectedProcedure
     .input(joinQuizSessionSchema)
     .subscription(({ input, ctx: { session } }) => {
-      return observable<JoinQuizSession>((emit) => {
-        const onJoin = (data: JoinQuizSession) => {
+      return observable<JoinQuizSessionSchemaType>((emit) => {
+        const onJoin = (data: JoinQuizSessionSchemaType) => {
           if (data.quizSessionId === input.quizSessionId && session.user.id) {
             emit.next(data);
           }
@@ -82,7 +45,7 @@ export const userRouter = createTRPCRouter({
       });
 
       if (tempUser.name && tempUser.quizSessionId) {
-        const joinParams: JoinQuizSession = {
+        const joinParams: JoinQuizSessionSchemaType = {
           id: tempUser.id,
           name: tempUser.name,
           quizSessionId: tempUser.quizSessionId,
