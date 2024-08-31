@@ -6,11 +6,13 @@ export const createLocators = (page: Page) => {
     // view quiz
     quizItems: page.getByTestId("quiz-items"),
     quizCard: page.getByTestId("quiz-card"),
+    headerQuizTitle: page.getByTestId("header-quiz-title"),
     quizDialog: page.getByTestId("quiz-dialog"),
     closeDialog: page.getByTestId("button-close-dialog"),
 
     // create quiz
     buttonCreateQuiz: page.getByTestId("button-create-quiz"),
+    buttonRestartQuiz: page.getByTestId("button-restart-quiz"),
 
     // todo: update
 

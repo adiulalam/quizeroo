@@ -14,7 +14,9 @@ export const CardText = () => {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <CardTitle className="truncate">{title}</CardTitle>
+          <CardTitle className="truncate" data-testid="header-quiz-title">
+            {title}
+          </CardTitle>
         </TooltipTrigger>
         <TooltipContent>
           <p>{title}</p>

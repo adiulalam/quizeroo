@@ -21,7 +21,6 @@ export default async function globalSetup(config: FullConfig) {
   });
 
   const browser = await chromium.launch();
-
   const page = await browser.newPage();
 
   const signInUrl = "/api/auth/signin?callbackUrl=%2F";

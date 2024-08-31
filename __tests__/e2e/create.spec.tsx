@@ -22,7 +22,12 @@ test.describe("Create Page", () => {
   });
 
   test("Create quiz", async ({ page }) => {
-    const { buttonQuizNextStep } = createLocators(page);
+    const {
+      buttonQuizNextStep,
+      buttonRestartQuiz,
+      closeDialog,
+      headerQuizTitle,
+    } = createLocators(page);
     await addQuiz(page, "quiz 1", false);
 
     await buttonQuizNextStep.click();
@@ -33,5 +38,13 @@ test.describe("Create Page", () => {
 
     await addQuestion(page, "question 2");
     await addAnswer(page, "question 2 answer 2 true", true);
+
+    await buttonQuizNextStep.click();
+    await expect(buttonRestartQuiz).toBeVisible();
+
+    await closeDialog.click();
+    await expect(
+      headerQuizTitle.filter({ hasText: "quiz 1" }).first(),
+    ).toBeVisible();
   });
 });
