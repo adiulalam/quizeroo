@@ -20,7 +20,10 @@ export const CardMenuEdit = () => {
         <TooltipTrigger asChild>
           <span>
             <DialogTrigger asChild>
-              <DropdownMenuItem disabled={status === "COMPLETED" || isSession}>
+              <DropdownMenuItem
+                disabled={status === "COMPLETED" || isSession}
+                data-testid="menu-item-edit"
+              >
                 <Pencil className="mr-2 size-4" />
                 Edit
               </DropdownMenuItem>

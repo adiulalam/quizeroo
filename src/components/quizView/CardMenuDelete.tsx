@@ -48,13 +48,14 @@ export const CardMenuDeleteAlert = () => {
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
-        <AlertDialogCancel>
+        <AlertDialogCancel data-testid="button-delete-cancel">
           <PanelLeftClose className="mr-2 size-4" />
           Cancel
         </AlertDialogCancel>
         <AlertDialogAction
           onClick={onClickHandler}
           className="hover:bg-destructive"
+          data-testid="button-delete-continue"
         >
           Continue
           <MoveRight className="ml-2 size-4" />
@@ -67,7 +68,7 @@ export const CardMenuDeleteAlert = () => {
 export const CardMenuDelete = () => {
   return (
     <AlertDialogTrigger asChild>
-      <DropdownMenuItem>
+      <DropdownMenuItem data-testid="menu-item-delete">
         <Trash2 className="mr-2 size-4" />
         Delete
       </DropdownMenuItem>

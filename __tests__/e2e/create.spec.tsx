@@ -1,10 +1,11 @@
 import { expect, test } from "@playwright/test";
 import {
   addAnswer,
-  addQuestion,
-  addQuiz,
+  addOrUpdateQuestion,
+  addOrUpdateQuiz,
   createLocators,
 } from "../fixtures/create";
+import { findLocatorIndex } from "../setup/function";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/create");
@@ -28,15 +29,15 @@ test.describe("Create Page", () => {
       closeDialog,
       headerQuizTitle,
     } = createLocators(page);
-    await addQuiz(page, "quiz 1", false);
+    await addOrUpdateQuiz(page, false, "quiz 1", false);
 
     await buttonQuizNextStep.click();
 
-    await addQuestion(page, "question 1");
+    await addOrUpdateQuestion(page, false, "question 1", -1);
     await addAnswer(page, "question 1 answer 1 false", false);
     await addAnswer(page, "question 1 answer 2 true", true);
 
-    await addQuestion(page, "question 2");
+    await addOrUpdateQuestion(page, false, "question 2", -1);
     await addAnswer(page, "question 2 answer 2 true", true);
 
     await buttonQuizNextStep.click();
@@ -46,5 +47,44 @@ test.describe("Create Page", () => {
     await expect(
       headerQuizTitle.filter({ hasText: "quiz 1" }).first(),
     ).toBeVisible();
+  });
+
+  test("Update quiz", async ({ page }) => {
+    const {
+      buttonMenuQuiz,
+      quizCard,
+      headerQuestionTitle,
+      buttonQuizNextStep,
+    } = createLocators(page);
+
+    const quiz = quizCard.filter({ hasText: "quiz 1" }).first();
+    await quiz.locator(buttonMenuQuiz).click();
+
+    await addOrUpdateQuiz(page, true, "quiz 1 updated", false);
+
+    await buttonQuizNextStep.click();
+    await expect(headerQuestionTitle.nth(0)).toBeVisible();
+
+    const questionOneIndex = await findLocatorIndex(
+      headerQuestionTitle,
+      "question 1",
+    );
+    await addOrUpdateQuestion(
+      page,
+      true,
+      "question 1 updated",
+      questionOneIndex,
+    );
+
+    const questionTwoIndex = await findLocatorIndex(
+      headerQuestionTitle,
+      "question 1",
+    );
+    await addOrUpdateQuestion(
+      page,
+      true,
+      "question 2 updated",
+      questionTwoIndex,
+    );
   });
 });

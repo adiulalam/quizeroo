@@ -18,7 +18,10 @@ export const CardMenuFavourite = () => {
   const Icon = isFavourite ? HeartCrack : Heart;
 
   return (
-    <DropdownMenuItem onClick={onClickHandler}>
+    <DropdownMenuItem
+      onClick={onClickHandler}
+      data-testid="menu-item-favourite"
+    >
       <Icon className="mr-2 size-4" />
       {isFavourite ? "Unmark" : "Mark"} as Favourite
     </DropdownMenuItem>

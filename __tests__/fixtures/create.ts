@@ -14,9 +14,16 @@ export const createLocators = (page: Page) => {
     buttonCreateQuiz: page.getByTestId("button-create-quiz"),
     buttonRestartQuiz: page.getByTestId("button-restart-quiz"),
 
-    // todo: update
+    // Quiz - Menu update
+    buttonMenuQuiz: page.getByTestId("button-menu-quiz"),
+    menuItemEdit: page.getByTestId("menu-item-edit"),
+    menuItemFavourite: page.getByTestId("menu-item-favourite"),
+    menuItemStatus: page.getByTestId("menu-item-status"),
 
-    // todo: delete
+    // Quiz - Menu update
+    menuItemDelete: page.getByTestId("menu-item-delete"),
+    buttonDeleteContinue: page.getByTestId("button-delete-continue"),
+    buttonDeleteCancel: page.getByTestId("button-delete-cancel"),
 
     // mutation - quiz step
     inputQuizTitle: page.getByTestId("input-quiz-title"),
@@ -54,16 +61,29 @@ export const createLocators = (page: Page) => {
   };
 };
 
-// Function to add a new quiz
-export const addQuiz = async (
+// Function to add or update a new quiz
+export const addOrUpdateQuiz = async (
   page: Page,
+  isUpdate: boolean,
   text: string,
   setFavourite: boolean,
 ) => {
-  const { buttonCreateQuiz, quizDialog, inputQuizTitle, switchQuizFavourite } =
-    createLocators(page);
+  const {
+    buttonCreateQuiz,
+    quizDialog,
+    inputQuizTitle,
+    switchQuizFavourite,
+    menuItemEdit,
+  } = createLocators(page);
 
-  await buttonCreateQuiz.click();
+  if (isUpdate) {
+    // click on 'Edit' from menu
+    await menuItemEdit.click();
+  } else {
+    // click on 'Add new quiz'
+    await buttonCreateQuiz.click();
+  }
+
   await expect(quizDialog).toBeVisible();
 
   await inputQuizTitle.fill(text);
@@ -83,7 +103,12 @@ export const addQuiz = async (
 };
 
 // Function to add a new question
-export const addQuestion = async (page: Page, text: string) => {
+export const addOrUpdateQuestion = async (
+  page: Page,
+  isUpdate: boolean,
+  text: string,
+  questionPosition: number,
+) => {
   const {
     buttonCreateQuestion,
     buttonToggleQuestion,
@@ -92,18 +117,18 @@ export const addQuestion = async (page: Page, text: string) => {
     questionCard,
   } = createLocators(page);
 
-  const totalQuestion = await questionCard.count();
-
-  // click on 'Add new question'
-  await buttonCreateQuestion.click();
-
-  // wait for new question to be added
-  await expect(questionCard).toHaveCount(totalQuestion + 1);
+  if (!isUpdate) {
+    const totalQuestion = await questionCard.count();
+    // click on 'Add new question'
+    await buttonCreateQuestion.click();
+    // wait for new question to be added
+    await expect(questionCard).toHaveCount(totalQuestion + 1);
+  }
 
   // select the latest question locator
-  const lastButtonToggle = buttonToggleQuestion.last();
-  const lastInputQuestion = inputQuestionTitle.last();
-  const lastHeaderTitle = headerQuestionTitle.last();
+  const lastButtonToggle = buttonToggleQuestion.nth(questionPosition);
+  const lastInputQuestion = inputQuestionTitle.nth(questionPosition);
+  const lastHeaderTitle = headerQuestionTitle.nth(questionPosition);
 
   // click to expand
   await lastButtonToggle.click();

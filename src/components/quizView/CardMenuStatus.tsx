@@ -33,7 +33,11 @@ export const CardMenuStatus = () => {
       <Tooltip>
         <TooltipTrigger asChild>
           <span>
-            <DropdownMenuItem disabled={!hasQuestion} onClick={onClickHandler}>
+            <DropdownMenuItem
+              disabled={!hasQuestion}
+              onClick={onClickHandler}
+              data-testid="menu-item-status"
+            >
               <Icon className="mr-2 size-4" />
               Mark as {status === "DRAFT" ? "Completed" : "Draft"}
             </DropdownMenuItem>
