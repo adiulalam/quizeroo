@@ -1,4 +1,3 @@
-import { postRouter } from "@/server/api/routers/post.routes";
 import {
   createCallerFactory,
   createTRPCRouter,
@@ -19,7 +18,6 @@ import { userAnswerRouter } from "./routers/userAnswer.routes";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  post: postRouter,
   quiz: quizRouter,
   question: questionRouter,
   answer: answerRouter,
