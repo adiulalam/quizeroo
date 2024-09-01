@@ -13,6 +13,7 @@ import {
 } from "./CurrentQuestionProvider";
 import { MutateQuizContext, MutateQuizProvider } from "./MutateQuizProvider";
 import { NavbarContext, NavbarProvider } from "./NavbarProvider";
+import { ProfileContext, ProfileProvider } from "./ProfileProvider";
 import {
   QuestionCountdownProvider,
   QuestionCountdownContext,
@@ -60,4 +61,6 @@ export {
   QuestionCountdownProvider,
   UserScoreContext,
   UserScoreProvider,
+  ProfileContext,
+  ProfileProvider,
 };

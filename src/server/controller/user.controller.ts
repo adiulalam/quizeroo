@@ -165,3 +165,30 @@ export const getTempUserHandler = async ({
     throw err;
   }
 };
+
+export const getProfileHandler = async ({ session }: { session: Session }) => {
+  try {
+    const id = session.user.id;
+
+    const user = await db.user.findFirstOrThrow({
+      where: { id },
+    });
+
+    if (!user) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "User not found",
+      });
+    }
+
+    return user;
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: err.message,
+      });
+    }
+    throw err;
+  }
+};

@@ -2,6 +2,7 @@ import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import {
   updateTempUserHandler,
   getTempUserHandler,
+  getProfileHandler,
 } from "@/server/controller/user.controller";
 import {
   joinQuizSessionSchema,
@@ -56,4 +57,7 @@ export const userRouter = createTRPCRouter({
 
       return tempUser;
     }),
+  getProfile: protectedProcedure.query(({ ctx: { session } }) =>
+    getProfileHandler({ session }),
+  ),
 });
