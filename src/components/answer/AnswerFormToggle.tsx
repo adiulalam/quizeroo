@@ -9,8 +9,6 @@ import {
 } from "../ui/Tooltip";
 import { api } from "@/utils/api";
 
-// todo: only allow one correct answer per question?
-// or allow multiple submission
 export const AnswerFormToggle = () => {
   const { index: questionIndex } = useQuestion();
   const { index: answerIndex, id } = useAnswer();

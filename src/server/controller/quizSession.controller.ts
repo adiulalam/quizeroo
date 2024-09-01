@@ -64,14 +64,21 @@ export const updateQuizSessionHandler = async ({
         });
       }
 
-      const hasCorrectAnswer = question.answers.some(
+      const correctAnswers = question.answers.filter(
         (answer) => answer.isCorrect,
       );
 
-      if (!hasCorrectAnswer) {
+      if (correctAnswers.length <= 0) {
         throw new TRPCError({
           code: "NOT_FOUND",
           message: `One correct answer is required for question ${question.name}`,
+        });
+      }
+
+      if (correctAnswers.length >= 2) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: `Multiple correct answers is not supported for question ${question.name}`,
         });
       }
     });
