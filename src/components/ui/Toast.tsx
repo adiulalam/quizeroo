@@ -79,6 +79,7 @@ const ToastClose = React.forwardRef<
       className,
     )}
     toast-close=""
+    data-testid="button-close-toast"
     {...props}
   >
     <X className="h-4 w-4" />

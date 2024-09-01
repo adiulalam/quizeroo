@@ -1,7 +1,12 @@
 import { type Page, type Locator, expect } from "@playwright/test";
 
 export class Create {
+  // UI - toast
+  public readonly toastMessage: Locator;
+  public readonly buttonCloseToast: Locator;
+
   // View quiz locators
+  private readonly headerNoQuiz: Locator;
   private readonly quizItems: Locator;
   public readonly quizCard: Locator;
   public readonly headerQuizTitle: Locator;
@@ -52,6 +57,10 @@ export class Create {
 
   constructor(public readonly page: Page) {
     // Initialize locators for various quiz elements
+    this.toastMessage = this.page.getByTestId("toast-message");
+    this.buttonCloseToast = this.page.getByTestId("button-close-toast");
+
+    this.headerNoQuiz = this.page.getByTestId("header-no-quiz");
     this.quizItems = this.page.getByTestId("quiz-items");
     this.quizCard = this.page.getByTestId("quiz-card");
     this.headerQuizTitle = this.page.getByTestId("header-quiz-title");
@@ -240,5 +249,36 @@ export class Create {
     // Collapse the question section
     await questionToggle.click();
     await expect(questionToggle).toHaveAttribute("aria-expanded", "false");
+  }
+
+  /**
+   * Function to remove an quiz.
+   * @param text - The quiz text.
+   */
+  async removeQuiz(text: string) {
+    const quiz = this.quizCard.filter({ hasText: text }).first();
+    await quiz.locator(this.buttonMenuQuiz).click();
+    await this.menuItemDelete.click();
+    await this.buttonDeleteContinue.click();
+  }
+
+  /**
+   * Function to remove all quizzes.
+   */
+  async removeAllQuiz() {
+    await expect(this.headerNoQuiz.or(this.quizCard.first())).toBeVisible();
+
+    while ((await this.quizCard.count()) > 0) {
+      const quiz = this.quizCard.first();
+      await quiz.locator(this.buttonMenuQuiz).click();
+      await this.menuItemDelete.click();
+      await this.buttonDeleteContinue.click();
+
+      await expect(this.toastMessage).toHaveText("Quiz Deleted Successfully");
+      await this.buttonCloseToast.click();
+      await expect(this.toastMessage).toBeHidden();
+    }
+
+    await expect(this.headerNoQuiz).toBeVisible();
   }
 }

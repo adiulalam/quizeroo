@@ -10,6 +10,7 @@ import {
 import { QuizSkeleton } from "@/components/skeleton";
 import { ErrorBox } from "@/components/ui/ErrorBox";
 import InfiniteScroll from "@/components/ui/InfiniteScroll";
+import { H1 } from "@/components/ui/Typography";
 import { ViewQuizProvider } from "@/provider";
 import { authOptions } from "@/server/auth";
 import { Filter, Order, Sort } from "@/types/Quiz.types";
@@ -100,6 +101,14 @@ const Create = ({ userSession }: { userSession: Session }) => {
                       <QuizCard />
                     </ViewQuizProvider>
                   )),
+                )}
+                {(data?.pages[0]?.data.quizzes.length ?? 0) <= 0 && (
+                  <div
+                    className="flex h-40 max-w-md items-center justify-center"
+                    data-testid="header-no-quiz"
+                  >
+                    <H1 className="text-center">No Quiz has been found.</H1>
+                  </div>
                 )}
               </div>
               <InfiniteScroll
