@@ -146,13 +146,17 @@ model Session {
 }
 
 model User {
-    id            String       @id @default(uuid())
+    id            String    @id @default(uuid())
     name          String?
-    email         String?      @unique
+    email         String?   @unique
     emailVerified DateTime?
     image         String?
-    isTempUser    Boolean      @default(false)
-    isActive      Boolean      @default(true)
+    dateOfBirth   DateTime? @db.Date
+    gender        Gender?
+    phone         String?   @unique @db.VarChar(15)
+    isTempUser    Boolean   @default(false)
+    isActive      Boolean   @default(true)
+
     quizSessionId String?
     quizSession   QuizSession? @relation(fields: [quizSessionId], references: [id], onDelete: Cascade, name: "quizSessionId")
 
@@ -175,4 +179,10 @@ model VerificationToken {
 enum Status {
     DRAFT
     COMPLETED
+}
+
+enum Gender {
+    MALE
+    FEMALE
+    OTHER
 }
