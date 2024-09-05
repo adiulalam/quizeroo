@@ -1,8 +1,12 @@
 import type { RouterOutputs } from "@/utils/api";
 import { createContext } from "react";
 import type { ReactNode } from "react";
+import { type Session } from "next-auth";
 
-type ProfileType = RouterOutputs["user"]["getProfile"];
+type ProfileType = {
+  profile: RouterOutputs["user"]["getProfile"];
+  session: Session;
+};
 
 export const ProfileContext = createContext<ProfileType | undefined>(undefined);
 

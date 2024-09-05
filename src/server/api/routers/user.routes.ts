@@ -3,12 +3,14 @@ import {
   updateTempUserHandler,
   getTempUserHandler,
   getProfileHandler,
+  updateProfileHandler,
 } from "@/server/controller/user.controller";
 import {
   joinQuizSessionSchema,
   type JoinQuizSessionSchemaType,
   mutateTempUserSchema,
   params,
+  updateUserProfileSchema,
 } from "@/server/schema/user.schema";
 import { observable } from "@trpc/server/observable";
 import { ee } from "../wssEmitter";
@@ -60,4 +62,9 @@ export const userRouter = createTRPCRouter({
   getProfile: protectedProcedure.query(({ ctx: { session } }) =>
     getProfileHandler({ session }),
   ),
+  updateProfile: protectedProcedure
+    .input(updateUserProfileSchema)
+    .mutation(({ input, ctx: { session } }) =>
+      updateProfileHandler({ session, input }),
+    ),
 });

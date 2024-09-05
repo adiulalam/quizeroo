@@ -4,9 +4,9 @@ import { ProfileProvider } from "@/provider";
 import { authOptions } from "@/server/auth";
 import { api } from "@/utils/api";
 import type { GetServerSidePropsContext } from "next";
-import { getServerSession } from "next-auth";
+import { getServerSession, type Session } from "next-auth";
 
-const Profile = () => {
+const Profile = ({ userSession }: { userSession: Session }) => {
   const { data, isLoading, isError, refetch } = api.user.getProfile.useQuery();
 
   if (isLoading) {
@@ -20,12 +20,13 @@ const Profile = () => {
       </ProfileWrapper>
     );
   }
+
   return (
-    <ProfileWrapper>
-      <ProfileProvider value={data}>
+    <ProfileProvider value={{ profile: data, session: userSession }}>
+      <ProfileWrapper>
         <ProfileForm />
-      </ProfileProvider>
-    </ProfileWrapper>
+      </ProfileWrapper>
+    </ProfileProvider>
   );
 };
 

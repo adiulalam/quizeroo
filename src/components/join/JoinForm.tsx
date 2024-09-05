@@ -69,7 +69,7 @@ export const JoinForm = ({ setShowForm }: JoinFormtype) => {
         quizSessionId: values.quizSessionId,
       });
     } else {
-      await signIn("credentials", {
+      await signIn("temp-user-login", {
         name: values.name,
         quizSessionId: id,
       });

@@ -2,8 +2,13 @@ import { NavbarContainer } from "@/components/nav";
 import { Separator } from "@/components/ui/Separator";
 import { H2 } from "@/components/ui/Typography";
 import Head from "next/head";
+import { TempUserAlert } from "../quizView";
+import { useProfile } from "@/hooks/useProfile";
 
 export const ProfileWrapper = ({ children }: { children: React.ReactNode }) => {
+  const { session } = useProfile();
+  const { isTempUser } = session.user;
+
   return (
     <>
       <Head>
@@ -13,8 +18,9 @@ export const ProfileWrapper = ({ children }: { children: React.ReactNode }) => {
       </Head>
 
       <NavbarContainer>
-        <div className="flex w-full justify-center">
+        <div className="flex w-full justify-center gap-2">
           <div className="flex w-full max-w-2xl flex-col gap-6 rounded-lg border bg-card p-6 text-card-foreground shadow-sm">
+            {isTempUser && <TempUserAlert />}
             <div>
               <H2>Profile</H2>
               <p className="text-sm text-muted-foreground">
