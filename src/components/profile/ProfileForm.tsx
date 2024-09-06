@@ -16,14 +16,17 @@ import {
   ProfileFormSubmit,
 } from ".";
 import { api } from "@/utils/api";
+import { useSession } from "next-auth/react";
 
 export const ProfileForm = () => {
+  const { update } = useSession();
   const { profile } = useProfile();
   const { user } = api.useUtils();
 
   const { mutate, isPending } = api.user.updateProfile.useMutation({
-    onSuccess: () => {
-      void user.getProfile.invalidate();
+    onSuccess: async (data) => {
+      await update({ name: data.name ?? "" });
+      await user.getProfile.invalidate();
     },
     onError: (e) => {
       const message = e.message;
