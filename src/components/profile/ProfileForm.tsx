@@ -29,7 +29,7 @@ export const ProfileForm = () => {
       await user.getProfile.invalidate();
 
       toast({
-        title: 'Profile updated successfully',
+        title: "Profile updated successfully",
       });
     },
     onError: (e) => {
@@ -65,6 +65,7 @@ export const ProfileForm = () => {
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-6"
+        data-testid="profile-card"
       >
         <ProfileFormName />
 

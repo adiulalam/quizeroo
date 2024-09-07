@@ -22,7 +22,7 @@ export const ProfileFormName = () => {
           <FormLabel>Name</FormLabel>
           <FormDescription>This is your public display name.</FormDescription>
           <FormControl>
-            <Input placeholder="Name.." {...field} />
+            <Input placeholder="Name.." data-testid="input-name" {...field} />
           </FormControl>
 
           <FormMessage />

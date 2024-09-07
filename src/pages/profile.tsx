@@ -10,12 +10,16 @@ const Profile = ({ userSession }: { userSession: Session }) => {
   const { data, isLoading, isError, refetch } = api.user.getProfile.useQuery();
 
   if (isLoading) {
-    return <p>loading</p>;
+    return (
+      <ProfileWrapper isTempUser={userSession.user.isTempUser}>
+        <p>loading</p>
+      </ProfileWrapper>
+    );
   }
 
   if (!data || isError) {
     return (
-      <ProfileWrapper>
+      <ProfileWrapper isTempUser={userSession.user.isTempUser}>
         <ErrorBox refetch={refetch} />
       </ProfileWrapper>
     );
@@ -23,7 +27,7 @@ const Profile = ({ userSession }: { userSession: Session }) => {
 
   return (
     <ProfileProvider value={{ profile: data, session: userSession }}>
-      <ProfileWrapper>
+      <ProfileWrapper isTempUser={userSession.user.isTempUser}>
         <ProfileForm />
       </ProfileWrapper>
     </ProfileProvider>

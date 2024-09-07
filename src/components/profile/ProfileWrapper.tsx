@@ -3,12 +3,14 @@ import { Separator } from "@/components/ui/Separator";
 import { H2 } from "@/components/ui/Typography";
 import Head from "next/head";
 import { TempUserAlert } from "../quizView";
-import { useProfile } from "@/hooks/useProfile";
 
-export const ProfileWrapper = ({ children }: { children: React.ReactNode }) => {
-  const { session } = useProfile();
-  const { isTempUser } = session.user;
-
+export const ProfileWrapper = ({
+  children,
+  isTempUser,
+}: {
+  children: React.ReactNode;
+  isTempUser: boolean;
+}) => {
   return (
     <>
       <Head>

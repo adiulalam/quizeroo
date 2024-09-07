@@ -31,6 +31,7 @@ export const ProfileFormImage = () => {
               placeholder="Image.."
               value={field.value ?? undefined}
               disabled={isTempUser || true}
+              data-testid="input-image"
             />
           </FormControl>
           <FormMessage />

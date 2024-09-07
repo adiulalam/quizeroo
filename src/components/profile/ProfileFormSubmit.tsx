@@ -16,6 +16,7 @@ export const ProfileFormSubmit = ({ isPending }: { isPending: boolean }) => {
       type="submit"
       className="w-min self-end"
       disabled={!isDirty || isPending}
+      data-testid="button-submit"
     >
       {isPending ? "Updating" : "Update"} profile
       <Icon className={cn("ml-2 h-4 w-4", isPending && "animate-spin")} />

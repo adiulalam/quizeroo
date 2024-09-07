@@ -35,19 +35,28 @@ export const ProfileFormGender = () => {
             >
               <FormItem className="flex items-center space-x-3 space-y-0">
                 <FormControl>
-                  <RadioGroupItem value={Gender.MALE} />
+                  <RadioGroupItem
+                    value={Gender.MALE}
+                    data-testid="input-radio-male"
+                  />
                 </FormControl>
                 <FormLabel className="font-normal">Male</FormLabel>
               </FormItem>
               <FormItem className="flex items-center space-x-3 space-y-0">
                 <FormControl>
-                  <RadioGroupItem value={Gender.FEMALE} />
+                  <RadioGroupItem
+                    value={Gender.FEMALE}
+                    data-testid="input-radio-female"
+                  />
                 </FormControl>
                 <FormLabel className="font-normal">Female</FormLabel>
               </FormItem>
               <FormItem className="flex items-center space-x-3 space-y-0">
                 <FormControl>
-                  <RadioGroupItem value={Gender.OTHER} />
+                  <RadioGroupItem
+                    value={Gender.OTHER}
+                    data-testid="input-radio-other"
+                  />
                 </FormControl>
                 <FormLabel className="font-normal">Other</FormLabel>
               </FormItem>

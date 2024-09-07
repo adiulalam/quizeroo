@@ -41,6 +41,7 @@ export const ProfileFormDoB = () => {
                     !field.value && "text-muted-foreground",
                   )}
                   disabled={isTempUser}
+                  data-testid="button-dob"
                 >
                   {field.value ? (
                     format(field.value, "PP", { locale: enGB })

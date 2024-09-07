@@ -62,7 +62,7 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        Dropdown: ({ value, onChange, children }: DropdownProps) => {
+        Dropdown: ({ value, onChange, children, name }: DropdownProps) => {
           const options = React.Children.toArray(
             children,
           ) as React.ReactElement<React.HTMLProps<HTMLOptionElement>>[];
@@ -74,13 +74,11 @@ function Calendar({
             onChange?.(changeEvent);
           };
           return (
-            <Select
-              value={value?.toString()}
-              onValueChange={(value) => {
-                handleChange(value);
-              }}
-            >
-              <SelectTrigger className="pr-1.5 focus:ring-0">
+            <Select value={value?.toString()} onValueChange={handleChange}>
+              <SelectTrigger
+                className="pr-1.5 focus:ring-0"
+                data-testid={`button-calendar-${name}`}
+              >
                 <SelectValue>{selected?.props?.children}</SelectValue>
               </SelectTrigger>
               <SelectContent position="popper">
@@ -89,6 +87,7 @@ function Calendar({
                     <SelectItem
                       key={`${option.props.value?.toString()}-${id}`}
                       value={option.props.value?.toString() ?? ""}
+                      data-testid={`option-calendar-${name}`}
                     >
                       {option.props.children}
                     </SelectItem>

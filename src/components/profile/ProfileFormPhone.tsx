@@ -32,6 +32,7 @@ export const ProfileFormPhone = () => {
               value={field.value ?? undefined}
               type="tel"
               disabled={isTempUser}
+              data-testid="input-phone"
             />
           </FormControl>
           <FormMessage />
