@@ -8,16 +8,21 @@ const storageState = "__tests__/setup/storageState.host.json";
 export default async function globalSetup(config: FullConfig) {
   const baseUrl = config.projects[0]?.use.baseURL;
 
+  const data = {
+    name: "Octocat",
+    email: "octocat@github.com",
+    image: "https://github.com/octocat.png",
+    phone: null,
+    gender: null,
+    dateOfBirth: null,
+  };
+
   await db.user.upsert({
     where: {
       email: "octocat@github.com",
     },
-    create: {
-      name: "Octocat",
-      email: "octocat@github.com",
-      image: "https://github.com/octocat.png",
-    },
-    update: {},
+    create: data,
+    update: data,
   });
 
   const browser = await chromium.launch();
