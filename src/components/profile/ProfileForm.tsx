@@ -27,6 +27,10 @@ export const ProfileForm = () => {
     onSuccess: async (data) => {
       await update({ name: data.name ?? "" });
       await user.getProfile.invalidate();
+
+      toast({
+        title: 'Profile updated successfully',
+      });
     },
     onError: (e) => {
       const message = e.message;
