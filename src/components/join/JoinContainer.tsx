@@ -10,7 +10,7 @@ import {
   QuizTempUserProvider,
   UserScoreProvider,
 } from "@/provider";
-import { SessionSkeleton } from "../skeleton/SessionSkeleton";
+import { SessionSkeleton } from "../skeleton";
 import { ErrorBox } from "../ui/ErrorBox";
 
 export const JoinContainer = () => {

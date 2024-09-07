@@ -1,4 +1,5 @@
 import { ProfileForm, ProfileWrapper } from "@/components/profile";
+import { ProfileSkeleton } from "@/components/skeleton";
 import { ErrorBox } from "@/components/ui/ErrorBox";
 import { ProfileProvider } from "@/provider";
 import { authOptions } from "@/server/auth";
@@ -12,7 +13,7 @@ const Profile = ({ userSession }: { userSession: Session }) => {
   if (isLoading) {
     return (
       <ProfileWrapper isTempUser={userSession.user.isTempUser}>
-        <p>loading</p>
+        <ProfileSkeleton />
       </ProfileWrapper>
     );
   }

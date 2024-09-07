@@ -1,7 +1,7 @@
 import { api } from "@/utils/api";
 import { CurrentQuestionProvider, QuizSessionProvider } from "@/provider";
 import { ServeFooter, ServeHeader, ServeBody } from ".";
-import { SessionSkeleton } from "../skeleton/SessionSkeleton";
+import { SessionSkeleton } from "../skeleton";
 import { ErrorBox } from "../ui/ErrorBox";
 
 export const ServeContainer = ({ id }: { id: string }) => {
