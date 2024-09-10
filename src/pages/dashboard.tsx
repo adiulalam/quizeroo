@@ -1,10 +1,15 @@
+import { CardsContainer } from "@/components/dashboard";
 import { NavbarContainer } from "@/components/nav";
+import { TempUserAlert } from "@/components/quizView";
+import { H2 } from "@/components/ui/Typography";
 import { authOptions } from "@/server/auth";
 import type { GetServerSidePropsContext } from "next";
-import { getServerSession } from "next-auth";
+import { getServerSession, type Session } from "next-auth";
 import Head from "next/head";
 
-const Dashboard = () => {
+const Dashboard = ({ userSession }: { userSession: Session }) => {
+  const { isTempUser } = userSession.user;
+
   return (
     <>
       <Head>
@@ -14,7 +19,15 @@ const Dashboard = () => {
       </Head>
 
       <NavbarContainer>
-        <div className="flex flex-col gap-2">dashboard page</div>
+        <div className="flex w-full items-center justify-center">
+          <div className="flex max-w-7xl flex-col gap-4">
+            <div className="flex flex-col gap-4">
+              {isTempUser && <TempUserAlert />}
+              <H2>Dashboard</H2>
+            </div>
+            <CardsContainer />
+          </div>
+        </div>
       </NavbarContainer>
     </>
   );

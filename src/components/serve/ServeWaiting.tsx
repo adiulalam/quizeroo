@@ -1,5 +1,5 @@
 import { useQuizSession } from "@/hooks";
-import type { JoinQuizSession } from "@/server/api/routers/user.routes";
+import type { JoinQuizSessionSchemaType } from "@/server/schema/user.schema";
 import { api } from "@/utils/api";
 import { Card, CardHeader, CardTitle } from "@/components/ui/Card";
 import { useState } from "react";
@@ -10,13 +10,14 @@ import { H2 } from "../ui/Typography";
 export const ServeWaiting = () => {
   const { id, user, users } = useQuizSession();
 
-  const defaultUsers: JoinQuizSession[] = users.map((user) => ({
+  const defaultUsers: JoinQuizSessionSchemaType[] = users.map((user) => ({
     id: user.id,
     name: user.name ?? "Unknown",
     quizSessionId: user.quizSessionId ?? id,
   }));
 
-  const [tempUsers, setTempUsers] = useState<JoinQuizSession[]>(defaultUsers);
+  const [tempUsers, setTempUsers] =
+    useState<JoinQuizSessionSchemaType[]>(defaultUsers);
 
   api.user.onJoin.useSubscription(
     { id: user.id, name: user.name ?? "Unknown", quizSessionId: id },
