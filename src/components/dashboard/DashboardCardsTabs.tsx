@@ -13,7 +13,7 @@ export const DashboardCardsTabs = () => {
   const onChangeHandler = (selectedValue: string) => {
     void router.replace(
       {
-        query: { ...router.query, interval: selectedValue },
+        query: { ...router.query, interval_by: selectedValue },
       },
       undefined,
       { shallow: true },
