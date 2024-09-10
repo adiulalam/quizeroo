@@ -1,5 +1,6 @@
+import { Interval } from "@/types/Dashboard.types";
 import { Filter, Order, Sort } from "@/types/Quiz.types";
-import { filterLists, sortLists } from "@/utils/constants";
+import { filterLists, intervalLists, sortLists } from "@/utils/constants";
 import { cva } from "class-variance-authority";
 
 export const getSortBy = (sort_by: string): Sort => {
@@ -24,6 +25,15 @@ export const getOrderBy = (filter_by: string): Order => {
   if ((filter_by as keyof typeof Order) === Order.asc) return Order.asc;
 
   return Order.desc;
+};
+
+export const getIntervalBy = (interval_by: string): Interval => {
+  const intervalList = intervalLists.find(
+    ({ value }) => value === (interval_by as keyof typeof Interval),
+  );
+
+  if (intervalList) return intervalList.value;
+  return Interval.week;
 };
 
 export const draggingVariants = cva(

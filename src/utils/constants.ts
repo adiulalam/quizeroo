@@ -13,6 +13,7 @@ import {
 import { signOut } from "next-auth/react";
 import { type answerButtonVariants } from "@/components/ui/AnswerButton";
 import type { VariantProps } from "class-variance-authority";
+import { Interval } from "@/types/Dashboard.types";
 
 export const navItems: NavItem[] = [
   {
@@ -67,3 +68,10 @@ export const shapeMap = {
   circle: { color: "var(--color-circle)", Icon: Circle },
   square: { color: "var(--color-square)", Icon: Square },
 } as const;
+
+export const intervalLists = [
+  { name: "Day", value: Interval.day },
+  { name: "Week", value: Interval.week },
+  { name: "Month", value: Interval.month },
+  { name: "All", value: Interval.all },
+] as const;

@@ -1,16 +1,11 @@
-import {
-  createCallerFactory,
-  createTRPCRouter,
-  publicProcedure,
-} from "@/server/api/trpc";
-import { observable } from "@trpc/server/observable";
-import { clearInterval } from "timers";
+import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
 import { quizRouter } from "./routers/quiz.routes";
 import { questionRouter } from "./routers/question.routes";
 import { answerRouter } from "./routers/answer.routes";
 import { quizSessionRouter } from "./routers/quizSession.routes";
 import { userRouter } from "./routers/user.routes";
 import { userAnswerRouter } from "./routers/userAnswer.routes";
+import { dashboardRouter } from "./routers/dashboard.routes";
 
 /**
  * This is the primary router for your server.
@@ -24,16 +19,7 @@ export const appRouter = createTRPCRouter({
   quizSession: quizSessionRouter,
   user: userRouter,
   userAnswer: userAnswerRouter,
-  randomNumber: publicProcedure.subscription(() => {
-    return observable<number>((emit) => {
-      const int = setInterval(() => {
-        emit.next(Math.random());
-      }, 500);
-      return () => {
-        clearInterval(int);
-      };
-    });
-  }),
+  dashboard: dashboardRouter,
 });
 
 // export type definition of API

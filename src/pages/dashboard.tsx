@@ -1,4 +1,4 @@
-import { CardsContainer } from "@/components/dashboard";
+import { DashboardCardsContainer } from "@/components/dashboard";
 import { NavbarContainer } from "@/components/nav";
 import { TempUserAlert } from "@/components/quizView";
 import { H2 } from "@/components/ui/Typography";
@@ -25,7 +25,7 @@ const Dashboard = ({ userSession }: { userSession: Session }) => {
               {isTempUser && <TempUserAlert />}
               <H2>Dashboard</H2>
             </div>
-            <CardsContainer />
+            <DashboardCardsContainer />
           </div>
         </div>
       </NavbarContainer>

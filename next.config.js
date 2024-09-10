@@ -12,7 +12,7 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
-  transpilePackages: ["geist"],
+  transpilePackages: ["geist", "lucide-react"],
   experimental: {
     swcPlugins: [["next-superjson-plugin", {}]],
   },
