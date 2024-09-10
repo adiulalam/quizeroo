@@ -21,8 +21,8 @@ export const CardsContainer = () => {
         </TabsTrigger>
       </TabsList>
       <TabsContent value="day" className="flex flex-col gap-1">
-        <div className="flex w-full flex-nowrap gap-1 overflow-x-hidden sm:flex-wrap sm:overflow-x-auto">
-          <Card className="flex w-full min-w-full flex-1 flex-col sm:w-72 sm:min-w-72">
+        <div className="flex w-[calc(100dvw-2rem)] flex-nowrap gap-1 overflow-x-hidden sm:w-full sm:flex-wrap sm:overflow-x-auto">
+          <Card className="flex w-[calc(100dvw-2rem)] min-w-full flex-1 flex-col sm:w-72 sm:min-w-72">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Quiz</CardTitle>
               <BookCopy className="size-4 stroke-primary/60" />
@@ -34,7 +34,7 @@ export const CardsContainer = () => {
               </p>
             </CardContent>
           </Card>
-          <Card className="flex w-full min-w-full flex-1 flex-col sm:w-72 sm:min-w-72">
+          <Card className="flex w-[calc(100dvw-2rem)] min-w-full flex-1 flex-col sm:w-72 sm:min-w-72">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
                 Avg Correct Answer per User
@@ -48,7 +48,7 @@ export const CardsContainer = () => {
               </p>
             </CardContent>
           </Card>
-          <Card className="flex w-full min-w-full flex-1 flex-col sm:w-72 sm:min-w-72">
+          <Card className="flex w-[calc(100dvw-2rem)] min-w-full flex-1 flex-col sm:w-72 sm:min-w-72">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
                 Avg Qustion per Quiz
@@ -62,7 +62,7 @@ export const CardsContainer = () => {
               </p>
             </CardContent>
           </Card>
-          <Card className="flex w-full min-w-full flex-1 flex-col sm:w-72 sm:min-w-72">
+          <Card className="flex w-[calc(100dvw-2rem)] min-w-full flex-1 flex-col sm:w-72 sm:min-w-72">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
                 Avg Users per Quiz Session
