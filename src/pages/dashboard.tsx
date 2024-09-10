@@ -20,8 +20,8 @@ const Dashboard = ({ userSession }: { userSession: Session }) => {
 
       <NavbarContainer>
         <div className="flex w-full items-center justify-center">
-          <div className="flex max-w-7xl flex-col gap-4">
-            <div className="flex flex-col gap-4">
+          <div className="flex w-full max-w-7xl flex-col gap-4">
+            <div className="flex flex-col gap-4 ">
               {isTempUser && <TempUserAlert />}
               <H2>Dashboard</H2>
             </div>

@@ -1,3 +1,4 @@
+import { DashboardCardsSkeleton } from "./DashboardCardsSkeleton";
 import { ProfileSkeleton } from "./ProfileSkeleton";
 import { QuestionDialogSkeleton } from "./QuestionDialogSkeleton";
 import { QuizSkeleton } from "./QuizSkeleton";
@@ -8,4 +9,5 @@ export {
   QuestionDialogSkeleton,
   ProfileSkeleton,
   SessionSkeleton,
+  DashboardCardsSkeleton,
 };

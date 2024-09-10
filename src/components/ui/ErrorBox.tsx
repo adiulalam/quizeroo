@@ -18,7 +18,7 @@ export const ErrorBox = ({
 }) => {
   return (
     <div className="flex h-full w-full max-w-lg flex-col items-center justify-center gap-4 p-2 text-center">
-      <H1>{header}</H1>
+      {header && <H1>{header}</H1>}
       {description && <H4 className="text-muted-foreground">{description}</H4>}
 
       {homeButton && (

@@ -9,7 +9,7 @@ type DashboardCardType = {
 export const DashboardCard = ({ card }: DashboardCardType) => {
   return (
     <Card className="flex w-[calc(100dvw-2rem)] min-w-full flex-1 flex-col sm:w-72 sm:min-w-72">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+      <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-sm font-medium">{card.title}</CardTitle>
         <DynamicIcon name={card.icon} className="size-4 stroke-primary/60" />
       </CardHeader>
