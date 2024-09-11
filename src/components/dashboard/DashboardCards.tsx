@@ -37,7 +37,7 @@ export const DashboardCards = () => {
 
   return (
     <div className="flex flex-col gap-1">
-      <div className="flex w-[calc(100dvw-2rem)] flex-nowrap gap-1 overflow-x-hidden sm:w-full sm:flex-wrap sm:overflow-x-auto">
+      <div className="flex w-[calc(100dvw-2rem)] flex-nowrap gap-1 overflow-x-hidden sm:w-full sm:flex-wrap">
         {cardsData.map((card) => (
           <DashboardCard key={card.id} card={card} />
         ))}

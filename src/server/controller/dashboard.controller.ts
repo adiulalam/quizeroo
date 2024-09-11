@@ -35,27 +35,18 @@ export const getDashboardCardsHandler = async ({
     const { startTime, endTime, previousStartTime, previousEndTime } =
       getTimeFrame(interval);
 
-    // Helper to generate card data
-    const createCard = (
-      id: number,
-      title: string,
-      icon: keyof typeof dynamicIconImports,
+    // Helper to generate card description
+    const createDescription = (
       currentValue: number,
       previousValue: number,
-    ): DashCardType => {
+    ): DashCardType["description"] => {
       const percentageChange = calculatePercentageChange(
         currentValue,
         previousValue,
       );
-      return {
-        id,
-        title,
-        icon,
-        data: roundIfNessesary(currentValue),
-        description: isAll
-          ? null
-          : `${getPercentageSign(percentageChange)}${Math.abs(percentageChange).toFixed(1)}% from last ${interval}`,
-      };
+      return isAll
+        ? null
+        : `${getPercentageSign(percentageChange)}${Math.abs(percentageChange).toFixed(1)}% from last ${interval}`;
     };
 
     const createCountQuery = (
@@ -139,34 +130,46 @@ export const getDashboardCardsHandler = async ({
     ]);
 
     // Generate cards
-    const totalQuiz = createCard(
-      1,
-      "Total Quiz",
-      "book-copy",
-      quizCurrResult,
-      quizPrevResult,
-    );
-    const avgCorrectAns = createCard(
-      2,
-      "Avg Correct Answer per User",
-      "check-check",
-      correctAnsCurrResult / tempUsersCurrResult || 0,
-      correctAnsPrevResult / tempUsersPrevResult || 0,
-    );
-    const avgQuestion = createCard(
-      3,
-      "Avg Question per Quiz",
-      "circle-help",
-      questionCurrResult / quizCurrResult || 0,
-      questionPrevResult / quizPrevResult || 0,
-    );
-    const avgUsersPerSession = createCard(
-      4,
-      "Avg Users per Quiz Session",
-      "users",
-      quizSessCurrResult / tempUsersCurrResult || 0,
-      quizSessPrevResult / tempUsersPrevResult || 0,
-    );
+    const totalQuiz: DashCardType = {
+      id: 1,
+      title: "Total Quiz",
+      icon: "book-copy",
+      data: roundIfNessesary(quizCurrResult),
+      description: createDescription(quizCurrResult, quizPrevResult),
+    };
+
+    const avgCorrectAns: DashCardType = {
+      id: 2,
+      title: "Avg Correct Answer per User",
+      icon: "check-check",
+      data: roundIfNessesary(correctAnsCurrResult / tempUsersCurrResult || 0),
+      description: createDescription(
+        correctAnsCurrResult / tempUsersCurrResult || 0,
+        correctAnsPrevResult / tempUsersPrevResult || 0,
+      ),
+    };
+
+    const avgQuestion: DashCardType = {
+      id: 3,
+      title: "Avg Question per Quiz",
+      icon: "circle-help",
+      data: roundIfNessesary(questionCurrResult / quizCurrResult || 0),
+      description: createDescription(
+        questionCurrResult / quizCurrResult || 0,
+        questionPrevResult / quizPrevResult || 0,
+      ),
+    };
+
+    const avgUsersPerSession: DashCardType = {
+      id: 4,
+      title: "Avg Users per Quiz Session",
+      icon: "users",
+      data: roundIfNessesary(quizSessCurrResult / tempUsersCurrResult || 0),
+      description: createDescription(
+        quizSessCurrResult / tempUsersCurrResult || 0,
+        quizSessPrevResult / tempUsersPrevResult || 0,
+      ),
+    };
 
     const data: DashCardType[] = [
       totalQuiz,
