@@ -3,6 +3,7 @@ import { Filter, Order, Sort } from "@/types/Quiz.types";
 import { filterLists, intervalLists, sortLists } from "@/utils/constants";
 import { cva } from "class-variance-authority";
 import {
+  format,
   startOfDay,
   endOfDay,
   startOfWeek,
@@ -139,4 +140,26 @@ export const getPercentageSign = (percentage: number) => {
   if (percentage > 0) return "+";
   if (percentage < 0) return "-";
   return ""; // No sign for 0%
+};
+
+export const generateMonthDetailsArray = (maxMonth = 12) => {
+  const monthsArray = Array.from({ length: maxMonth }, (_, index) => {
+    const date = subMonths(new Date(), index);
+    const startDate = startOfMonth(date);
+    const endDate = endOfMonth(date);
+
+    return {
+      id: index + 1,
+      index,
+      month: format(startDate, "MMMM"),
+      short_month: format(startDate, "MMM"),
+      start_date: format(startDate, "d"),
+      end_date: format(endDate, "d"),
+      year: format(startDate, "yyyy"),
+      iso_start_date: format(startDate, "yyyy-MM-dd"),
+      iso_end_date: format(endDate, "yyyy-MM-dd"),
+    };
+  }).reverse();
+
+  return monthsArray;
 };

@@ -7,6 +7,7 @@ import type dynamicIconImports from "lucide-react/dynamicIconImports";
 import { Interval } from "@/types/Dashboard.types";
 import {
   calculatePercentageChange,
+  generateMonthDetailsArray,
   getPercentageSign,
   getTimeFrame,
   roundIfNessesary,
@@ -177,6 +178,53 @@ export const getDashboardCardsHandler = async ({
       avgQuestion,
       avgUsersPerSession,
     ];
+
+    if (!data) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Data for cards not found",
+      });
+    }
+
+    return data;
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: err.message,
+      });
+    }
+    throw err;
+  }
+};
+
+export const getDashboardLinechartHandler = async ({
+  session,
+}: {
+  session: Session;
+}) => {
+  try {
+    const userId = session.user.id;
+    const monthsArray = generateMonthDetailsArray(6);
+
+    const queries = monthsArray.map((month) =>
+      db.userAnswer.count({
+        where: {
+          answer: { isCorrect: true },
+          quizSession: { userId },
+          createdAt: {
+            gte: new Date(month.iso_start_date),
+            lte: new Date(month.iso_end_date),
+          },
+        },
+      }),
+    );
+    const result = await db.$transaction(queries);
+
+    const data = monthsArray.map((month, index) => ({
+      month: month.short_month,
+      answer: result[index],
+    }));
 
     if (!data) {
       throw new TRPCError({

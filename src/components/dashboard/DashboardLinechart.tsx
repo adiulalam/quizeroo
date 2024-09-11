@@ -1,73 +1,76 @@
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/Card";
-import {
   type ChartConfig,
-  ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/Chart";
-
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
-];
+import { api } from "@/utils/api";
+import { ChartWrapper } from ".";
+import { Skeleton } from "../ui/Skeleton";
+import { ErrorBox } from "../ui/ErrorBox";
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  answer: {
+    label: "Answers",
     color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig;
 
 export const DashboardLinechart = () => {
+  const { data, isLoading, isError, refetch } =
+    api.dashboard.getDashboardLinechart.useQuery();
+
+  const props = {
+    title: "Correct Answers",
+    description: "Correct Answer Rate Over Time",
+    config: chartConfig,
+  };
+
+  if (isLoading) {
+    return (
+      <ChartWrapper {...props}>
+        <Skeleton className="h-full w-full" />
+      </ChartWrapper>
+    );
+  }
+
+  if (isError) {
+    return (
+      <ChartWrapper {...props}>
+        <ErrorBox refetch={refetch} description="" header="" />
+      </ChartWrapper>
+    );
+  }
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Correct Answers</CardTitle>
-        <CardDescription>Correct Answer Rate Over Time</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig}>
-          <LineChart
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              left: 12,
-              right: 12,
-            }}
-          >
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value: string) => value.slice(0, 3)}
-            />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Line
-              dataKey="desktop"
-              type="natural"
-              stroke="var(--color-desktop)"
-              strokeWidth={2}
-              dot={false}
-            />
-          </LineChart>
-        </ChartContainer>
-      </CardContent>
-    </Card>
+    <ChartWrapper {...props}>
+      <LineChart
+        accessibilityLayer
+        data={data}
+        margin={{
+          left: 14,
+          right: 14,
+        }}
+      >
+        <CartesianGrid vertical={false} />
+        <XAxis
+          dataKey="month"
+          tickLine={false}
+          axisLine={false}
+          tickMargin={8}
+        />
+        <ChartTooltip
+          cursor={false}
+          content={<ChartTooltipContent hideLabel />}
+        />
+        <Line
+          dataKey="answer"
+          type="natural"
+          stroke="var(--color-answer)"
+          strokeWidth={2}
+          dot={false}
+        />
+      </LineChart>
+    </ChartWrapper>
   );
 };

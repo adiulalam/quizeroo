@@ -1,3 +1,4 @@
+import { generateMonthDetailsArray } from "@/utils/functions";
 import {
   DashboardBarchart,
   DashboardCards,
@@ -6,6 +7,7 @@ import {
 } from ".";
 
 export const DashboardContainer = () => {
+  console.log(generateMonthDetailsArray());
   return (
     <div className="flex w-full flex-col gap-4">
       <div className="flex w-full flex-col gap-2">
