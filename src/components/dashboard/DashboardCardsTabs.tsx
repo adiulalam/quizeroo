@@ -6,8 +6,7 @@ import { intervalLists } from "@/utils/constants";
 export const DashboardCardsTabs = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const search = searchParams.get("interval");
-
+  const search = searchParams.get("interval_by");
   const value = intervalLists.find(({ value }) => value === search)?.value;
 
   const onChangeHandler = (selectedValue: string) => {
