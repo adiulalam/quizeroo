@@ -1,62 +1,60 @@
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/Card";
-import {
   type ChartConfig,
-  ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/Chart";
-
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
-];
+import { api } from "@/utils/api";
+import { ChartWrapper } from ".";
+import { Skeleton } from "../ui/Skeleton";
+import { ErrorBox } from "../ui/ErrorBox";
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  score: {
+    label: "Score",
     color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig;
 
 export const DashboardBarchart = () => {
+  const { data, isLoading, isError, refetch } =
+    api.dashboard.getDashboardBarchart.useQuery();
+
+  const props = {
+    title: "Top Quizzes",
+    description: "Top Performing Quizzes by Average Score",
+    config: chartConfig,
+  };
+
+  if (isLoading) {
+    return (
+      <ChartWrapper {...props}>
+        <Skeleton className="h-full w-full" />
+      </ChartWrapper>
+    );
+  }
+
+  if (isError) {
+    return (
+      <ChartWrapper {...props}>
+        <ErrorBox refetch={refetch} description="" header="" />
+      </ChartWrapper>
+    );
+  }
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Top Quizzes</CardTitle>
-        <CardDescription>
-          Top Performing Quizzes by Average Score
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig}>
-          <BarChart accessibilityLayer data={chartData}>
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value: string) => value.slice(0, 3)}
-            />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Bar dataKey="desktop" fill="var(--color-desktop)" radius={8} />
-          </BarChart>
-        </ChartContainer>
-      </CardContent>
-    </Card>
+    <ChartWrapper {...props}>
+      <BarChart accessibilityLayer data={data}>
+        <CartesianGrid vertical={false} />
+        <XAxis
+          dataKey="quiz"
+          tickLine={false}
+          tickMargin={10}
+          axisLine={false}
+          tickFormatter={(_, index) => (index + 1).toString()}
+        />
+        <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+        <Bar dataKey="score" radius={8} />
+      </BarChart>
+    </ChartWrapper>
   );
 };

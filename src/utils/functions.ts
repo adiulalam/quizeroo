@@ -127,7 +127,6 @@ export const getTimeFrame = (interval: Interval) => {
   return { startTime, endTime, previousStartTime, previousEndTime };
 };
 
-// Helper function to calculate percentage change
 export const calculatePercentageChange = (
   current: number,
   previous: number,

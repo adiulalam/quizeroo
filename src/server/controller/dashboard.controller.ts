@@ -244,3 +244,71 @@ export const getDashboardLinechartHandler = async ({
     throw err;
   }
 };
+
+export const getDashboardBarchartHandler = async ({
+  session,
+}: {
+  session: Session;
+}) => {
+  try {
+    const userId = session.user.id;
+
+    const quizzes = await db.quiz.findMany({
+      where: {
+        userId,
+      },
+      select: {
+        id: true,
+        title: true,
+        quizSessions: {
+          select: {
+            userAnswers: {
+              select: {
+                score: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const data = quizzes
+      .map((quiz, index) => {
+        // Get all the scores for each quiz
+        const allScores = quiz.quizSessions.flatMap((session) =>
+          session.userAnswers.map((answer) => answer.score),
+        );
+
+        // Calculate the average score
+        const totalScore = allScores.reduce((sum, score) => sum + score, 0);
+        const averageScore = allScores.length
+          ? totalScore / allScores.length
+          : 0;
+
+        return {
+          quiz: quiz.title,
+          score: +averageScore.toFixed(2),
+          fill: `hsl(var(--chart-${index + 1}))`,
+        };
+      })
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 5); // Limit the result to maximum 5 records
+
+    if (!data) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Data for cards not found",
+      });
+    }
+
+    return data;
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: err.message,
+      });
+    }
+    throw err;
+  }
+};
