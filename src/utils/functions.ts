@@ -2,6 +2,17 @@ import { Interval } from "@/types/Dashboard.types";
 import { Filter, Order, Sort } from "@/types/Quiz.types";
 import { filterLists, intervalLists, sortLists } from "@/utils/constants";
 import { cva } from "class-variance-authority";
+import {
+  startOfDay,
+  endOfDay,
+  startOfWeek,
+  endOfWeek,
+  startOfMonth,
+  endOfMonth,
+  subDays,
+  subWeeks,
+  subMonths,
+} from "date-fns";
 
 export const getSortBy = (sort_by: string): Sort => {
   const sortList = sortLists.find(
@@ -70,4 +81,62 @@ export const calculateScore = ({
 
   // Cap the score at maxScore.
   return Math.min(score, maxScore);
+};
+
+export const roundIfNessesary = (input: number | string, maxRound = 1) => {
+  input ||= 0;
+  const inputToString = input.toString();
+  return parseFloat(inputToString).toFixed(maxRound);
+};
+
+export const getTimeFrame = (interval: Interval) => {
+  const today = new Date();
+  let startTime, endTime, previousStartTime, previousEndTime;
+
+  switch (interval) {
+    case Interval.day:
+      startTime = startOfDay(today);
+      endTime = endOfDay(today);
+      previousStartTime = startOfDay(subDays(today, 1));
+      previousEndTime = endOfDay(subDays(today, 1));
+      break;
+    case Interval.week:
+      startTime = startOfWeek(today);
+      endTime = endOfWeek(today);
+      previousStartTime = startOfWeek(subWeeks(today, 1));
+      previousEndTime = endOfWeek(subWeeks(today, 1));
+      break;
+    case Interval.month:
+      startTime = startOfMonth(today);
+      endTime = endOfMonth(today);
+      previousStartTime = startOfMonth(subMonths(today, 1));
+      previousEndTime = endOfMonth(subMonths(today, 1));
+      break;
+    case Interval.all:
+      startTime = new Date(1970, 0, 1); // 1-1-1970
+      endTime = today;
+
+      previousStartTime = new Date(1970, 0, 1); // 1-1-1970
+      previousEndTime = today;
+      break;
+    default:
+      throw new Error("Invalid interval");
+  }
+
+  return { startTime, endTime, previousStartTime, previousEndTime };
+};
+
+// Helper function to calculate percentage change
+export const calculatePercentageChange = (
+  current: number,
+  previous: number,
+) => {
+  if (previous === 0) return current === 0 ? 0 : 100; // If previous is 0 and current is not 0, it is 100% change
+  return ((current - previous) / Math.abs(previous)) * 100;
+};
+
+export const getPercentageSign = (percentage: number) => {
+  if (percentage > 0) return "+";
+  if (percentage < 0) return "-";
+  return ""; // No sign for 0%
 };

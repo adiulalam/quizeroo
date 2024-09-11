@@ -6,72 +6,18 @@ import type { GetCardsSchemaType } from "../schema/dashboard.schema";
 import type dynamicIconImports from "lucide-react/dynamicIconImports";
 import { Interval } from "@/types/Dashboard.types";
 import {
-  startOfDay,
-  endOfDay,
-  startOfWeek,
-  endOfWeek,
-  startOfMonth,
-  endOfMonth,
-  subDays,
-  subWeeks,
-  subMonths,
-} from "date-fns";
+  calculatePercentageChange,
+  getPercentageSign,
+  getTimeFrame,
+  roundIfNessesary,
+} from "@/utils/functions";
 
-type DashboardCardsType = {
+type DashCardType = {
   id: number;
   title: string;
   icon: keyof typeof dynamicIconImports;
   data: string;
   description: string | null;
-};
-
-const getTimeFrame = (interval: Interval) => {
-  const today = new Date();
-  let startTime, endTime, previousStartTime, previousEndTime;
-
-  switch (interval) {
-    case Interval.day:
-      startTime = startOfDay(today);
-      endTime = endOfDay(today);
-      previousStartTime = startOfDay(subDays(today, 1));
-      previousEndTime = endOfDay(subDays(today, 1));
-      break;
-    case Interval.week:
-      startTime = startOfWeek(today);
-      endTime = endOfWeek(today);
-      previousStartTime = startOfWeek(subWeeks(today, 1));
-      previousEndTime = endOfWeek(subWeeks(today, 1));
-      break;
-    case Interval.month:
-      startTime = startOfMonth(today);
-      endTime = endOfMonth(today);
-      previousStartTime = startOfMonth(subMonths(today, 1));
-      previousEndTime = endOfMonth(subMonths(today, 1));
-      break;
-    case Interval.all:
-      startTime = new Date(1970, 0, 1); // 1-1-1970
-      endTime = today;
-
-      previousStartTime = new Date(1970, 0, 1); // 1-1-1970
-      previousEndTime = today;
-      break;
-    default:
-      throw new Error("Invalid interval");
-  }
-
-  return { startTime, endTime, previousStartTime, previousEndTime };
-};
-
-// Helper function to calculate percentage change
-const calculatePercentageChange = (current: number, previous: number) => {
-  if (previous === 0) return current === 0 ? 0 : 100; // If previous is 0 and current is not 0, it is 100% change
-  return ((current - previous) / Math.abs(previous)) * 100;
-};
-
-const getPercentageSign = (percentage: number) => {
-  if (percentage > 0) return "+";
-  if (percentage < 0) return "-";
-  return ""; // No sign for 0%
 };
 
 export const getDashboardCardsHandler = async ({
@@ -89,166 +35,150 @@ export const getDashboardCardsHandler = async ({
     const { startTime, endTime, previousStartTime, previousEndTime } =
       getTimeFrame(interval);
 
-    // total quiz
-    const totalQuizCountCurrent = db.quiz.count({
-      where: {
-        userId,
-        createdAt: {
-          gte: startTime,
-          lte: endTime,
-        },
-      },
-    });
-
-    const totalQuizCountPrevious = db.quiz.count({
-      where: {
-        userId,
-        createdAt: {
-          gte: previousStartTime,
-          lte: previousEndTime,
-        },
-      },
-    });
-
-    const [totalQuizCountCurrentResult, totalQuizCountPreviousResult] =
-      await db.$transaction([totalQuizCountCurrent, totalQuizCountPrevious]);
-
-    const quizPercentageChange = calculatePercentageChange(
-      totalQuizCountCurrentResult,
-      totalQuizCountPreviousResult,
-    );
-
-    const totalQuiz: DashboardCardsType = {
-      id: 1,
-      title: "Total Quiz",
-      icon: "book-copy",
-      data: `${totalQuizCountCurrentResult}`,
-      description: isAll
-        ? null
-        : `${getPercentageSign(quizPercentageChange)}${Math.abs(quizPercentageChange).toFixed(1)}% from last ${interval}`,
+    // Helper to generate card data
+    const createCard = (
+      id: number,
+      title: string,
+      icon: keyof typeof dynamicIconImports,
+      currentValue: number,
+      previousValue: number,
+    ): DashCardType => {
+      const percentageChange = calculatePercentageChange(
+        currentValue,
+        previousValue,
+      );
+      return {
+        id,
+        title,
+        icon,
+        data: roundIfNessesary(currentValue),
+        description: isAll
+          ? null
+          : `${getPercentageSign(percentageChange)}${Math.abs(percentageChange).toFixed(1)}% from last ${interval}`,
+      };
     };
 
-    // avg correct answer per user
-
-    const totalCorrectAnswerCurrent = db.userAnswer.count({
-      where: {
-        answer: {
-          isCorrect: true,
-        },
-        quizSession: {
-          userId,
-        },
-        createdAt: {
-          gte: startTime,
-          lte: endTime,
-        },
-      },
-    });
-
-    const totalTempUsersCurrent = db.user.count({
-      where: {
-        quizSessions: {
-          every: {
-            userId,
+    const createCountQuery = (
+      model: "quiz" | "question" | "userAnswer" | "user" | "quizSession",
+      conditions: object,
+      isCurrent: boolean,
+    ) => {
+      return db[model as "quiz"].count({
+        where: {
+          ...conditions,
+          createdAt: {
+            gte: isCurrent ? startTime : previousStartTime,
+            lte: isCurrent ? endTime : previousEndTime,
           },
         },
-        NOT: {
-          id: userId,
-        },
-        createdAt: {
-          gte: startTime,
-          lte: endTime,
-        },
-      },
-    });
+      });
+    };
+    // Queries for current and previous counts
+    const quizCurr = createCountQuery("quiz", { userId }, true);
+    const quizPrev = createCountQuery("quiz", { userId }, false);
 
-    const totalCorrectAnswerPrevious = db.userAnswer.count({
-      where: {
-        answer: {
-          isCorrect: true,
-        },
-        quizSession: {
-          userId,
-        },
-        createdAt: {
-          gte: previousStartTime,
-          lte: previousEndTime,
-        },
-      },
-    });
+    const questionCurr = createCountQuery(
+      "question",
+      { quiz: { userId } },
+      true,
+    );
+    const questionPrev = createCountQuery(
+      "question",
+      { quiz: { userId } },
+      false,
+    );
 
-    const totalTempUsersPrevious = db.user.count({
-      where: {
-        quizSessions: {
-          every: {
-            userId,
-          },
-        },
-        NOT: {
-          id: userId,
-        },
-        createdAt: {
-          gte: previousStartTime,
-          lte: previousEndTime,
-        },
-      },
-    });
+    const correctAnsCurr = createCountQuery(
+      "userAnswer",
+      { answer: { isCorrect: true }, quizSession: { userId } },
+      true,
+    );
+    const correctAnsPrev = createCountQuery(
+      "userAnswer",
+      { answer: { isCorrect: true }, quizSession: { userId } },
+      false,
+    );
 
+    const tempUsersCurr = createCountQuery(
+      "user",
+      { quizSessions: { every: { userId } }, NOT: { id: userId } },
+      true,
+    );
+    const tempUsersPrev = createCountQuery(
+      "user",
+      { quizSessions: { every: { userId } }, NOT: { id: userId } },
+      false,
+    );
+
+    const quizSessCurr = createCountQuery("quizSession", { userId }, true);
+    const quizSessPrev = createCountQuery("quizSession", { userId }, false);
+
+    // Execute all queries in a transaction
     const [
-      totalCorrectAnswerCurrentResult,
-      totalTempUsersCurrentResult,
-      totalCorrectAnswerPreviousResult,
-      totalTempUsersPreviousResult,
+      quizCurrResult,
+      quizPrevResult,
+      questionCurrResult,
+      questionPrevResult,
+      correctAnsCurrResult,
+      correctAnsPrevResult,
+      tempUsersCurrResult,
+      tempUsersPrevResult,
+      quizSessCurrResult,
+      quizSessPrevResult,
     ] = await db.$transaction([
-      totalCorrectAnswerCurrent,
-      totalTempUsersCurrent,
-      totalCorrectAnswerPrevious,
-      totalTempUsersPrevious,
+      quizCurr,
+      quizPrev,
+      questionCurr,
+      questionPrev,
+      correctAnsCurr,
+      correctAnsPrev,
+      tempUsersCurr,
+      tempUsersPrev,
+      quizSessCurr,
+      quizSessPrev,
     ]);
 
-    const avgCorrectAnswerPerUserCurrent =
-      totalCorrectAnswerCurrentResult / totalTempUsersCurrentResult;
-    const avgCorrectAnswerPerUserPrevious =
-      totalCorrectAnswerPreviousResult / totalTempUsersPreviousResult;
-
-    const correctAnswerPercentageChange = calculatePercentageChange(
-      avgCorrectAnswerPerUserCurrent || 0,
-      avgCorrectAnswerPerUserPrevious || 0,
+    // Generate cards
+    const totalQuiz = createCard(
+      1,
+      "Total Quiz",
+      "book-copy",
+      quizCurrResult,
+      quizPrevResult,
+    );
+    const avgCorrectAns = createCard(
+      2,
+      "Avg Correct Answer per User",
+      "check-check",
+      correctAnsCurrResult / tempUsersCurrResult || 0,
+      correctAnsPrevResult / tempUsersPrevResult || 0,
+    );
+    const avgQuestion = createCard(
+      3,
+      "Avg Question per Quiz",
+      "circle-help",
+      questionCurrResult / quizCurrResult || 0,
+      questionPrevResult / quizPrevResult || 0,
+    );
+    const avgUsersPerSession = createCard(
+      4,
+      "Avg Users per Quiz Session",
+      "users",
+      quizSessCurrResult / tempUsersCurrResult || 0,
+      quizSessPrevResult / tempUsersPrevResult || 0,
     );
 
-    const avgCorrectAnsPerUser: DashboardCardsType = {
-      id: 2,
-      title: "Avg Correct Answer per User",
-      icon: "check-check",
-      data: `${avgCorrectAnswerPerUserCurrent || 0}`,
-      description: isAll
-        ? null
-        : `${getPercentageSign(correctAnswerPercentageChange)}${Math.abs(correctAnswerPercentageChange).toFixed(1)}% from last ${interval}`,
-    };
-
-    const data: DashboardCardsType[] = [
+    const data: DashCardType[] = [
       totalQuiz,
-      avgCorrectAnsPerUser,
-      {
-        id: 3,
-        title: "Avg Qustion per Quiz",
-        icon: "circle-help",
-        data: "+12,234",
-        description: isAll ? null : `+20.1% from last ${interval}`,
-      },
-      {
-        id: 4,
-        title: "Avg Users per Quiz Session",
-        icon: "users",
-        data: "+573",
-        description: isAll ? null : `+201 since last ${interval}`,
-      },
+      avgCorrectAns,
+      avgQuestion,
+      avgUsersPerSession,
     ];
 
     if (!data) {
       throw new TRPCError({
         code: "NOT_FOUND",
-        message: "User Answer not found",
+        message: "Data for cards not found",
       });
     }
 
