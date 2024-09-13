@@ -352,6 +352,9 @@ export const getDashboardTableHandler = async ({
           },
         },
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
     const data: DashboardColumnType[] = quizzes.map((quiz) => {

@@ -3,6 +3,7 @@ import { ProfileSkeleton } from "./ProfileSkeleton";
 import { QuestionDialogSkeleton } from "./QuestionDialogSkeleton";
 import { QuizSkeleton } from "./QuizSkeleton";
 import { SessionSkeleton } from "./SessionSkeleton";
+import { TableSkeleton } from "./TableSkeleton";
 
 export {
   QuizSkeleton,
@@ -10,4 +11,5 @@ export {
   ProfileSkeleton,
   SessionSkeleton,
   DashboardCardsSkeleton,
+  TableSkeleton,
 };

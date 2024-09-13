@@ -17,6 +17,8 @@ import { TablePagination } from "../ui/TablePagination";
 import { ScrollArea, ScrollBar } from "../ui/ScrollArea";
 import { dashboardcolumns } from "@/utils/columns/dashboardColumns";
 import { api } from "@/utils/api";
+import { TableSkeleton } from "../skeleton";
+import { ErrorBox } from "../ui/ErrorBox";
 
 export const DashboardTable = () => {
   const { data, isLoading, isError, refetch } =
@@ -29,6 +31,18 @@ export const DashboardTable = () => {
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   });
+
+  if (isLoading) {
+    return <TableSkeleton />;
+  }
+
+  if (isError) {
+    return (
+      <div className="flex h-96 w-full items-center justify-center rounded-lg border bg-card">
+        <ErrorBox refetch={refetch} description="" header="" />
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-full w-full flex-col gap-2">
