@@ -4,7 +4,7 @@ import { Prisma } from "@prisma/client";
 import { db } from "../db";
 import type { GetCardsSchemaType } from "../schema/dashboard.schema";
 import type dynamicIconImports from "lucide-react/dynamicIconImports";
-import { Interval } from "@/types/Dashboard.types";
+import { type DashboardColumnType, Interval } from "@/types/Dashboard.types";
 import {
   calculatePercentageChange,
   generateMonthDetailsArray,
@@ -293,6 +293,103 @@ export const getDashboardBarchartHandler = async ({
       })
       .sort((a, b) => b.score - a.score)
       .slice(0, 5); // Limit the result to maximum 5 records
+
+    if (!data) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Data for cards not found",
+      });
+    }
+
+    return data;
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: err.message,
+      });
+    }
+    throw err;
+  }
+};
+
+export const getDashboardTableHandler = async ({
+  session,
+}: {
+  session: Session;
+}) => {
+  try {
+    const userId = session.user.id;
+
+    const quizzes = await db.quiz.findMany({
+      where: {
+        userId,
+      },
+      select: {
+        id: true,
+        title: true,
+        status: true,
+        createdAt: true,
+        _count: true,
+        questions: {
+          select: {
+            _count: { select: { answers: true } },
+          },
+        },
+        quizSessions: {
+          select: {
+            userAnswers: {
+              select: {
+                score: true,
+              },
+            },
+            _count: {
+              select: {
+                userAnswers: { where: { answer: { isCorrect: true } } },
+                users: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const data: DashboardColumnType[] = quizzes.map((quiz) => {
+      const { questions, quizSessions } = quiz;
+
+      const avg_answer =
+        questions.reduce((a, { _count: { answers } }) => a + answers, 0) /
+        questions.length;
+
+      const avg_correct_answer =
+        quizSessions.reduce(
+          (a, { _count: { userAnswers } }) => a + userAnswers,
+          0,
+        ) / quizSessions.length;
+
+      const avg_score =
+        quizSessions
+          .flatMap((session) => session.userAnswers)
+          .reduce((sum, answer) => sum + answer.score, 0) / quizSessions.length;
+
+      const total_users = quizSessions.reduce(
+        (a, { _count: { users } }) => a + users,
+        0,
+      );
+
+      return {
+        id: quiz.id,
+        title: quiz.title,
+        status: quiz.status,
+        total_questions: quiz._count.questions,
+        avg_answer: +avg_answer.toFixed(2) || 0,
+        avg_correct_answer: +avg_correct_answer.toFixed(2) || 0,
+        avg_score: +avg_score.toFixed(2) || 0,
+        total_sessions: quiz._count.quizSessions,
+        total_users,
+        created_at: quiz.createdAt,
+      };
+    });
 
     if (!data) {
       throw new TRPCError({

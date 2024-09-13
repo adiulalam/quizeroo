@@ -11,7 +11,7 @@ export type DashboardColumnType = {
   id: string;
   title: string;
   status: Status;
-  total_question: number;
+  total_questions: number;
   avg_answer: number;
   avg_correct_answer: number;
   avg_score: number;

@@ -15,99 +15,15 @@ import {
 } from "@/components/ui/Table";
 import { TablePagination } from "../ui/TablePagination";
 import { ScrollArea, ScrollBar } from "../ui/ScrollArea";
-import type { DashboardColumnType } from "@/types/Dashboard.types";
 import { dashboardcolumns } from "@/utils/columns/dashboardColumns";
-
-const data: DashboardColumnType[] = [
-  {
-    id: "m5gr84i9",
-    title: "ken99@yahoo.com",
-    status: "DRAFT",
-    total_question: 316,
-    avg_answer: 123,
-    avg_correct_answer: 316,
-    avg_score: 123,
-    total_sessions: 316,
-    total_users: 123,
-    created_at: new Date("2024-12-01"),
-  },
-  {
-    id: "m5gr84i9",
-    title: "ken99@yahoo.com",
-    status: "DRAFT",
-    total_question: 316,
-    avg_answer: 123,
-    avg_correct_answer: 316,
-    avg_score: 123,
-    total_sessions: 316,
-    total_users: 123,
-    created_at: new Date("2024-11-01"),
-  },
-  {
-    id: "m5gr84i9",
-    title: "ken99@yahoo.com",
-    status: "DRAFT",
-    total_question: 316,
-    avg_answer: 123,
-    avg_correct_answer: 316,
-    avg_score: 123,
-    total_sessions: 316,
-    total_users: 123,
-    created_at: new Date("2024-10-01"),
-  },
-  {
-    id: "m5gr84i9",
-    title: "ken99@yahoo.com",
-    status: "DRAFT",
-    total_question: 316,
-    avg_answer: 123,
-    avg_correct_answer: 316,
-    avg_score: 123,
-    total_sessions: 316,
-    total_users: 123,
-    created_at: new Date(),
-  },
-  {
-    id: "m5gr84i9",
-    title: "ken99@yahoo.com",
-    status: "DRAFT",
-    total_question: 316,
-    avg_answer: 123,
-    avg_correct_answer: 316,
-    avg_score: 123,
-    total_sessions: 316,
-    total_users: 123,
-    created_at: new Date(),
-  },
-  {
-    id: "m5gr84i9",
-    title: "ken99@yahoo.com",
-    status: "DRAFT",
-    total_question: 316,
-    avg_answer: 123,
-    avg_correct_answer: 316,
-    avg_score: 123,
-    total_sessions: 316,
-    total_users: 123,
-    created_at: new Date(),
-  },
-  {
-    id: "m5gr84i9",
-    title: "ken98@yahoo.com",
-    status: "DRAFT",
-    total_question: 316,
-    avg_answer: 123,
-    avg_correct_answer: 316,
-    avg_score: 123,
-    total_sessions: 316,
-    total_users: 123,
-    created_at: new Date(),
-  },
-];
+import { api } from "@/utils/api";
 
 export const DashboardTable = () => {
+  const { data, isLoading, isError, refetch } =
+    api.dashboard.getDashboardTable.useQuery();
+
   const table = useReactTable({
-    data,
+    data: data ?? [],
     columns: dashboardcolumns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),

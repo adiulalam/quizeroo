@@ -29,11 +29,11 @@ export const dashboardcolumns: ColumnDef<DashboardColumnType>[] = [
     ),
   },
   {
-    accessorKey: "total_question",
+    accessorKey: "total_questions",
     header: () => <div className="text-right">Total Question</div>,
     cell: ({ row }) => (
       <div className="text-right font-medium">
-        {row.getValue("total_question")}
+        {row.getValue("total_questions")}
       </div>
     ),
   },
@@ -55,7 +55,7 @@ export const dashboardcolumns: ColumnDef<DashboardColumnType>[] = [
   },
   {
     accessorKey: "avg_score",
-    header: () => <div className="text-right">Avg Score</div>,
+    header: () => <div className="text-right">Avg Score per Session</div>,
     cell: ({ row }) => (
       <div className="text-right font-medium">{row.getValue("avg_score")}</div>
     ),

@@ -3,6 +3,7 @@ import {
   getDashboardLinechartHandler,
   getDashboardCardsHandler,
   getDashboardBarchartHandler,
+  getDashboardTableHandler,
 } from "@/server/controller/dashboard.controller";
 import { getCardsSchema } from "@/server/schema/dashboard.schema";
 
@@ -17,5 +18,8 @@ export const dashboardRouter = createTRPCRouter({
   ),
   getDashboardBarchart: protectedProcedure.query(({ ctx: { session } }) =>
     getDashboardBarchartHandler({ session }),
+  ),
+  getDashboardTable: protectedProcedure.query(({ ctx: { session } }) =>
+    getDashboardTableHandler({ session }),
   ),
 });
