@@ -6,6 +6,7 @@ import { DashboardCardsTabs } from "./DashboardCardsTabs";
 import { DashboardBarchart } from "./DashboardBarchart";
 import { DashboardLinechart } from "./DashboardLinechart";
 import { ChartWrapper } from "./ChartWrapper";
+import { DashboardTable } from "./DashboardTable";
 
 export {
   DashboardContainer,
@@ -16,4 +17,5 @@ export {
   DashboardBarchart,
   DashboardLinechart,
   ChartWrapper,
+  DashboardTable,
 };

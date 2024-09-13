@@ -13,8 +13,8 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/Calendar";
 import { cn } from "@/utils/theme";
 import { format } from "date-fns";
-import { type UpdateUserProfileSchemaType } from "@/server/schema/user.schema";
 import { enGB } from "date-fns/locale";
+import { type UpdateUserProfileSchemaType } from "@/server/schema/user.schema";
 import { useProfile } from "@/hooks/useProfile";
 
 export const ProfileFormDoB = () => {

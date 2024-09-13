@@ -93,9 +93,7 @@ export const SearchBar = () => {
           onValueChange={handleOnChange}
         />
         <CommandList>
-          <ScrollArea
-            className={"[&>[data-radix-scroll-area-viewport]]:max-h-[40rem]"}
-          >
+          <ScrollArea viewportClassname="max-h-[40rem]">
             <CommandEmpty>No results found.</CommandEmpty>
 
             <CommandGroup heading="Links">

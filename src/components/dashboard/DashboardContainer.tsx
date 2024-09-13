@@ -3,6 +3,7 @@ import {
   DashboardCards,
   DashboardCardsTabs,
   DashboardLinechart,
+  DashboardTable,
 } from ".";
 
 export const DashboardContainer = () => {
@@ -17,6 +18,8 @@ export const DashboardContainer = () => {
         <DashboardBarchart />
         <DashboardLinechart />
       </div>
+
+      <DashboardTable />
     </div>
   );
 };

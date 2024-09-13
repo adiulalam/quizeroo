@@ -12,7 +12,6 @@ import { ErrorBox } from "../ui/ErrorBox";
 const chartConfig = {
   score: {
     label: "Score",
-    color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig;
 
