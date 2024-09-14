@@ -5,6 +5,7 @@ import { type AppType } from "next/app";
 import { ThemeProvider } from "next-themes";
 import { api } from "@/utils/api";
 import { Toaster } from "@/components/ui/Toaster";
+import { PagesProgressBar as ProgressBar } from "next-nprogress-bar";
 import "@/styles/globals.css";
 
 const MyApp: AppType<{ session: Session | null }> = ({
@@ -21,6 +22,12 @@ const MyApp: AppType<{ session: Session | null }> = ({
         `}</style>
         <Toaster />
         <Component {...pageProps} />
+        <ProgressBar
+          height="4px"
+          color="hsl(var(--primary))"
+          options={{ showSpinner: true }}
+          shallowRouting
+        />
       </SessionProvider>
     </ThemeProvider>
   );
