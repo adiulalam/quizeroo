@@ -6,7 +6,7 @@ export default defineConfig({
     globals: true,
     exclude: [...configDefaults.exclude, "**/__tests__/**"],
     alias: {
-      "@/": fileURLToPath(new URL("./src/", import.meta.url)),
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
 });
