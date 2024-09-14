@@ -1,5 +1,11 @@
-import { useResultTable } from "@/hooks";
-import { flexRender } from "@tanstack/react-table";
+import { useQuizSession } from "@/hooks";
+import {
+  flexRender,
+  getCoreRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import {
   Table,
   TableBody,
@@ -12,10 +18,21 @@ import { TablePagination } from "../ui/TablePagination";
 import { ScrollArea } from "../ui/ScrollArea";
 import { Skeleton } from "../ui/Skeleton";
 import { ErrorBox } from "../ui/ErrorBox";
+import { api } from "@/utils/api";
+import { resultColumns } from "@/utils/columns/resultColumns";
 
 export const ServeResult = () => {
-  const { data, isLoading, isError, table, columnLength, refetch } =
-    useResultTable();
+  const { id } = useQuizSession();
+  const { data, isLoading, isError, refetch } =
+    api.quizSession.getSessionScore.useQuery({ id });
+
+  const table = useReactTable({
+    data: data ?? [],
+    columns: resultColumns,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+  });
 
   if (isLoading) {
     return <Skeleton className="h-full w-full" />;
@@ -70,7 +87,10 @@ export const ServeResult = () => {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columnLength} className="h-24 text-center">
+                <TableCell
+                  colSpan={resultColumns.length}
+                  className="h-24 text-center"
+                >
                   No results.
                 </TableCell>
               </TableRow>

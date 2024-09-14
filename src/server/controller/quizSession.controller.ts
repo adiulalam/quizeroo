@@ -276,23 +276,37 @@ export const getSessionScoreHandler = async ({
         isActive: true,
         userId,
       },
-      include: {
+      select: {
         users: {
-          include: {
-            userAnswers: true,
+          select: {
+            id: true,
+            name: true,
+            userAnswers: { select: { score: true } },
           },
         },
       },
     });
 
-    if (!quizSession) {
+    const data = quizSession.users
+      .map((user) => {
+        const score = user.userAnswers.reduce(
+          (accumulator, currentValue) => accumulator + currentValue.score,
+          0,
+        );
+
+        return { id: user.id, name: user.name ?? "Unknown", score };
+      })
+      .sort((a, b) => b.score - a.score)
+      .map((user, index) => ({ ...user, rank: index + 1 }));
+
+    if (!data) {
       throw new TRPCError({
         code: "NOT_FOUND",
-        message: "Quiz Session not found",
+        message: "Data not found",
       });
     }
 
-    return quizSession;
+    return data;
   } catch (err) {
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
       throw new TRPCError({
