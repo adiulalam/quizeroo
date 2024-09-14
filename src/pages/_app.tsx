@@ -23,7 +23,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <Toaster />
         <Component {...pageProps} />
         <ProgressBar
-          height="4px"
+          height="2px"
           color="hsl(var(--primary))"
           options={{ showSpinner: true }}
           shallowRouting
