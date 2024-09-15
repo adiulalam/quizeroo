@@ -16,6 +16,7 @@ export const CardSessionLink = () => {
         href={`/serve/${quizSession.roomName}`}
         rel="noopener noreferrer"
         target="_blank"
+        data-testid="link-serve-quiz"
       >
         <ExternalLink className="size-4" />
       </Link>

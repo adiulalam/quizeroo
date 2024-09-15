@@ -86,6 +86,7 @@ export const LandingDialog = ({ children }: { children: React.ReactNode }) => {
                     <Input
                       placeholder="Room Name.."
                       disabled={isPending}
+                      data-testid="input-room-name"
                       {...field}
                     />
                   </FormControl>
@@ -100,7 +101,11 @@ export const LandingDialog = ({ children }: { children: React.ReactNode }) => {
                   <PanelLeftClose className="mr-2 h-4 w-4" /> Cancel
                 </Button>
               </DialogClose>
-              <Button type="submit" disabled={isPending}>
+              <Button
+                type="submit"
+                disabled={isPending}
+                data-testid="button-room-enter"
+              >
                 Join
                 <Icon
                   className={cn("ml-2 h-4 w-4", isPending && "animate-spin")}

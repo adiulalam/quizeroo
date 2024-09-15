@@ -63,6 +63,7 @@ export const CardSessionButton = ({
                   "after:content-['Quiz_Running'] hover:bg-destructive hover:after:content-['Stop_Running_Quiz']",
               )}
               disabled={status === "DRAFT"}
+              data-testid="button-initiate-quiz"
             >
               <Dot className="size-8" color={isSession ? "green" : "red"} />
               {isSession ? "" : "Start Quiz"}

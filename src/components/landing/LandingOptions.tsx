@@ -24,7 +24,7 @@ export const LandingOptions = () => {
   return (
     <div className="mx-auto flex w-full flex-col justify-center gap-6 sm:w-[350px]">
       <LandingDialog>
-        <Button>Join a Room</Button>
+        <Button data-testid="join-room-button">Join a Room</Button>
       </LandingDialog>
 
       <Backdrop open={isBackdropOpen}>

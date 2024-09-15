@@ -21,7 +21,9 @@ export const ServeHeader = () => {
 
           <div className="flex flex-col items-center justify-center gap-1 bg-muted/80 p-2">
             <H3 className="hidden sm:block">Room Code:</H3>
-            <H1 className="font-extrabold">{id}</H1>
+            <H1 className="font-extrabold" data-testid="heading-room-code">
+              {id}
+            </H1>
           </div>
         </div>
       ) : (

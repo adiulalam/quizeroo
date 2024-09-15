@@ -1,12 +1,15 @@
 import { expect, test } from "@playwright/test";
 import { Create } from "__tests__/fixtures/create";
+import { Join } from "__tests__/fixtures/join";
+import { Serve } from "__tests__/fixtures/serve";
 
 // Test suite for the "Serve and Join Page" functionality
 test.describe.serial("Serve and Join Page", () => {
+  let createPage: Create;
+
   // Create a new quiz, add questions and answers
   test("Create quiz", async ({ page }) => {
-    const createPage = new Create(page);
-
+    createPage = new Create(page);
     await page.goto("/create");
 
     // Create a new quiz with the title "create and serve"
@@ -30,6 +33,11 @@ test.describe.serial("Serve and Join Page", () => {
 
     // Close the quiz dialog
     await createPage.closeDialog.click();
+  });
+
+  test("Start quiz", async ({ page }) => {
+    createPage = new Create(page);
+    await page.goto("/create");
 
     // verify the quiz title is visible on the main page
     const quizCard = createPage.quizCard
@@ -41,5 +49,69 @@ test.describe.serial("Serve and Join Page", () => {
     await expect(quizCard.locator(createPage.quizBadgeStatus)).toHaveText(
       "DRAFT",
     );
+
+    // Change the status to completed
+    await quizCard.locator(createPage.buttonMenuQuiz).click();
+    await createPage.menuItemStatus.click();
+    await expect(quizCard.locator(createPage.quizBadgeStatus)).toHaveText(
+      "COMPLETED",
+    );
+
+    // Initiate quiz to start
+    await quizCard.locator(createPage.buttonInitiateQuiz).click();
+    await expect(createPage.toastMessage).toHaveText("Session started");
+    await createPage.buttonCloseToast.click();
+    await expect(createPage.toastMessage).toBeHidden();
   });
+
+  test("Serve and Join", async ({ page, browser }) => {
+    createPage = new Create(page);
+    await page.goto("/create");
+
+    // Serve page
+    const quizCard = createPage.quizCard
+      .filter({ hasText: "create and serve" })
+      .first();
+    const pagePromise = page.waitForEvent("popup");
+    await quizCard.locator(createPage.linkServeQuiz).click();
+
+    const serve = await pagePromise;
+    const servePage = new Serve(serve);
+
+    await serve.waitForURL(/serve/);
+    await expect(serve).toHaveTitle(/Serve/);
+
+    // Room code
+    const roomCode = (await servePage.headingRoomCode.textContent()) ?? "";
+
+    // Join page
+    const context = await browser.newContext();
+    await context.clearCookies();
+    const join = await context.newPage();
+    const joinPage = new Join(join);
+
+    // Join the room
+    await join.goto("/");
+    await joinPage.buttonRoomJoin.click();
+    await joinPage.inputRoomName.fill(roomCode);
+    await joinPage.buttonRoomEnter.click();
+
+    await join.waitForURL(/join/);
+    await expect(join).toHaveTitle(/Join/);
+
+    // todo: continue from here, next part - enter the name of the user
+
+    // close up everything
+    await context.close();
+  });
+
+  // test("Delete quiz", async () => {
+  //   await createPage.removeQuiz("create and serve");
+
+  //   await expect(createPage.toastMessage).toHaveText(
+  //     "Quiz Deleted Successfully",
+  //   );
+  //   await createPage.buttonCloseToast.click();
+  //   await expect(createPage.toastMessage).toBeHidden();
+  // });
 });
