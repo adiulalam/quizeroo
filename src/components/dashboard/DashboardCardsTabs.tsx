@@ -22,16 +22,32 @@ export const DashboardCardsTabs = () => {
   return (
     <Tabs defaultValue="week" value={value} onValueChange={onChangeHandler}>
       <TabsList className="w-full max-w-sm">
-        <TabsTrigger value="day" className="flex-grow">
+        <TabsTrigger
+          value="day"
+          className="flex-grow"
+          data-testid="button-tab-day"
+        >
           Day
         </TabsTrigger>
-        <TabsTrigger value="week" className="flex-grow">
+        <TabsTrigger
+          value="week"
+          className="flex-grow"
+          data-testid="button-tab-week"
+        >
           Week
         </TabsTrigger>
-        <TabsTrigger value="month" className="flex-grow">
+        <TabsTrigger
+          value="month"
+          className="flex-grow"
+          data-testid="button-tab-month"
+        >
           Month
         </TabsTrigger>
-        <TabsTrigger value="all" className="flex-grow">
+        <TabsTrigger
+          value="all"
+          className="flex-grow"
+          data-testid="button-tab-all"
+        >
           All
         </TabsTrigger>
       </TabsList>

@@ -33,7 +33,7 @@ export class Profile {
   public readonly buttonCalendarDays: Locator;
 
   constructor(public readonly page: Page) {
-    // Initialize locators for various quiz elements
+    // Initialize locators for various profile elements
     this.toastMessage = this.page.getByTestId("toast-message");
     this.buttonCloseToast = this.page.getByTestId("button-close-toast");
 
