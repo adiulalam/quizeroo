@@ -12,6 +12,8 @@ export class Create {
   public readonly headerQuizTitle: Locator;
   public readonly quizDialog: Locator;
   public readonly closeDialog: Locator;
+  public readonly quizBadgeFavourite: Locator;
+  public readonly quizBadgeStatus: Locator;
 
   // Create quiz locators
   private readonly buttonCreateQuiz: Locator;
@@ -66,6 +68,8 @@ export class Create {
     this.headerQuizTitle = this.page.getByTestId("header-quiz-title");
     this.quizDialog = this.page.getByTestId("quiz-dialog");
     this.closeDialog = this.page.getByTestId("button-close-dialog");
+    this.quizBadgeFavourite = this.page.getByTestId("quiz-badge-favourite");
+    this.quizBadgeStatus = this.page.getByTestId("quiz-badge-status");
 
     this.buttonCreateQuiz = this.page.getByTestId("button-create-quiz");
     this.buttonRestartQuiz = this.page.getByTestId("button-restart-quiz");

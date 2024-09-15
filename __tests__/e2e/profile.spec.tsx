@@ -55,6 +55,7 @@ test.describe.serial("Profile Page", () => {
       .getByText("17", { exact: true })
       .click();
     await profilePage.buttonDob.click(); // Click again to hide the modal
+    await expect(profilePage.calendarDialog).toBeHidden();
     await expect(profilePage.buttonDob).toHaveText("17 Mar 2000");
 
     // Click submit

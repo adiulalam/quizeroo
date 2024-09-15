@@ -25,6 +25,7 @@ export class Profile {
   public readonly buttonSubmit: Locator;
 
   // Profile locators - calendar
+  public readonly calendarDialog: Locator;
   public readonly buttonCalendarMonths: Locator;
   public readonly buttonCalendarYears: Locator;
   public readonly optionCalendarMonths: Locator;
@@ -51,6 +52,7 @@ export class Profile {
 
     this.buttonDob = this.page.getByTestId("button-dob");
 
+    this.calendarDialog = this.page.getByTestId("calendar-dialog");
     this.buttonCalendarDays = this.page.getByRole("gridcell"); // .getByText('1', {exact: true});
     this.buttonCalendarMonths = this.page.getByTestId("button-calendar-months");
     this.buttonCalendarYears = this.page.getByTestId("button-calendar-years");

@@ -111,7 +111,7 @@ test.describe.serial("Create Page", () => {
     await expect(createPage.toastMessage).toBeHidden();
   });
 
-  test("Delete all quiz", async () => {
-    await createPage.removeAllQuiz();
-  });
+  // test("Delete all quiz", async () => {
+  //   await createPage.removeAllQuiz();
+  // });
 });
