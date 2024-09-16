@@ -8,7 +8,9 @@ export const JoinFooter = () => {
 
   return (
     <div className="flex h-14 w-full items-center justify-between gap-2 p-2">
-      <H3 className="w-full truncate">{name}</H3>
+      <H3 className="w-full truncate" data-testid="heading-join-username">
+        {name}
+      </H3>
 
       {!isWaiting && <JoinFooterScore />}
     </div>

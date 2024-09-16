@@ -99,7 +99,12 @@ test.describe.serial("Serve and Join Page", () => {
     await join.waitForURL(/join/);
     await expect(join).toHaveTitle(/Join/);
 
-    // todo: continue from here, next part - enter the name of the user
+    // Enter name for temp user
+    const username = "Adiul Alam";
+    await joinPage.inputJoinName.fill(username);
+    await joinPage.buttonJoinSubmit.click();
+    await expect(joinPage.headingJoinUsername).toHaveText(username);
+    await expect(servePage.headingServeUser.first()).toHaveText(username);
 
     // close up everything
     await context.close();

@@ -54,7 +54,9 @@ export const ServeWaiting = () => {
             {tempUsers.map((user) => (
               <Card key={user.id}>
                 <CardHeader>
-                  <CardTitle>{user.name}</CardTitle>
+                  <CardTitle data-testid="heading-serve-user">
+                    {user.name}
+                  </CardTitle>
                 </CardHeader>
               </Card>
             ))}

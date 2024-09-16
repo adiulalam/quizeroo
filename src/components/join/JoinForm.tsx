@@ -101,6 +101,7 @@ export const JoinForm = ({ setShowForm }: JoinFormtype) => {
                     <Input
                       placeholder="Name.."
                       disabled={isPending}
+                      data-testid="input-join-name"
                       {...field}
                     />
                   </FormControl>
@@ -117,7 +118,11 @@ export const JoinForm = ({ setShowForm }: JoinFormtype) => {
                 Cancel
               </Button>
             )}
-            <Button type="submit" disabled={!form.formState.isDirty}>
+            <Button
+              type="submit"
+              disabled={!form.formState.isDirty}
+              data-testid="button-join-submit"
+            >
               Submit
             </Button>
           </CardFooter>
