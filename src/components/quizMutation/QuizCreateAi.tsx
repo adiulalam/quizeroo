@@ -5,6 +5,12 @@ import { Dialog, DialogTrigger } from "../ui/Dialog";
 import { useState } from "react";
 import { QuizDialogProvider } from "@/provider";
 import { enableAi } from "@/utils/constants";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/Tooltip";
 
 export const QuizCreateAi = ({ isTempUser }: { isTempUser: boolean }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -15,11 +21,20 @@ export const QuizCreateAi = ({ isTempUser }: { isTempUser: boolean }) => {
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <DialogTrigger asChild>
-        <Button disabled={isTempUser} variant="ghost">
-          <WandSparkles className="size-5" strokeWidth={2} />
-        </Button>
-      </DialogTrigger>
+      <TooltipProvider>
+        <Tooltip>
+          <DialogTrigger asChild>
+            <TooltipTrigger asChild>
+              <Button disabled={isTempUser} variant="ghost">
+                <WandSparkles className="size-5" strokeWidth={2} />
+              </Button>
+            </TooltipTrigger>
+          </DialogTrigger>
+          <TooltipContent>
+            <p>Create quiz with AI</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
 
       <QuizDialogProvider
         value={{
