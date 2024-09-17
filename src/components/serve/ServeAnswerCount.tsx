@@ -20,7 +20,12 @@ export const ServeAnswerCount = () => {
   return (
     <div className="flex flex-col items-center justify-center">
       <H3 className="w-full truncate font-normal">Answers</H3>
-      <H3 className="w-full truncate text-center font-bold">{answerCount}</H3>
+      <H3
+        className="w-full truncate text-center font-bold"
+        data-testid="heading-answer-count"
+      >
+        {answerCount}
+      </H3>
     </div>
   );
 };

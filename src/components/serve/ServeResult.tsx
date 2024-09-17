@@ -49,7 +49,7 @@ export const ServeResult = () => {
   return (
     <div className="flex h-full w-full flex-col gap-2">
       <ScrollArea className="relative max-h-[80dvh] w-full overflow-auto rounded-md border shadow-md">
-        <Table className="text-center">
+        <Table className="text-center" data-testid="table-serve-result">
           <TableHeader className="sticky top-0 bg-secondary">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>

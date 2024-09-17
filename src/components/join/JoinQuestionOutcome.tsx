@@ -17,7 +17,7 @@ export const JoinQuestionOutcome = () => {
       )}
     >
       <Icon className="size-32 sm:size-48 md:size-60" />
-      <H1>{text}</H1>
+      <H1 data-testid="heading-question-outcome">{text}</H1>
     </div>
   );
 };

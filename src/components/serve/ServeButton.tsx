@@ -76,6 +76,7 @@ export const ServeButton = (
       size="lg"
       className="h-9 px-6 sm:h-11 sm:px-8"
       onClick={onClickHandler}
+      data-testid="button-serve-action"
       {...props}
     >
       {text}

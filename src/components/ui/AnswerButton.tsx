@@ -57,6 +57,7 @@ export const AnswerButton = ({
   return (
     <Button
       className={cn(answerButtonVariants({ variant, className }))}
+      data-testid="button-answer"
       {...props}
     >
       {showAnswer && (

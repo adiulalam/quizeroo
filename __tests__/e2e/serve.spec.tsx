@@ -106,17 +106,54 @@ test.describe.serial("Serve and Join Page", () => {
     await expect(joinPage.headingJoinUsername).toHaveText(username);
     await expect(servePage.headingServeUser.first()).toHaveText(username);
 
+    // Start the quiz
+    await servePage.buttonServeAction.click();
+    const currentCount = +servePage.headingAnswerCount.textContent() || 0;
+
+    // First choose incorrect answer
+    const q1Answer = joinPage.buttonAnswer.filter({ hasText: "q 1 a 1 false" });
+    await expect(q1Answer).toBeEnabled();
+    await q1Answer.click();
+    await expect(joinPage.headingAnswerSubmitted).toHaveText(
+      "Your answer has been submitted!",
+    );
+    await expect(servePage.headingAnswerCount).toHaveText(
+      (currentCount + 1).toString(),
+    ); // This step might be flaky
+    await servePage.buttonServeAction.click();
+    await expect(joinPage.headingQuestionOutcome).toHaveText("Incorrect");
+
+    // Second question correct answer
+    await servePage.buttonServeAction.click();
+    const q2Answer = joinPage.buttonAnswer.filter({ hasText: "q 2 a 1 true" });
+    await expect(q2Answer).toBeEnabled();
+    await q2Answer.click();
+    await expect(joinPage.headingAnswerSubmitted).toHaveText(
+      "Your answer has been submitted!",
+    );
+    await expect(servePage.headingAnswerCount).toHaveText(
+      (currentCount + 1).toString(),
+    );
+    await servePage.buttonServeAction.click();
+    await expect(joinPage.headingQuestionOutcome).toHaveText("Correct");
+
+    // Finishing up the question
+    await expect(servePage.tableServeResult).toBeVisible();
+
     // close up everything
     await context.close();
   });
 
-  // test("Delete quiz", async () => {
-  //   await createPage.removeQuiz("create and serve");
+  test("Delete quiz", async ({ page }) => {
+    createPage = new Create(page);
+    await page.goto("/create");
 
-  //   await expect(createPage.toastMessage).toHaveText(
-  //     "Quiz Deleted Successfully",
-  //   );
-  //   await createPage.buttonCloseToast.click();
-  //   await expect(createPage.toastMessage).toBeHidden();
-  // });
+    await createPage.removeQuiz("create and serve");
+
+    await expect(createPage.toastMessage).toHaveText(
+      "Quiz Deleted Successfully",
+    );
+    await createPage.buttonCloseToast.click();
+    await expect(createPage.toastMessage).toBeHidden();
+  });
 });
