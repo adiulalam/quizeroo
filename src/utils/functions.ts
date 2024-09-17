@@ -86,6 +86,7 @@ export const calculateScore = ({
 
 export const roundIfNessesary = (input: number | string, maxRound = 1) => {
   input ||= 0;
+  input = Number.isFinite(Number(input)) ? input : 0;
   const inputToString = input.toString();
   return parseFloat(inputToString).toFixed(maxRound);
 };

@@ -93,6 +93,14 @@ describe("roundIfNessesary", () => {
   it("handles zero input", () => {
     expect(roundIfNessesary(0)).toBe("0.0");
   });
+
+  it("replaces Infinity with 0", () => {
+    expect(roundIfNessesary(Infinity)).toBe("0.0");
+  });
+
+  it("replaces -Infinity with 0", () => {
+    expect(roundIfNessesary(-Infinity)).toBe("0.0");
+  });
 });
 
 describe("getTimeFrame", () => {
