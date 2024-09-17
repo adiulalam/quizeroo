@@ -1,4 +1,5 @@
 import { QuizCreate } from "./QuizCreate";
+import { QuizCreateAi } from "./QuizCreateAi";
 import { QuizDialog } from "./QuizDialog";
 import { QuizStepper } from "./QuizStepper";
 import { QuizStepperActions } from "./QuizStepperActions";
@@ -14,4 +15,5 @@ export {
   QuizStepperActions,
   StepQuiz,
   StepQuestions,
+  QuizCreateAi,
 };

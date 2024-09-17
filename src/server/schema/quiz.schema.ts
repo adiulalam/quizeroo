@@ -11,6 +11,12 @@ export const createQuizSchema = z.object({
   title: z.string().min(2, {
     message: "title must be at least 2 characters.",
   }),
+  description: z
+    .string()
+    .min(10, {
+      message: "description must be at least 10 characters.",
+    })
+    .optional(),
   isFavourite: z.boolean().default(false),
 });
 

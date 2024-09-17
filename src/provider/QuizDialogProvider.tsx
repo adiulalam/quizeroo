@@ -8,6 +8,7 @@ type QuizDialogContextType = {
   isUpdate: boolean;
   isDialogOpen: boolean;
   setIsDialogOpen: Dispatch<SetStateAction<boolean>>;
+  enableAi?: boolean;
 };
 
 export const QuizDialogContext = createContext<

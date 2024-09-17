@@ -1,5 +1,5 @@
 import { NavbarContainer } from "@/components/nav";
-import { QuizCreate } from "@/components/quizMutation";
+import { QuizCreate, QuizCreateAi } from "@/components/quizMutation";
 import {
   Filterable,
   Orderable,
@@ -76,6 +76,7 @@ const Create = ({ userSession }: { userSession: Session }) => {
           <div className="flex w-full flex-col-reverse flex-wrap justify-between gap-2 sm:flex-row">
             <div className="flex justify-between gap-2 sm:justify-normal">
               <QuizCreate isTempUser={userSession.user.isTempUser} />
+              <QuizCreateAi isTempUser={userSession.user.isTempUser} />
               <div className="flex gap-2">
                 <Sortable />
                 <Orderable />

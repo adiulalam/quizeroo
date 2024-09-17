@@ -20,6 +20,7 @@ export const QuizStepper = () => {
     id,
     title,
     isFavourite,
+    description: undefined,
   });
 
   return (

@@ -14,6 +14,7 @@ import { signOut } from "next-auth/react";
 import { type answerButtonVariants } from "@/components/ui/AnswerButton";
 import type { VariantProps } from "class-variance-authority";
 import { Interval } from "@/types/Dashboard.types";
+import { env } from "@/env";
 
 export const navItems: NavItem[] = [
   {
@@ -75,3 +76,5 @@ export const intervalLists = [
   { name: "Month", value: Interval.month },
   { name: "All", value: Interval.all },
 ] as const;
+
+export const enableAi = env.NEXT_PUBLIC_ENABLE_AI === "true";

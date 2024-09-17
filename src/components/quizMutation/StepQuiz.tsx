@@ -19,6 +19,8 @@ import {
 } from "@/server/schema/quiz.schema";
 import { QuizStepperActions } from ".";
 import { api } from "@/utils/api";
+import { useQuizDialog } from "@/hooks";
+import { Textarea } from "../ui/Textarea";
 
 export type StepQuizType = {
   quizData: CreateQuizSchemaType;
@@ -28,6 +30,7 @@ export type StepQuizType = {
 export const StepQuiz = ({ quizData, setQuizData }: StepQuizType) => {
   const { quiz } = api.useUtils();
   const { nextStep } = useStepper();
+  const { enableAi } = useQuizDialog();
 
   const form = useForm<CreateQuizSchemaType>({
     resolver: zodResolver(createQuizSchema),
@@ -39,11 +42,12 @@ export const StepQuiz = ({ quizData, setQuizData }: StepQuizType) => {
 
   const { mutate, isPending } = api.quiz.createQuiz.useMutation({
     onSuccess: (data) => {
-      setQuizData({
+      setQuizData((prev) => ({
+        ...prev,
         id: data.id,
         title: data.title,
         isFavourite: data.isFavourite,
-      });
+      }));
 
       toast({
         title: `Quiz ${quizData.id ? "updated" : "created"}!`,
@@ -64,6 +68,11 @@ export const StepQuiz = ({ quizData, setQuizData }: StepQuizType) => {
 
   const onSubmit = (data: CreateQuizSchemaType) => {
     if (isDirty) {
+      setQuizData((prev) => ({
+        ...prev,
+        description: data.description,
+      }));
+
       mutate(data);
     } else {
       nextStep();
@@ -94,6 +103,29 @@ export const StepQuiz = ({ quizData, setQuizData }: StepQuizType) => {
             </FormItem>
           )}
         />
+
+        {enableAi && (
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>AI Description ✨</FormLabel>
+                <FormControl>
+                  <Textarea
+                    {...field}
+                    placeholder="Tell us a little bit about your quiz.."
+                  />
+                </FormControl>
+                <FormDescription>
+                  Create a description for the quiz. Be as descriptive as you
+                  can.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
 
         <FormField
           control={form.control}
