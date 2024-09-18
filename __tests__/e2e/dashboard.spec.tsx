@@ -22,18 +22,18 @@ test.describe("Dashboard Page", () => {
   test("Dashboard Card Tabs", async ({ page }) => {
     // When clicking on the day tab
     await dashboardPage.buttonTabDay.click();
-    expect(page.url()).toContain("?interval_by=day");
+    await expect(page).toHaveURL(/\?interval_by=day/);
 
     // When clicking on the week tab
     await dashboardPage.buttonTabWeek.click();
-    expect(page.url()).toContain("?interval_by=week");
+    await expect(page).toHaveURL(/\?interval_by=week/);
 
     // When clicking on the month tab
     await dashboardPage.buttonTabMonth.click();
-    expect(page.url()).toContain("?interval_by=month");
+    await expect(page).toHaveURL(/\?interval_by=month/);
 
     // When clicking on the all tab
     await dashboardPage.buttonTabAll.click();
-    expect(page.url()).toContain("?interval_by=all");
+    await expect(page).toHaveURL(/\?interval_by=all/);
   });
 });
