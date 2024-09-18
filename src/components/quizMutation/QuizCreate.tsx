@@ -7,6 +7,7 @@ import { QuizDialogProvider } from "@/provider";
 
 export const QuizCreate = ({ isTempUser }: { isTempUser: boolean }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isPending, setIsPending] = useState(false);
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -29,6 +30,8 @@ export const QuizCreate = ({ isTempUser }: { isTempUser: boolean }) => {
           isUpdate: false,
           isDialogOpen,
           setIsDialogOpen,
+          isPending,
+          setIsPending,
         }}
       >
         <QuizDialog />

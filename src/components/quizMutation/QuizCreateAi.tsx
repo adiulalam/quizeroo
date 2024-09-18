@@ -14,8 +14,9 @@ import {
 
 export const QuizCreateAi = ({ isTempUser }: { isTempUser: boolean }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isPending, setIsPending] = useState(false);
 
-  if (!enableAi) {
+  if (!enableAi || isTempUser) {
     return null;
   }
 
@@ -25,7 +26,7 @@ export const QuizCreateAi = ({ isTempUser }: { isTempUser: boolean }) => {
         <Tooltip>
           <DialogTrigger asChild>
             <TooltipTrigger asChild>
-              <Button disabled={isTempUser} variant="ghost">
+              <Button variant="ghost">
                 <WandSparkles className="size-5" strokeWidth={2} />
               </Button>
             </TooltipTrigger>
@@ -45,6 +46,8 @@ export const QuizCreateAi = ({ isTempUser }: { isTempUser: boolean }) => {
           enableAi: enableAi,
           isDialogOpen,
           setIsDialogOpen,
+          isPending,
+          setIsPending,
         }}
       >
         <QuizDialog />

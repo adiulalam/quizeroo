@@ -12,6 +12,7 @@ import type { CreateQuizSchemaType } from "@/server/schema/quiz.schema";
 import { MutateQuizProvider, QuestionFormProvider } from "@/provider";
 import { useQuizDialog } from "@/hooks";
 import { QuestionDialogSkeleton } from "../skeleton";
+import { useEffect } from "react";
 
 const mutationQuestionsSchema = z.object({
   questions: createQuestionSchema,
@@ -29,7 +30,7 @@ export const StepQuestions = ({
   const { id, title, isFavourite } = quizData;
   if (!id) throw new Error("id not found on StepQuestions");
 
-  const { isUpdate, setIsDialogOpen } = useQuizDialog();
+  const { isUpdate, setIsDialogOpen, setIsPending } = useQuizDialog();
 
   const { nextStep } = useStepper();
 
@@ -41,7 +42,7 @@ export const StepQuestions = ({
     quiz: { getQuizzes },
   } = api.useUtils();
 
-  const { mutate } = api.question.updateQuestions.useMutation({
+  const { mutate, isPending } = api.question.updateQuestions.useMutation({
     onSuccess: () => {
       nextStep();
       toast({
@@ -51,6 +52,10 @@ export const StepQuestions = ({
       isUpdate && setIsDialogOpen(false);
     },
   });
+
+  useEffect(() => {
+    setIsPending(isPending);
+  }, [isPending, setIsPending]);
 
   const form = useForm<mutationQuestionsSchemaType>({
     resolver: zodResolver(mutationQuestionsSchema),

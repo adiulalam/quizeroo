@@ -20,8 +20,8 @@ export const createQuestionSchema = z
     answers: z
       .object({
         id: z.string().uuid(),
-        name: z.string().min(8, {
-          message: "Question title must be at least 8 characters.",
+        name: z.string().min(2, {
+          message: "Answer must be at least 2 characters.",
         }),
         isCorrect: z.boolean({
           message: "Correct value must be true or false.",
@@ -31,6 +31,20 @@ export const createQuestionSchema = z
       .max(4, { message: "Maximium of 4 answers" }),
   })
   .array();
+
+export const createAiQuestionSchema = z.object({
+  data: z
+    .object({
+      name: z.string(),
+      answers: z
+        .object({
+          name: z.string(),
+          isCorrect: z.boolean(),
+        })
+        .array(),
+    })
+    .array(),
+});
 
 export const updateQuestionOrderSchema = z
   .object({
@@ -44,6 +58,7 @@ export const updateQuestionsSchema = createQuestionSchema;
 export type ParamsType = TypeOf<typeof params>;
 export type CreateQuestionSchemaType = TypeOf<typeof createQuestionSchema>;
 export type UpdateQuestionsSchemaType = TypeOf<typeof updateQuestionsSchema>;
+export type CreateAiQuestionSchemaType = TypeOf<typeof createAiQuestionSchema>;
 export type UpdateQuestionOrderSchemaType = TypeOf<
   typeof updateQuestionOrderSchema
 >;

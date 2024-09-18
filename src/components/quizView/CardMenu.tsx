@@ -22,6 +22,8 @@ import { QuizDialogProvider } from "@/provider";
 
 export const CardMenu = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isPending, setIsPending] = useState(false);
+
   const { id, title, isFavourite } = useViewQuiz();
 
   return (
@@ -62,6 +64,8 @@ export const CardMenu = () => {
             isUpdate: true,
             isDialogOpen,
             setIsDialogOpen,
+            isPending,
+            setIsPending,
           }}
         >
           <QuizDialog />

@@ -21,6 +21,7 @@ import { QuizStepperActions } from ".";
 import { api } from "@/utils/api";
 import { useQuizDialog } from "@/hooks";
 import { Textarea } from "../ui/Textarea";
+import { useEffect } from "react";
 
 export type StepQuizType = {
   quizData: CreateQuizSchemaType;
@@ -30,7 +31,7 @@ export type StepQuizType = {
 export const StepQuiz = ({ quizData, setQuizData }: StepQuizType) => {
   const { quiz } = api.useUtils();
   const { nextStep } = useStepper();
-  const { enableAi } = useQuizDialog();
+  const { enableAi, setIsPending } = useQuizDialog();
 
   const form = useForm<CreateQuizSchemaType>({
     resolver: zodResolver(createQuizSchema),
@@ -65,6 +66,10 @@ export const StepQuiz = ({ quizData, setQuizData }: StepQuizType) => {
       });
     },
   });
+
+  useEffect(() => {
+    setIsPending(isPending);
+  }, [isPending, setIsPending]);
 
   const onSubmit = (data: CreateQuizSchemaType) => {
     if (isDirty) {
