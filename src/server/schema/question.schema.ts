@@ -20,8 +20,8 @@ export const createQuestionSchema = z
     answers: z
       .object({
         id: z.string().uuid(),
-        name: z.string().min(2, {
-          message: "Answer must be at least 2 characters.",
+        name: z.string().min(1, {
+          message: "Answer must be at least 1 characters.",
         }),
         isCorrect: z.boolean({
           message: "Correct value must be true or false.",

@@ -96,15 +96,6 @@ export const createQuizHandler = async ({
 
     let quiz: Quiz;
     if (id) {
-      // Delete all questions and answers, if we have a new AI description
-      // if (description && enableAi && openaiApiKey) {
-      //   await db.question.deleteMany({
-      //     where: {
-      //       quizId: id,
-      //     },
-      //   });
-      // }
-
       quiz = await db.quiz.update({
         where: {
           id,
@@ -115,28 +106,28 @@ export const createQuizHandler = async ({
       quiz = await db.quiz.create({
         data,
       });
-    }
 
-    // Insert AI generated questions
-    if (questions.length > 0) {
-      const questionsTransaction = questions.map((question, index) =>
-        db.question.create({
-          data: {
-            quizId: quiz.id,
-            name: question.name,
-            countdown: 30,
-            order: index + 1,
-            answers: {
-              create: question.answers.map((answer, index) => ({
-                name: answer.name,
-                isCorrect: answer.isCorrect,
-                order: index + 1,
-              })),
+      // Insert AI generated questions
+      if (questions.length > 0) {
+        const questionsTransaction = questions.map((question, index) =>
+          db.question.create({
+            data: {
+              quizId: quiz.id,
+              name: question.name,
+              countdown: 30,
+              order: index + 1,
+              answers: {
+                create: question.answers.map((answer, index) => ({
+                  name: answer.name,
+                  isCorrect: answer.isCorrect,
+                  order: index + 1,
+                })),
+              },
             },
-          },
-        }),
-      );
-      await db.$transaction(questionsTransaction);
+          }),
+        );
+        await db.$transaction(questionsTransaction);
+      }
     }
 
     if (!quiz) {

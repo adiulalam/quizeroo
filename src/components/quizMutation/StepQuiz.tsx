@@ -109,7 +109,7 @@ export const StepQuiz = ({ quizData, setQuizData }: StepQuizType) => {
           )}
         />
 
-        {enableAi && (
+        {!quizData.id && enableAi && (
           <FormField
             control={form.control}
             name="description"
