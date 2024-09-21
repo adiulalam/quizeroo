@@ -1,29 +1,62 @@
-# Create T3 App
+# Quizeroo
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+A full-stack quiz web-app that can be used for creating and sharing quiz. The application also includes authentication, AI quiz generation, and a dashboard for comprehensive information visualization.
 
-## What's next? How do I make an app with this?
+Created with Next.js, NextAuth, TRPC, Websocket, Shadcn, and Tailwind.
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Installation
+To use the application please make sure to clone the package, open terminal and then follow the instruction below.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+### Setup the environment varibles, see `.env.example`
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
 
-## Learn More
+#### Use `.env` for Production and `.env.local` for development
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+### Install the packages
+```
+npm i
+```
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+### Running the tests
+```
+npm run test:unit
+```
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+```
+npm run test:e2e
+```
+### Running in DEV environment
+```
+npm run dev
+```
+### Running in PROD environment
+```
+npm start
+```
 
-## How do I deploy this?
+## Additional Commands
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+### Running prisma studio
+```bash
+npm run db:studio
+```
+
+### Running migrate reset
+```bash
+npm run db:reset
+```
+
+### Running db push
+```bash
+npm run db:push
+```
+
+### Running migrate deploy
+```bash
+npm run db:migrate
+```
+
+### Running migration generation
+```bash
+npm run db:generate
+```
