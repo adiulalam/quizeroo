@@ -3,7 +3,7 @@ import type { FullConfig } from "@playwright/test";
 
 import { db } from "@/server/db";
 
-const storageState = "__tests__/setup/storageState.host.json";
+const storageState = "playwright/setup/storageState.host.json";
 
 export default async function globalSetup(config: FullConfig) {
   const baseUrl = config.projects[0]?.use.baseURL;

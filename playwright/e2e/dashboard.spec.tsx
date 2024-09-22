@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { Dashboard } from "__tests__/fixtures/dashboard";
+import { Dashboard } from "playwright/fixtures/dashboard";
 
 // Test suite for the "Dashboard Page" functionality
 test.describe("Dashboard Page", () => {

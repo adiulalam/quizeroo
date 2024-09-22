@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { Create } from "__tests__/fixtures/create";
+import { Create } from "playwright/fixtures/create";
 
 // Test suite for the "Create Page" functionality
 // Currently it's is serial, but maybe have each tests isolated? to have parallelism.

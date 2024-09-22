@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { Profile } from "__tests__/fixtures/profile";
+import { Profile } from "playwright/fixtures/profile";
 
 // Test suite for the "Profile Page" functionality
 test.describe.serial("Profile Page", () => {

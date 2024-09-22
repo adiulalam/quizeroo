@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
-import { Create } from "__tests__/fixtures/create";
-import { Join } from "__tests__/fixtures/join";
-import { Serve } from "__tests__/fixtures/serve";
+import { Create } from "playwright/fixtures/create";
+import { Join } from "playwright/fixtures/join";
+import { Serve } from "playwright/fixtures/serve";
 
 // Test suite for the "Serve and Join Page" functionality
 test.describe.serial("Serve and Join Page", () => {
