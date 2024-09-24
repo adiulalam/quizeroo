@@ -60,3 +60,12 @@ npm run db:migrate
 ```bash
 npm run db:generate
 ```
+
+## ToDo
+- [ ] Seed file
+- [ ] Docker build
+    - [ ] Remove `start-database.sh` file
+- [ ] Github action
+    - [ ] Lints
+    - [ ] Playwright and Vitest Tests
+    - [ ] Deployment
