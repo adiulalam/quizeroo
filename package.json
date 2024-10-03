@@ -10,6 +10,7 @@
     "db:reset": "prisma migrate reset",
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
+    "db:seed": "prisma db seed",
     "dev:next": "next dev",
     "dev:wss": "dotenv -e .env -- tsx watch --tsconfig tsconfig.server.json src/server/api/wssDevServer.ts",
     "dev": "run-p dev:*",
@@ -20,6 +21,9 @@
     "test:unit": "vitest",
     "test:e2e": "playwright test",
     "test:ui": "playwright test --ui"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.6.0",
@@ -81,6 +85,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.0.3",
     "@playwright/test": "^1.46.1",
     "@types/eslint": "^8.56.2",
     "@types/lodash": "^4.17.7",
