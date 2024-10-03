@@ -273,7 +273,7 @@ export const getDashboardBarchartHandler = async ({
     });
 
     const data = quizzes
-      .map((quiz, index) => {
+      .map((quiz) => {
         // Get all the scores for each quiz
         const allScores = quiz.quizSessions.flatMap((session) =>
           session.userAnswers.map((answer) => answer.score),
@@ -288,11 +288,14 @@ export const getDashboardBarchartHandler = async ({
         return {
           quiz: quiz.title,
           score: +averageScore.toFixed(2),
-          fill: `hsl(var(--chart-${index + 1}))`,
         };
       })
       .sort((a, b) => b.score - a.score)
-      .slice(0, 5); // Limit the result to maximum 5 records
+      .slice(0, 5) // Limit the result to maximum 5 records
+      .map((data, index) => ({
+        ...data,
+        fill: `hsl(var(--chart-${index + 1}))`,
+      }));
 
     if (!data) {
       throw new TRPCError({
