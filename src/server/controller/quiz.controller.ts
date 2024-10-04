@@ -373,7 +373,7 @@ export const searchQuizzesHandler = async ({
     const quiz = await db.quiz.findMany({
       take: 5,
       where: input.title
-        ? { userId, title: { contains: input.title } }
+        ? { userId, title: { contains: input.title, mode: "insensitive" } }
         : { userId },
       orderBy: { updatedAt: "desc" },
       include: {
