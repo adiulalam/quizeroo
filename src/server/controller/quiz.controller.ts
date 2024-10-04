@@ -193,6 +193,7 @@ export const getQuizzesHandler = async ({
                 isActive: true,
               },
             },
+            questions: true,
           },
         },
       },

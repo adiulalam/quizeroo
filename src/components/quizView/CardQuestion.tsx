@@ -17,7 +17,7 @@ import {
 import { answerMap } from "@/utils/constants";
 
 export const CardQuestion = () => {
-  const { questions } = useViewQuiz();
+  const { questions, _count } = useViewQuiz();
 
   const question = useMemo(() => {
     if (Array.isArray(questions) && questions.length > 0) {
@@ -26,8 +26,6 @@ export const CardQuestion = () => {
 
     return null;
   }, [questions]);
-
-  const questionsLength = Array.isArray(questions) && (questions.length || 1);
 
   const questionTitle = question ? question.name : "No questions been found.";
 
@@ -38,7 +36,7 @@ export const CardQuestion = () => {
   return (
     <Card className="h-full overflow-hidden rounded-b-none">
       <CardHeader className="py-4">
-        <CardDescription>Question 1/{questionsLength}</CardDescription>
+        <CardDescription>Question 1/{_count.questions}</CardDescription>
         <CardTitle>{questionTitle}</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-wrap justify-evenly gap-2">
