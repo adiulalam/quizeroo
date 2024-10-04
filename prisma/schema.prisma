@@ -86,13 +86,15 @@ model QuizSession {
 }
 
 model UserQuizSession {
-  id            String      @id @default(uuid())
-  userId        String
-  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   quizSessionId String
   quizSession   QuizSession @relation(fields: [quizSessionId], references: [id], onDelete: Cascade)
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
 
   @@unique([userId, quizSessionId])
   @@index([quizSessionId, userId])

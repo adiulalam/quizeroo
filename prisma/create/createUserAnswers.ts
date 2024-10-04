@@ -7,7 +7,10 @@ type CreateUserAnswerType = Prisma.UserAnswerUncheckedCreateInput[];
 
 export const createUserAnswers = async (): Promise<CreateUserAnswerType> => {
   const tempUsers = await db.user.createManyAndReturn({
-    data: _.range(100).map(() => ({ name: faker.person.fullName() })),
+    data: _.range(100).map(() => ({
+      name: faker.person.fullName(),
+      isTempUser: true,
+    })),
     select: {
       id: true,
     },

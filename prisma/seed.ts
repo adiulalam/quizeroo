@@ -6,7 +6,7 @@ export const db = new PrismaClient();
 
 const main = async () => {
   const user = await db.user.findFirstOrThrow({
-    orderBy: { createdAt: "desc" },
+    where: { isTempUser: false },
   });
 
   await seedQuizzes(user.id);
