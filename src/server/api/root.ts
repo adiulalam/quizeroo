@@ -6,6 +6,7 @@ import { quizSessionRouter } from "./routers/quizSession.routes";
 import { userRouter } from "./routers/user.routes";
 import { userAnswerRouter } from "./routers/userAnswer.routes";
 import { dashboardRouter } from "./routers/dashboard.routes";
+import { userQuizSessionRouter } from "./routers/userQuizSession.routes";
 
 /**
  * This is the primary router for your server.
@@ -17,6 +18,7 @@ export const appRouter = createTRPCRouter({
   question: questionRouter,
   answer: answerRouter,
   quizSession: quizSessionRouter,
+  userQuizSession: userQuizSessionRouter,
   user: userRouter,
   userAnswer: userAnswerRouter,
   dashboard: dashboardRouter,

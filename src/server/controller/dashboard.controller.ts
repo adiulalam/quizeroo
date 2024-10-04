@@ -349,7 +349,7 @@ export const getDashboardTableHandler = async ({
             _count: {
               select: {
                 userAnswers: { where: { answer: { isCorrect: true } } },
-                users: true,
+                userQuizSessions: true,
               },
             },
           },
@@ -379,7 +379,7 @@ export const getDashboardTableHandler = async ({
           .reduce((sum, answer) => sum + answer.score, 0) / quizSessions.length;
 
       const total_users = quizSessions.reduce(
-        (a, { _count: { users } }) => a + users,
+        (a, { _count: { userQuizSessions } }) => a + userQuizSessions,
         0,
       );
 

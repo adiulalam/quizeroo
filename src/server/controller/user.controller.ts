@@ -20,6 +20,11 @@ export const createTempUserHandler = async ({
         isTempUser: true,
         isActive: true,
         quizSessionId: input.quizSessionId,
+        userQuizSessions: {
+          create: {
+            quizSessionId: input.quizSessionId,
+          },
+        },
       },
     });
 
@@ -52,7 +57,7 @@ export const updateTempUserHandler = async ({
   try {
     const userId = session.user.id;
 
-    const user = await db.user.update({
+    const userQuery = db.user.update({
       where: {
         id: userId,
       },
@@ -62,6 +67,22 @@ export const updateTempUserHandler = async ({
         quizSessionId: input.quizSessionId,
       },
     });
+
+    const userQuizSessionQuery = db.userQuizSession.upsert({
+      where: {
+        userId_quizSessionId: {
+          userId,
+          quizSessionId: input.quizSessionId,
+        },
+      },
+      create: {
+        userId,
+        quizSessionId: input.quizSessionId,
+      },
+      update: {},
+    });
+
+    const [user] = await db.$transaction([userQuery, userQuizSessionQuery]);
 
     if (!user) {
       throw new TRPCError({

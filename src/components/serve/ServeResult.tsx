@@ -24,7 +24,7 @@ import { resultColumns } from "@/utils/columns/resultColumns";
 export const ServeResult = () => {
   const { id } = useQuizSession();
   const { data, isLoading, isError, refetch } =
-    api.quizSession.getSessionScore.useQuery({ id });
+    api.userQuizSession.getSessionScore.useQuery({ id });
 
   const table = useReactTable({
     data: data ?? [],

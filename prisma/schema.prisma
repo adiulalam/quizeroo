@@ -78,10 +78,24 @@ model QuizSession {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, name: "userId")
 
-  userAnswers UserAnswer[]
-  users       User[]       @relation(name: "quizSessionId")
+  userAnswers      UserAnswer[]
+  users            User[]            @relation(name: "quizSessionId")
+  userQuizSessions UserQuizSession[]
 
   @@index([roomName, quizId, userId])
+}
+
+model UserQuizSession {
+  id            String      @id @default(uuid())
+  userId        String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quizSessionId String
+  quizSession   QuizSession @relation(fields: [quizSessionId], references: [id], onDelete: Cascade)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@unique([userId, quizSessionId])
+  @@index([quizSessionId, userId])
 }
 
 model UserAnswer {
@@ -151,11 +165,12 @@ model User {
   quizSessionId String?
   quizSession   QuizSession? @relation(fields: [quizSessionId], references: [id], onDelete: Cascade, name: "quizSessionId")
 
-  accounts     Account[]
-  sessions     Session[]
-  quizSessions QuizSession[] @relation(name: "userId")
-  quizzes      Quiz[]
-  userAnswers  UserAnswer[]
+  accounts         Account[]
+  sessions         Session[]
+  quizSessions     QuizSession[]     @relation(name: "userId")
+  quizzes          Quiz[]
+  userAnswers      UserAnswer[]
+  userQuizSessions UserQuizSession[]
 }
 
 model VerificationToken {

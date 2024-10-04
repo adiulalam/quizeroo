@@ -5,7 +5,6 @@ import {
 } from "@/server/api/trpc";
 import {
   getSessionNameHandler,
-  getSessionScoreHandler,
   getUserQuizSessionHandler,
   updateQuizSessionHandler,
   updateSessionQuestionHandler,
@@ -76,14 +75,6 @@ export const quizSessionRouter = createTRPCRouter({
     .input(params)
     .query(({ input, ctx: { session } }) =>
       getUserQuizSessionHandler({
-        session,
-        params: input,
-      }),
-    ),
-  getSessionScore: protectedProcedure
-    .input(params)
-    .query(({ input, ctx: { session } }) =>
-      getSessionScoreHandler({
         session,
         params: input,
       }),
