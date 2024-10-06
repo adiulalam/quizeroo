@@ -1,4 +1,4 @@
-import { chromium } from "@playwright/test";
+import { firefox } from "@playwright/test";
 import type { FullConfig } from "@playwright/test";
 
 import { db } from "@/server/db";
@@ -30,7 +30,7 @@ export default async function globalSetup(config: FullConfig) {
     update: data,
   });
 
-  const browser = await chromium.launch();
+  const browser = await firefox.launch();
   const page = await browser.newPage();
 
   const signInUrl = "/api/auth/signin?callbackUrl=%2F";
