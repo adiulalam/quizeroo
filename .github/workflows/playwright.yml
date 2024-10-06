@@ -23,6 +23,11 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
+    env:
+      NEXTAUTH_SECRET: supersecret
+      NEXTAUTH_URL: http://localhost:3000
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
+      SKIP_ENV_VALIDATION: true
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -32,12 +37,6 @@ jobs:
         run: |
           npm install
           npx playwright install firefox
-      - name: Setup environment variables
-        run: |
-          echo "NEXTAUTH_SECRET=supersecret" >> .env
-          echo "NEXTAUTH_URL=http://localhost:3000" >> .env
-          echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/test_db" >> .env
-          echo "SKIP_ENV_VALIDATION=true" >> .env
       - name: Run Prisma migrations
         run: npm run db:migrate
       - name: Run Vitest unit tests
