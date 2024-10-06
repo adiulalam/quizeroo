@@ -105,6 +105,7 @@ export const authOptions: NextAuthOptions = {
       },
     }),
     ...(process.env.NODE_ENV === "test" ||
+    !!process.env.CI ||
     process.env.NODE_ENV === "development"
       ? [
           CredentialsProvider({

@@ -29,6 +29,7 @@ jobs:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
       SKIP_ENV_VALIDATION: true
       TEST_ID: 911e0b79-5421-4a21-af54-1cba3d99de5d
+      CI: true
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -40,7 +41,9 @@ jobs:
           npx playwright install --with-deps
       - name: Run Prisma migrations
         run: npm run db:migrate
+      - name: Build App
+        run: npm run build
       - name: Run Vitest unit tests
         run: npm run test:unit
       - name: Run Playwright e2e tests
-        run: npm run test:dev
+        run: npm run test:start

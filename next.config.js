@@ -7,7 +7,7 @@ await import("./src/env.js");
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
-  output: "standalone",
+  output: !!process.env.CI ? undefined : "standalone",
   i18n: {
     locales: ["en"],
     defaultLocale: "en",
