@@ -9,7 +9,7 @@ import { applyWSSHandler } from "@trpc/server/adapters/ws";
 import { createContext } from "./context";
 import { appRouter } from "@/server/api/root";
 
-const port = process.env.WSS_PORT ? +process.env.WSS_PORT : 3000;
+const port = process.env.WSS_PORT ? +process.env.WSS_PORT : 3001;
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });

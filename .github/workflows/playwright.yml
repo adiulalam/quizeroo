@@ -1,27 +1,46 @@
-name: Playwright Tests
+name: Run Tests
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
 jobs:
   test:
-    timeout-minutes: 60
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: lts/*
-    - name: Install dependencies
-      run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npx playwright test
-    - uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Install dependencies and Playwright binaries
+        run: |
+          npm install
+          npx playwright install firefox
+      - name: Setup environment variables
+        run: |
+          echo "NEXTAUTH_SECRET=supersecret" >> .env
+          echo "NEXTAUTH_URL=http://localhost:3000" >> .env
+          echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/test_db" >> .env
+          echo "SKIP_ENV_VALIDATION=true" >> .env
+      - name: Run Prisma migrations
+        run: npm run db:migrate
+      - name: Run Vitest unit tests
+        run: npm run test:unit
+      - name: Run Playwright e2e tests
+        run: npm run test:e2e

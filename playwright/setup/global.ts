@@ -8,6 +8,11 @@ const storageState = "playwright/setup/storageState.host.json";
 export default async function globalSetup(config: FullConfig) {
   const baseUrl = config.projects[0]?.use.baseURL;
 
+  // Initiate clean tests
+  await db.quiz.deleteMany({
+    where: { user: { email: "octocat@github.com" } },
+  });
+
   const data = {
     name: "Octocat",
     email: "octocat@github.com",
