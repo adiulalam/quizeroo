@@ -42,4 +42,4 @@ jobs:
       - name: Run Vitest unit tests
         run: npm run test:unit
       - name: Run Playwright e2e tests
-        run: npm run test:e2e
+        run: npm run test:dev

@@ -18,6 +18,7 @@
     "lint": "next lint",
     "start": "next start",
     "wss": "dotenvx run -f .env --env NODE_ENV=production -- tsx src/server/api/wssProdServer.ts",
+    "test:dev": "start-server-and-test dev 3000 test:e2e",
     "test:unit": "vitest",
     "test:e2e": "playwright test",
     "test:ui": "playwright test --ui"
@@ -101,6 +102,7 @@
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.14",
     "prisma": "^5.14.0",
+    "start-server-and-test": "^2.0.8",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.2",
     "vitest": "^2.0.5"
