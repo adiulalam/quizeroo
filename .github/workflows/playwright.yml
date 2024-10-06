@@ -28,6 +28,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
+      - name: Uninstall Ruby dotenv gem
+        run: gem uninstall dotenv -aIx
       - name: Install dependencies and Playwright binaries
         run: |
           npm install
