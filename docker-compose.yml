@@ -25,6 +25,10 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     env_file: ./.env
+    environment:
+      POSTGRES_HOST: "db"
+      POSTGRES_PORT: "5432"
+      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
     ports:
       - $PORT:$PORT
     expose:
@@ -45,6 +49,9 @@ services:
     env_file: ./.env
     environment:
       NEXTAUTH_URL: "http://nextjs-app:${PORT}"
+      POSTGRES_HOST: "db"
+      POSTGRES_PORT: "5432"
+      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
     volumes:
       - ./node_modules:/app/node_modules
     depends_on:
