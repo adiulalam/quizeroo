@@ -29,10 +29,12 @@ fi
 
 # import env variables from .env
 set -a
-source .env
+source .env.development
 
+DB_USER=$(echo "$DATABASE_URL" | awk -F'[:/@]' '{print $4}')
 DB_PASSWORD=$(echo "$DATABASE_URL" | awk -F':' '{print $3}' | awk -F'@' '{print $1}')
-DB_PORT=$(echo "$DATABASE_URL" | awk -F':' '{print $4}' | awk -F'\/' '{print $1}')
+DB_PORT=$(echo "$DATABASE_URL" | awk -F':' '{print $4}' | awk -F'/' '{print $1}')
+DB_NAME=$(echo "$DATABASE_URL" | awk -F'/' '{print $NF}')
 
 if [ "$DB_PASSWORD" = "password" ]; then
   echo "You are using the default database password"
@@ -49,8 +51,8 @@ fi
 docker run -d \
   --restart unless-stopped \
   --name $DB_CONTAINER_NAME \
-  -e POSTGRES_USER="postgres" \
+  -e POSTGRES_USER="$DB_USER" \
   -e POSTGRES_PASSWORD="$DB_PASSWORD" \
-  -e POSTGRES_DB=quizeroo \
+  -e POSTGRES_DB="$DB_NAME" \
   -p "$DB_PORT":5432 \
   docker.io/postgres && echo "Database container '$DB_CONTAINER_NAME' was successfully created"

@@ -12,7 +12,7 @@
     "db:studio": "prisma studio",
     "db:seed": "tsx prisma/seed.ts",
     "dev:next": "next dev",
-    "dev:wss": "dotenvx run -f .env.devlopment -- tsx watch --tsconfig tsconfig.server.json src/server/api/wssDevServer.ts",
+    "dev:wss": "dotenvx run -f .env.development -- tsx watch --tsconfig tsconfig.server.json src/server/api/wssDevServer.ts",
     "dev": "run-p dev:*",
     "postinstall": "prisma generate",
     "lint": "next lint",
