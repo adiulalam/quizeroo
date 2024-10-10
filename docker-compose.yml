@@ -29,6 +29,8 @@ services:
       - $PORT:$PORT
     expose:
       - $PORT
+    volumes:
+      - ./node_modules:/app/node_modules
     depends_on:
       db:
         condition: service_healthy
@@ -38,9 +40,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: npm run wss
+    command: npm run start:server
     restart: unless-stopped
     env_file: ./.env
+    environment:
+      NEXTAUTH_URL: "http://nextjs-app:${PORT}"
+    volumes:
+      - ./node_modules:/app/node_modules
     depends_on:
       db:
         condition: service_healthy

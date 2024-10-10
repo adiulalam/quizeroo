@@ -30,8 +30,7 @@ done
 echo "Database is up, proceeding with setup..."
 
 # Run Prisma migrations and database synchronization
-npx prisma migrate deploy
-npx prisma db push --skip-generate
+npm run db:migrate
 
 # Start the Next.js production server
 echo "Starting Next.js server in production mode..."
