@@ -33,15 +33,15 @@ jobs:
       TEST_ID: 911e0b79-5421-4a21-af54-1cba3d99de5d
       CI: true
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
 
       # Cache Node.js dependencies
       - name: Cache node modules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: node_modules
           key: node-modules-${{ hashFiles('package-lock.json') }}
@@ -64,7 +64,7 @@ jobs:
 
       # Cache Playwright binaries
       - name: Cache Playwright binaries
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
