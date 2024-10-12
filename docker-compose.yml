@@ -1,7 +1,7 @@
 version: '3.8'
 services:
-  db:
-    container_name: postgres
+  quiz-db:
+    container_name: quiz-db
     image: postgres:15-alpine
     restart: unless-stopped
     env_file: ./.env
@@ -18,17 +18,17 @@ services:
       interval: 5s
       retries: 10
 
-  nextjs-app:
-    container_name: nextjs-app
+  quiz-app:
+    container_name: quiz-app
     build:
       context: .
       dockerfile: Dockerfile
     restart: unless-stopped
     env_file: ./.env
     environment:
-      POSTGRES_HOST: "db"
+      POSTGRES_HOST: "quiz-db"
       POSTGRES_PORT: "5432"
-      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
+      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@quiz-db:5432/${POSTGRES_DB}"
     ports:
       - $PORT:$PORT
     expose:
@@ -36,11 +36,11 @@ services:
     volumes:
       - ./node_modules:/app/node_modules
     depends_on:
-      db:
+      quiz-db:
         condition: service_healthy
 
-  websocket:
-    container_name: websocket-server
+  quiz-websocket:
+    container_name: quiz-websocket
     build:
       context: .
       dockerfile: Dockerfile
@@ -48,14 +48,14 @@ services:
     restart: unless-stopped
     env_file: ./.env
     environment:
-      NEXTAUTH_URL: "http://nextjs-app:${PORT}"
-      POSTGRES_HOST: "db"
+      NEXTAUTH_URL: "http://quiz-app:${PORT}"
+      POSTGRES_HOST: "quiz-db"
       POSTGRES_PORT: "5432"
-      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
+      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@quiz-db:5432/${POSTGRES_DB}"
     volumes:
       - ./node_modules:/app/node_modules
     depends_on:
-      db:
+      quiz-db:
         condition: service_healthy
     expose:
       - $WSS_PORT

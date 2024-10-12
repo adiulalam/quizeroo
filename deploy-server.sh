@@ -12,12 +12,12 @@ check_websocket() {
   response=$(curl -i -N \
     -H "Connection: Upgrade" \
     -H "Upgrade: websocket" \
-    -H "Host: websocket:${WSS_PORT}" \
-    -H "Origin: http://nextjs-app:${PORT}" \
+    -H "Host: quiz-websocket:${WSS_PORT}" \
+    -H "Origin: http://quiz-app:${PORT}" \
     -H "Sec-WebSocket-Key: x3JJHMbDL1EzLkh9GBhXDw==" \
     -H "Sec-WebSocket-Version: 13" \
     --max-time 5 \
-    http://websocket:${WSS_PORT} 2>/dev/null)
+    http://quiz-websocket:${WSS_PORT} 2>/dev/null)
 
   if echo "$response" | grep -q "101 Switching Protocols"; then
     echo "WebSocket server is running."
