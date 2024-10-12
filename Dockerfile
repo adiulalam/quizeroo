@@ -1,10 +1,9 @@
 # Stage 1: Install dependencies
 FROM node:20-alpine AS deps
 
-RUN apk --update add bash && \
-    apk add dos2unix
+RUN apk --update add bash 
+RUN apk add --no-cache libc6-compat dos2unix
 
-RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json package-lock.json ./
 COPY prisma/ ./prisma/
