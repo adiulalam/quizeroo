@@ -29,7 +29,7 @@ fi
 
 # import env variables from .env
 set -a
-source .env.development
+source .env
 
 DB_USER=$(echo "$DATABASE_URL" | awk -F'[:/@]' '{print $4}')
 DB_PASSWORD=$(echo "$DATABASE_URL" | awk -F':' '{print $3}' | awk -F'@' '{print $1}')

@@ -24,7 +24,7 @@
     "test:unit": "vitest",
     "test:e2e": "playwright test",
     "test:ui": "playwright test --ui",
-    "docker": "docker-compose up -d --build --force-recreate"
+    "docker": "docker-compose up -d --build"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.6.0",
