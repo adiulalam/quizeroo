@@ -48,6 +48,7 @@ services:
     restart: unless-stopped
     env_file: ./.env
     environment:
+      # NEXTAUTH_URL: "https://quizwss.adiulalamadil.me" - only for prod
       NEXTAUTH_URL: "http://quiz-app:${PORT}"
       POSTGRES_HOST: "quiz-db"
       POSTGRES_PORT: "5432"
