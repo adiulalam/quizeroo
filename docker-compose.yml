@@ -26,41 +26,19 @@ services:
     restart: unless-stopped
     env_file: ./.env
     environment:
+      WSS_PORT: "$PORT" # Since we only need one server, we alias WSS_PORT to PORT
       POSTGRES_HOST: "quiz-db"
       POSTGRES_PORT: "5432"
       DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@quiz-db:5432/${POSTGRES_DB}"
-    ports:
-      - $PORT:$PORT
+    volumes:
+      - ./node_modules:/app/node_modules
+    depends_on:
+      quiz-db:
+        condition: service_healthy
     expose:
       - $PORT
-    volumes:
-      - ./node_modules:/app/node_modules
-    depends_on:
-      quiz-db:
-        condition: service_healthy
-
-  quiz-websocket:
-    container_name: quiz-websocket
-    build:
-      context: .
-      dockerfile: Dockerfile
-    command: npm run start:server
-    restart: unless-stopped
-    env_file: ./.env
-    environment:
-      NEXTAUTH_URL: "http://quiz-app:${PORT}"
-      POSTGRES_HOST: "quiz-db"
-      POSTGRES_PORT: "5432"
-      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@quiz-db:5432/${POSTGRES_DB}"
-    volumes:
-      - ./node_modules:/app/node_modules
-    depends_on:
-      quiz-db:
-        condition: service_healthy
-    expose:
-      - $WSS_PORT
     ports:
-      - $WSS_PORT:$WSS_PORT
+      - $PORT:$PORT
 
 volumes:
   postgres-volume:

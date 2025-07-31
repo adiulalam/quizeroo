@@ -17,8 +17,6 @@ COPY . .
 
 RUN npx prisma generate
 RUN npm run build
-COPY deploy-server.sh .
-RUN chmod +x deploy-server.sh
 
 # Stage 3: Production image
 FROM node:20-alpine AS runner
@@ -26,17 +24,20 @@ WORKDIR /app
 ENV NODE_ENV production
 
 COPY --from=builder /app/next.config.js ./
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/package.json /app/package-lock.json ./
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/src/env.js ./src/env.js
 
-COPY --from=builder /app/src ./src
-COPY --from=builder /app/tsconfig.json /app/tsconfig.server.json ./
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/dist ./dist
 
 COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/deploy-server.sh .
+COPY --from=builder /app/package.json /app/package-lock.json ./
 
-RUN dos2unix ./deploy-server.sh
+COPY --from=builder /app/entrypoint.sh ./
+RUN dos2unix ./entrypoint.sh
+RUN chmod +x entrypoint.sh
 
-CMD source deploy-server.sh
+ENTRYPOINT ["./entrypoint.sh"]
+
+CMD ["npm", "run", "start"]
