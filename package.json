@@ -20,11 +20,11 @@
     "lint": "next lint",
     "start": "dotenvx run -f .env --env NODE_ENV=production -- node dist/server.js",
     "test:dev": "start-server-and-test dev 3000 test:e2e",
-    "test:start": "start-server-and-test start \"3000|3001\" test:e2e",
+    "test:start": "start-server-and-test start 3000 test:e2e",
     "test:unit": "vitest",
     "test:e2e": "playwright test",
     "test:ui": "playwright test --ui",
-    "docker": "docker compose up -d --build --force-recreate"
+    "docker": "docker compose up -d --build"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.6.0",
