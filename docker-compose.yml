@@ -12,11 +12,15 @@ services:
     volumes:
       - postgres-volume:/var/lib/postgresql/data
     ports:
-      - "$POSTGRES_PORT:5432"
+      - "127.0.0.1:$POSTGRES_PORT:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER"]
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
       interval: 5s
       retries: 10
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
 
   quiz-app:
     container_name: quiz-app
